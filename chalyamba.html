@@ -1,0 +1,2584 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chalyamba — Le Brunch Incontournable de Lyon | Place Raspail Lyon 7</title>
+<meta name="description" content="Chalyamba, restaurant brunch premium à Lyon 7 - Place Raspail. Cuisine saine, généreuse et faite maison. ⭐ 4.7/5 · 2400+ avis. Réservez votre table.">
+<meta name="keywords" content="brunch lyon, meilleur brunch lyon, brunch lyon 7, restaurant brunch lyon, brunch place raspail lyon, brunch halal lyon">
+<meta property="og:title" content="Chalyamba — Le Brunch Incontournable de Lyon">
+<meta property="og:description" content="Cuisine saine, généreuse et faite maison au cœur du 7e arrondissement. ⭐ 4.7/5 · 2400+ avis Google.">
+<meta property="og:type" content="restaurant">
+<meta property="og:url" content="https://chalyamba-lyon.fr">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "Chalyamba",
+  "description": "Restaurant brunch premium à Lyon - cuisine saine, généreuse et faite maison",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "4 Place Raspail",
+    "addressLocality": "Lyon",
+    "postalCode": "69007",
+    "addressCountry": "FR"
+  },
+  "telephone": "+33753934970",
+  "openingHours": ["Tu-Sa 09:00-19:00", "Su 10:00-19:00"],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.7",
+    "reviewCount": "2400"
+  },
+  "servesCuisine": ["Brunch", "Healthy", "Français"]
+}
+</script>
+
+<style>
+  :root {
+    --cream: #F5EFE0;
+    --off-white: #FDFAF5;
+    --warm-white: #FAF7F2;
+    --olive: #5C6B40;
+    --olive-light: #7A8B5A;
+    --olive-dark: #3D4A2A;
+    --gold: #C9A96E;
+    --gold-light: #E3C99A;
+    --noir: #1A1A18;
+    --noir-soft: #2A2A28;
+    --brown: #8B7355;
+    --text-body: #3A3832;
+    --text-muted: #7A7568;
+    --border: rgba(92,107,64,0.15);
+    --shadow-sm: 0 2px 12px rgba(26,26,24,0.06);
+    --shadow-md: 0 8px 32px rgba(26,26,24,0.1);
+    --shadow-lg: 0 20px 60px rgba(26,26,24,0.14);
+    --radius: 16px;
+    --radius-sm: 8px;
+    --transition: 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    --ff-display: 'Playfair Display', Georgia, serif;
+    --ff-body: 'DM Sans', system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  html { scroll-behavior: smooth; font-size: 16px; }
+  
+  body {
+    font-family: var(--ff-body);
+    background: var(--off-white);
+    color: var(--text-body);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  img { max-width: 100%; height: auto; display: block; }
+  
+  /* ───── SCROLLBAR ───── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: var(--olive); border-radius: 3px; }
+
+  /* ───── UTILITIES ───── */
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .section-label {
+    font-family: var(--ff-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--olive);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: var(--ff-display);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 500;
+    color: var(--noir);
+    line-height: 1.2;
+  }
+  .section-title em { font-style: italic; color: var(--olive); }
+  .gold-line {
+    width: 48px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    margin: 20px 0 32px;
+    border-radius: 2px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-family: var(--ff-body);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: var(--transition);
+  }
+  .btn-primary {
+    background: var(--noir);
+    color: var(--off-white);
+  }
+  .btn-primary:hover {
+    background: var(--olive-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(26,26,24,0.2);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--noir);
+    border: 1.5px solid rgba(26,26,24,0.25);
+  }
+  .btn-outline:hover {
+    background: var(--noir);
+    color: var(--off-white);
+    transform: translateY(-2px);
+  }
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--noir);
+    font-weight: 600;
+  }
+  .btn-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(201,169,110,0.3);
+  }
+
+  /* ─────────────────────────────────
+     NAVIGATION
+  ───────────────────────────────── */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 24px;
+    transition: all 0.4s ease;
+  }
+  .nav.scrolled {
+    background: rgba(253,250,245,0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: var(--ff-display);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--off-white);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.3s;
+  }
+  .nav.scrolled .nav-logo { color: var(--noir); }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    color: rgba(253,250,245,0.85);
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav.scrolled .nav-links a { color: var(--text-muted); }
+  .nav-links a:hover,
+  .nav.scrolled .nav-links a:hover { color: var(--olive); }
+  .nav-cta {
+    background: var(--off-white);
+    color: var(--noir) !important;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-weight: 600 !important;
+    transition: all 0.3s !important;
+  }
+  .nav.scrolled .nav-cta {
+    background: var(--noir);
+    color: var(--off-white) !important;
+  }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+  .nav-burger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 8px;
+  }
+  .nav-burger span {
+    width: 24px;
+    height: 2px;
+    background: var(--off-white);
+    border-radius: 2px;
+    transition: background 0.3s;
+  }
+  .nav.scrolled .nav-burger span { background: var(--noir); }
+
+  /* Mobile nav */
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    background: var(--off-white);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+  }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a {
+    font-family: var(--ff-display);
+    font-size: 28px;
+    color: var(--noir);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .mobile-nav a:hover { color: var(--olive); }
+  .mobile-close {
+    position: absolute;
+    top: 24px; right: 24px;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--noir);
+    background: none;
+    border: none;
+    font-family: var(--ff-display);
+  }
+
+  /* ─────────────────────────────────
+     HERO
+  ───────────────────────────────── */
+  .hero {
+    position: relative;
+    height: 100svh;
+    min-height: 700px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: 
+      linear-gradient(
+        to bottom,
+        rgba(26,26,24,0.35) 0%,
+        rgba(26,26,24,0.15) 40%,
+        rgba(26,26,24,0.55) 100%
+      ),
+      url('https://www.lyonresto.com/contenu/photo_restaurant/0_photo_automatique_big/chalyamba/chalyamba_00001.jpeg') center/cover no-repeat;
+    transform: scale(1.05);
+    transition: transform 8s ease-out;
+  }
+  .hero-bg.loaded { transform: scale(1); }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 760px;
+    padding: 0 24px;
+    margin: 0 auto;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: heroReveal 1.2s 0.4s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+  }
+  @keyframes heroReveal {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(253,250,245,0.15);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(253,250,245,0.25);
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: 13px;
+    color: var(--off-white);
+    font-weight: 500;
+    margin-bottom: 28px;
+    letter-spacing: 0.03em;
+  }
+  .hero-badge .star { color: var(--gold); margin-right: 2px; }
+  .hero-title {
+    font-family: var(--ff-display);
+    font-size: clamp(2.8rem, 6.5vw, 5.5rem);
+    font-weight: 600;
+    color: var(--off-white);
+    line-height: 1.1;
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+  }
+  .hero-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--gold-light);
+  }
+  .hero-subtitle {
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+    color: rgba(253,250,245,0.82);
+    font-weight: 300;
+    max-width: 500px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgba(253,250,245,0.6);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    animation: bounce 2.5s ease-in-out infinite;
+  }
+  .hero-scroll::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, rgba(253,250,245,0.6), transparent);
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ─────────────────────────────────
+     SOCIAL PROOF STRIP
+  ───────────────────────────────── */
+  .proof-strip {
+    background: var(--noir);
+    padding: 20px 24px;
+    overflow: hidden;
+  }
+  .proof-track {
+    display: flex;
+    gap: 64px;
+    align-items: center;
+    animation: marquee 25s linear infinite;
+    white-space: nowrap;
+  }
+  .proof-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    color: rgba(253,250,245,0.7);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+  }
+  .proof-item strong { color: var(--gold); font-weight: 600; }
+  .proof-dot { width: 4px; height: 4px; background: var(--olive-light); border-radius: 50%; flex-shrink: 0; }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ─────────────────────────────────
+     CONCEPT
+  ───────────────────────────────── */
+  .concept {
+    padding: 120px 0;
+    background: var(--off-white);
+  }
+  .concept-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .concept-text .section-label { display: block; }
+  .concept-body {
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--text-body);
+    font-weight: 300;
+    margin-bottom: 40px;
+  }
+  .concept-body strong { font-weight: 600; color: var(--olive); }
+  .concept-pillars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .pillar {
+    padding: 20px;
+    background: var(--cream);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    transition: var(--transition);
+  }
+  .pillar:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(92,107,64,0.3);
+  }
+  .pillar-icon {
+    width: 40px; height: 40px;
+    background: var(--olive);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 12px;
+    font-size: 18px;
+  }
+  .pillar h4 {
+    font-family: var(--ff-display);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--noir);
+    margin-bottom: 4px;
+  }
+  .pillar p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+  .concept-visual {
+    position: relative;
+    height: 560px;
+  }
+  .concept-img-main {
+    position: absolute;
+    top: 0; right: 0;
+    width: 78%;
+    height: 85%;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+  .concept-img-main img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+  }
+  .concept-img-main:hover img { transform: scale(1.04); }
+  .concept-img-accent {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 52%;
+    height: 52%;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    border: 4px solid var(--off-white);
+  }
+  .concept-img-accent img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+  }
+  .concept-img-accent:hover img { transform: scale(1.06); }
+  .concept-tag {
+    position: absolute;
+    top: 24px; left: 0;
+    background: var(--off-white);
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    min-width: 160px;
+  }
+  .concept-tag .rating {
+    font-family: var(--ff-display);
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--noir);
+    line-height: 1;
+  }
+  .concept-tag .stars { color: var(--gold); font-size: 14px; margin: 4px 0; }
+  .concept-tag small { font-size: 11px; color: var(--text-muted); letter-spacing: 0.05em; }
+
+  /* ─────────────────────────────────
+     SIGNATURE DISHES
+  ───────────────────────────────── */
+  .signatures {
+    padding: 120px 0;
+    background: var(--cream);
+  }
+  .signatures-header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 64px;
+  }
+  .signatures-header .gold-line { margin: 20px auto 32px; }
+  .dishes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .dish-card {
+    background: var(--off-white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    cursor: pointer;
+  }
+  .dish-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+  }
+  .dish-card:nth-child(4) { grid-column: span 2; }
+  .dish-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .dish-card:nth-child(4) .dish-img { aspect-ratio: 16/7; }
+  .dish-card:hover .dish-img { transform: scale(1.06); }
+  .dish-img-wrap { overflow: hidden; position: relative; }
+  .dish-tag {
+    position: absolute;
+    top: 14px; left: 14px;
+    background: var(--noir);
+    color: var(--off-white);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 50px;
+  }
+  .dish-info {
+    padding: 20px 24px 24px;
+  }
+  .dish-name {
+    font-family: var(--ff-display);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--noir);
+    margin-bottom: 6px;
+  }
+  .dish-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+  .dish-price {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--olive);
+  }
+
+  /* ─────────────────────────────────
+     MENU
+  ───────────────────────────────── */
+  .menu {
+    padding: 120px 0;
+    background: var(--off-white);
+  }
+  .menu-header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 64px;
+  }
+  .menu-header .gold-line { margin: 20px auto 32px; }
+  .menu-tabs {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 56px;
+  }
+  .menu-tab {
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    transition: var(--transition);
+    font-family: var(--ff-body);
+    letter-spacing: 0.03em;
+  }
+  .menu-tab.active,
+  .menu-tab:hover {
+    background: var(--olive);
+    color: var(--off-white);
+    border-color: var(--olive);
+  }
+  .menu-panel { display: none; }
+  .menu-panel.active { display: block; }
+  .menu-items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: var(--cream);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 22px 28px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.3s;
+  }
+  .menu-item:nth-child(even) { border-left: 1px solid var(--border); }
+  .menu-item:last-child:nth-child(even),
+  .menu-item:nth-last-child(2):nth-child(odd) { border-bottom: none; }
+  .menu-item:hover { background: rgba(92,107,64,0.05); }
+  .menu-item-left h4 {
+    font-family: var(--ff-display);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--noir);
+    margin-bottom: 4px;
+  }
+  .menu-item-left p { font-size: 12px; color: var(--text-muted); line-height: 1.5; max-width: 260px; }
+  .menu-item-price {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--olive);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .menu-brunch-box {
+    background: linear-gradient(135deg, var(--olive-dark), var(--olive));
+    border-radius: var(--radius);
+    padding: 48px;
+    color: var(--off-white);
+    margin-bottom: 32px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 48px;
+    align-items: center;
+  }
+  .brunch-title {
+    font-family: var(--ff-display);
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .brunch-desc { font-size: 15px; opacity: 0.85; line-height: 1.7; margin-bottom: 20px; }
+  .brunch-price-box {
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .brunch-price-label { font-size: 12px; opacity: 0.7; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+  .brunch-price-num {
+    font-family: var(--ff-display);
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--gold-light);
+  }
+  .brunch-price-unit { font-size: 14px; opacity: 0.7; margin-top: 4px; }
+  .brunch-includes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .brunch-tag {
+    background: rgba(253,250,245,0.15);
+    border: 1px solid rgba(253,250,245,0.2);
+    padding: 5px 14px;
+    border-radius: 50px;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+  }
+
+  /* ─────────────────────────────────
+     AVIS
+  ───────────────────────────────── */
+  .reviews {
+    padding: 120px 0;
+    background: var(--cream);
+  }
+  .reviews-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+  .reviews-header .gold-line { margin: 20px auto 0; }
+  .reviews-rating-hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin: 32px 0 48px;
+  }
+  .reviews-score {
+    font-family: var(--ff-display);
+    font-size: 80px;
+    font-weight: 700;
+    color: var(--noir);
+    line-height: 1;
+  }
+  .reviews-score-detail { text-align: left; }
+  .stars-row { color: var(--gold); font-size: 22px; letter-spacing: 2px; }
+  .reviews-total { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .review-card {
+    background: var(--off-white);
+    border-radius: var(--radius);
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+    transition: var(--transition);
+  }
+  .review-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+  .review-stars { color: var(--gold); font-size: 14px; margin-bottom: 16px; }
+  .review-text {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--text-body);
+    font-style: italic;
+    font-family: var(--ff-display);
+    font-weight: 400;
+    margin-bottom: 20px;
+  }
+  .review-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .review-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--olive), var(--olive-light));
+    display: flex; align-items: center; justify-content: center;
+    color: var(--off-white);
+    font-family: var(--ff-display);
+    font-size: 16px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .review-name { font-weight: 600; font-size: 14px; color: var(--noir); }
+  .review-date { font-size: 12px; color: var(--text-muted); }
+  .review-google {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .review-google svg { width: 14px; height: 14px; }
+
+  /* ─────────────────────────────────
+     GALLERY
+  ───────────────────────────────── */
+  .gallery {
+    padding: 120px 0;
+    background: var(--off-white);
+  }
+  .gallery-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+  .gallery-header .gold-line { margin: 20px auto 32px; }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 240px;
+    gap: 12px;
+  }
+  .gallery-item {
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+  }
+  .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+  .gallery-item:nth-child(6) { grid-column: span 2; }
+  .gallery-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .gallery-item:hover img { transform: scale(1.08); }
+  .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(26,26,24,0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+  }
+  .gallery-item:hover .gallery-overlay {
+    background: rgba(26,26,24,0.3);
+  }
+  .gallery-overlay svg {
+    color: var(--off-white);
+    opacity: 0;
+    transition: opacity 0.3s;
+    width: 32px; height: 32px;
+  }
+  .gallery-item:hover .gallery-overlay svg { opacity: 1; }
+  .gallery-cta {
+    text-align: center;
+    margin-top: 48px;
+  }
+
+  /* ─────────────────────────────────
+     STATS
+  ───────────────────────────────── */
+  .stats {
+    padding: 80px 0;
+    background: var(--noir);
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .stat-item {
+    text-align: center;
+    padding: 40px 24px;
+    border-right: 1px solid rgba(253,250,245,0.08);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: var(--ff-display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .stat-label {
+    font-size: 13px;
+    color: rgba(253,250,245,0.55);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  /* ─────────────────────────────────
+     LOCATION
+  ───────────────────────────────── */
+  .location {
+    padding: 120px 0;
+    background: var(--cream);
+  }
+  .location-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .location-map {
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    height: 440px;
+  }
+  .location-map iframe {
+    width: 100%; height: 100%;
+    border: none;
+  }
+  .location-info-card {
+    background: var(--off-white);
+    border-radius: var(--radius);
+    padding: 32px;
+    margin-top: 24px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+  }
+  .location-info-item {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .location-info-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .location-info-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: var(--cream);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    color: var(--olive);
+  }
+  .location-info-icon svg { width: 18px; height: 18px; }
+  .location-info-text strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--noir);
+    margin-bottom: 2px;
+  }
+  .location-info-text span,
+  .location-info-text a {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: none;
+    display: block;
+  }
+  .location-info-text a:hover { color: var(--olive); }
+  .hours-grid {
+    display: grid;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .hours-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .hours-row.today { color: var(--olive); font-weight: 600; }
+  .hours-row .day { font-weight: 500; }
+
+  /* ─────────────────────────────────
+     FAQ
+  ───────────────────────────────── */
+  .faq {
+    padding: 120px 0;
+    background: var(--off-white);
+  }
+  .faq-header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 64px;
+  }
+  .faq-header .gold-line { margin: 20px auto 0; }
+  .faq-list {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+  }
+  .faq-question {
+    width: 100%;
+    text-align: left;
+    padding: 24px 0;
+    font-family: var(--ff-display);
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--noir);
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    transition: color 0.3s;
+  }
+  .faq-question:hover { color: var(--olive); }
+  .faq-icon {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+    transition: transform 0.3s, background 0.3s;
+    line-height: 1;
+  }
+  .faq-item.open .faq-icon {
+    transform: rotate(45deg);
+    background: var(--olive);
+    border-color: var(--olive);
+    color: var(--off-white);
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .faq-item.open .faq-answer { max-height: 200px; }
+  .faq-answer p {
+    padding-bottom: 24px;
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  /* ─────────────────────────────────
+     RESERVATION CTA
+  ───────────────────────────────── */
+  .reservation-cta {
+    padding: 100px 24px;
+    background: linear-gradient(135deg, var(--olive-dark) 0%, var(--olive) 60%, var(--olive-light) 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .reservation-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Ccircle cx='30' cy='30' r='1.5' fill='rgba(255,255,255,0.06)'/%3E%3C/svg%3E");
+  }
+  .reservation-cta h2 {
+    font-family: var(--ff-display);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: var(--off-white);
+    font-weight: 600;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .reservation-cta h2 em { font-style: italic; color: var(--gold-light); }
+  .reservation-cta p {
+    font-size: 17px;
+    color: rgba(253,250,245,0.75);
+    margin-bottom: 40px;
+    position: relative;
+  }
+  .cta-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .btn-white {
+    background: var(--off-white);
+    color: var(--olive-dark);
+    font-weight: 600;
+    padding: 16px 36px;
+    font-size: 15px;
+  }
+  .btn-white:hover {
+    background: var(--cream);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+  }
+  .btn-ghost {
+    background: rgba(253,250,245,0.12);
+    color: var(--off-white);
+    border: 1.5px solid rgba(253,250,245,0.3);
+    font-size: 15px;
+    padding: 16px 36px;
+  }
+  .btn-ghost:hover {
+    background: rgba(253,250,245,0.2);
+    transform: translateY(-2px);
+  }
+
+  /* ─────────────────────────────────
+     FOOTER
+  ───────────────────────────────── */
+  footer {
+    background: var(--noir);
+    padding: 72px 0 32px;
+    color: rgba(253,250,245,0.65);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 64px;
+    padding-bottom: 56px;
+    border-bottom: 1px solid rgba(253,250,245,0.08);
+  }
+  .footer-brand .logo {
+    font-family: var(--ff-display);
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--off-white);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 16px;
+  }
+  .footer-brand p {
+    font-size: 14px;
+    line-height: 1.8;
+    max-width: 260px;
+    margin-bottom: 24px;
+  }
+  .footer-socials {
+    display: flex;
+    gap: 12px;
+  }
+  .social-btn {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(253,250,245,0.12);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(253,250,245,0.5);
+    text-decoration: none;
+    transition: all 0.3s;
+    font-size: 16px;
+  }
+  .social-btn:hover {
+    border-color: var(--olive);
+    color: var(--olive-light);
+    background: rgba(92,107,64,0.1);
+  }
+  .footer-col h4 {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--off-white);
+    margin-bottom: 20px;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 10px; }
+  .footer-col ul a {
+    font-size: 14px;
+    color: rgba(253,250,245,0.55);
+    text-decoration: none;
+    transition: color 0.3s;
+    display: block;
+  }
+  .footer-col ul a:hover { color: var(--olive-light); }
+  .footer-hours .hours-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(253,250,245,0.05);
+    color: rgba(253,250,245,0.55);
+  }
+  .footer-hours .hours-line span:last-child { color: rgba(253,250,245,0.75); }
+  .footer-hours .hours-line.closed span:last-child { color: rgba(253,250,245,0.3); }
+  .footer-bottom {
+    padding-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: rgba(253,250,245,0.3);
+  }
+  .footer-bottom a { color: rgba(253,250,245,0.4); text-decoration: none; }
+  .footer-bottom a:hover { color: var(--olive-light); }
+
+  /* ─────────────────────────────────
+     SCROLL ANIMATIONS
+  ───────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.15s; }
+  .reveal-delay-2 { transition-delay: 0.3s; }
+  .reveal-delay-3 { transition-delay: 0.45s; }
+
+  /* ─────────────────────────────────
+     LIGHTBOX
+  ───────────────────────────────── */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(26,26,24,0.95);
+    backdrop-filter: blur(12px);
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 90vw;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+    animation: lightboxIn 0.3s ease;
+  }
+  @keyframes lightboxIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 24px; right: 24px;
+    background: rgba(253,250,245,0.1);
+    border: 1px solid rgba(253,250,245,0.2);
+    color: var(--off-white);
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.3s;
+  }
+  .lightbox-close:hover { background: rgba(253,250,245,0.2); }
+
+  /* ─────────────────────────────────
+     RESPONSIVE
+  ───────────────────────────────── */
+  @media (max-width: 1024px) {
+    .concept-grid,
+    .location-grid { grid-template-columns: 1fr; gap: 56px; }
+    .concept-visual { height: 440px; }
+    .dishes-grid { grid-template-columns: 1fr 1fr; }
+    .dish-card:nth-child(4) { grid-column: span 2; }
+    .reviews-grid { grid-template-columns: 1fr 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .stat-item:nth-child(2) { border-right: none; }
+    .stat-item:nth-child(3) { border-right: 1px solid rgba(253,250,245,0.08); border-top: 1px solid rgba(253,250,245,0.08); }
+    .stat-item:nth-child(4) { border-top: 1px solid rgba(253,250,245,0.08); }
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .gallery-item:nth-child(1) { grid-column: span 2; }
+    .gallery-item:nth-child(6) { grid-column: span 2; }
+    .menu-items { grid-template-columns: 1fr; }
+    .menu-item:nth-child(even) { border-left: none; }
+    .brunch-price-box { display: none; }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-burger { display: flex; }
+    .hero-title { font-size: 2.6rem; }
+    .concept-visual { height: 360px; }
+    .dishes-grid { grid-template-columns: 1fr; }
+    .dish-card:nth-child(4) { grid-column: span 1; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 180px; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    .hero-scroll { display: none; }
+    .concept-pillars { grid-template-columns: 1fr; }
+    .menu-brunch-box { grid-template-columns: 1fr; }
+    section, .concept, .signatures, .menu, .reviews, .gallery, .location, .faq {
+      padding: 80px 0;
+    }
+    .container { padding: 0 20px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-actions { flex-direction: column; align-items: center; }
+    .cta-buttons { flex-direction: column; align-items: center; }
+    .reviews-score { font-size: 56px; }
+    .gallery-grid { grid-template-columns: 1fr; }
+    .gallery-item:nth-child(1),
+    .gallery-item:nth-child(6) { grid-column: span 1; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="nav" id="mainNav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Chalyamba</a>
+    <ul class="nav-links">
+      <li><a href="#concept">Notre histoire</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#gallery">Galerie</a></li>
+      <li><a href="#reviews">Avis</a></li>
+      <li><a href="#location">Localisation</a></li>
+      <li><a href="https://chalyamba-lyon.fr/fr/booking" target="_blank" class="nav-cta">Réserver</a></li>
+    </ul>
+    <button class="nav-burger" id="burgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="#concept" onclick="closeMobile()">Notre histoire</a>
+  <a href="#menu" onclick="closeMobile()">Menu</a>
+  <a href="#gallery" onclick="closeMobile()">Galerie</a>
+  <a href="#reviews" onclick="closeMobile()">Avis</a>
+  <a href="#location" onclick="closeMobile()">Localisation</a>
+  <a href="https://chalyamba-lyon.fr/fr/booking" target="_blank" class="btn btn-primary">Réserver une table</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="star">★★★★★</span>
+      <strong>4.7/5</strong> — Plus de 2 400 avis Google
+    </div>
+    <h1 class="hero-title">
+      Le brunch<br>
+      <em>incontournable</em><br>
+      de Lyon
+    </h1>
+    <p class="hero-subtitle">
+      Cuisine généreuse, produits frais et ambiance chaleureuse<br>
+      au cœur du 7<sup>e</sup> arrondissement.
+    </p>
+    <div class="hero-actions">
+      <a href="https://chalyamba-lyon.fr/fr/booking" target="_blank" class="btn btn-gold">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Réserver une table
+      </a>
+      <a href="#menu" class="btn btn-outline" style="background:rgba(253,250,245,0.12);color:var(--off-white);border-color:rgba(253,250,245,0.35);">
+        Découvrir le menu
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- PROOF STRIP -->
+<div class="proof-strip">
+  <div class="proof-track" id="proofTrack">
+    <div class="proof-item">⭐ <strong>4.7/5</strong> Google</div>
+    <div class="proof-dot"></div>
+    <div class="proof-item">🥞 Brunch <strong>7j/7</strong></div>
+    <div class="proof-dot"></div>
+    <div class="proof-item">📍 Place Raspail — <strong>Lyon 7</strong></div>
+    <div class="proof-dot"></div>
+    <div class="proof-item">✅ Cuisine <strong>100% faite maison</strong></div>
+    <div class="proof-dot"></div>
+    <div class="proof-item">🌿 Options <strong>végétariennes</strong></div>
+    <div class="proof-dot"></div>
+    <div class="proof-item">📸 <strong>Instagrammable</strong> & photogénique</div>
+    <div class="proof-dot"></div>
+    <div class="proof-item">☎ <strong>07 53 93 49 70</strong></div>
+    <div class="proof-dot"></div>
+    <!-- Duplicate for infinite loop -->
+    <div class="proof-item">⭐ <strong>4.7/5</strong> Google</div>
+    <div class="proof-dot"></div>
+    <div class="proof-item">🥞 Brunch <strong>7j/7</strong></div>
+    <div class="proof-dot"></div>
+    <div class="proof-item">📍 Place Raspail — <strong>Lyon 7</strong></div>
+    <div class="proof-dot"></div>
+    <div class="proof-item">✅ Cuisine <strong>100% faite maison</strong></div>
+    <div class="proof-dot"></div>
+    <div class="proof-item">🌿 Options <strong>végétariennes</strong></div>
+    <div class="proof-dot"></div>
+    <div class="proof-item">📸 <strong>Instagrammable</strong> & photogénique</div>
+    <div class="proof-dot"></div>
+    <div class="proof-item">☎ <strong>07 53 93 49 70</strong></div>
+    <div class="proof-dot"></div>
+  </div>
+</div>
+
+<!-- CONCEPT -->
+<section class="concept" id="concept">
+  <div class="container">
+    <div class="concept-grid">
+      <div class="concept-text reveal">
+        <span class="section-label">Notre identité</span>
+        <h2 class="section-title">Healthy,<br><em>Gourmand,</em><br>Fait Maison</h2>
+        <div class="gold-line"></div>
+        <p class="concept-body">
+          Pousser les portes du <strong>Chalyamba</strong>, c'est découvrir une cuisine saine et gourmande, 
+          aux inspirations italiennes et méditerranéennes, préparée <strong>de A à Z sous vos yeux</strong>. 
+          Nos produits viennent du marché, notre carte évolue avec les saisons, et chaque assiette 
+          est une invitation à savourer le moment présent.
+        </p>
+        <div class="concept-pillars">
+          <div class="pillar">
+            <div class="pillar-icon">🌿</div>
+            <h4>Produits frais</h4>
+            <p>Du marché directement dans votre assiette, chaque matin.</p>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon">👨‍🍳</div>
+            <h4>Tout fait maison</h4>
+            <p>Pâtisseries, sauces, pâtes fraîches : rien n'est industriel.</p>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon">🍃</div>
+            <h4>Carte saisonnière</h4>
+            <p>Les meilleurs ingrédients selon les saisons.</p>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon">☀️</div>
+            <h4>7j/7 de bonheur</h4>
+            <p>Le brunch est servi tous les jours de la semaine.</p>
+          </div>
+        </div>
+      </div>
+      <div class="concept-visual reveal reveal-delay-2">
+        <div class="concept-img-main">
+          <img 
+            src="https://lh3.googleusercontent.com/places/ANXAkqGmjBu3ptcm9GvQ9SDKJ7KTyCcbMqGBl014KFlNJJUJvI4_c15Wl6EwLoLkY99zcYT5Erf-HjQ1_58vIbD6_xnwqLbmWvZZVVs=s4800-w1080" 
+            alt="Brunch généreuse Chalyamba Lyon"
+            loading="lazy"
+          >
+        </div>
+        <div class="concept-img-accent">
+          <img 
+            src="https://media-cdn.tripadvisor.com/media/photo-s/2a/58/cf/ee/caption.jpg" 
+            alt="Avocado toast Chalyamba"
+            loading="lazy"
+          >
+        </div>
+        <div class="concept-tag">
+          <div class="rating">4.7</div>
+          <div class="stars">★★★★★</div>
+          <small>SUR GOOGLE · 2400+ AVIS</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNATURE DISHES -->
+<section class="signatures" id="signatures">
+  <div class="container">
+    <div class="signatures-header reveal">
+      <span class="section-label">Nos incontournables</span>
+      <h2 class="section-title">Les plats<br><em>qui font revenir</em></h2>
+      <div class="gold-line"></div>
+      <p style="font-size:16px;color:var(--text-muted);max-width:480px;margin:0 auto;">
+        Des recettes généreuses et photogéniques, sélectionnées par nos clients comme leurs favorites absolues.
+      </p>
+    </div>
+    <div class="dishes-grid">
+      <div class="dish-card reveal">
+        <div class="dish-img-wrap">
+          <img class="dish-img" 
+            src="https://images.unsplash.com/photo-1541519227354-08fa5d50c820?w=600&q=80"
+            alt="Avocado Toast Chalyamba" loading="lazy">
+          <span class="dish-tag">★ Signature</span>
+        </div>
+        <div class="dish-info">
+          <h3 class="dish-name">Avocado Toast</h3>
+          <p class="dish-desc">Pain de campagne toasté, crème d'avocat maison, saumon, 2 œufs au plat, tomates cerises, graines de sésame.</p>
+          <span class="dish-price">14,90 €</span>
+        </div>
+      </div>
+      <div class="dish-card reveal reveal-delay-1">
+        <div class="dish-img-wrap">
+          <img class="dish-img"
+            src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=600&q=80"
+            alt="Œufs Bénédicte Chalyamba" loading="lazy">
+          <span class="dish-tag">⭐ Favori</span>
+        </div>
+        <div class="dish-info">
+          <h3 class="dish-name">Œufs Bénédicte</h3>
+          <p class="dish-desc">Pain de campagne toasté, sauce hollandaise, Philadelphia, saumon ou bacon grillé.</p>
+          <span class="dish-price">12,90 €</span>
+        </div>
+      </div>
+      <div class="dish-card reveal reveal-delay-2">
+        <div class="dish-img-wrap">
+          <img class="dish-img"
+            src="https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=600&q=80"
+            alt="Pancakes Chalyamba" loading="lazy">
+          <span class="dish-tag">🥞 Best-seller</span>
+        </div>
+        <div class="dish-info">
+          <h3 class="dish-name">Pancakes Pistache</h3>
+          <p class="dish-desc">3 pancakes moelleux, crème de pistache maison, framboises fraîches, éclats de pistache.</p>
+          <span class="dish-price">7,90 €</span>
+        </div>
+      </div>
+      <div class="dish-card reveal">
+        <div class="dish-img-wrap">
+          <img class="dish-img"
+            src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=1000&q=80"
+            alt="Brunch complet Chalyamba" loading="lazy">
+          <span class="dish-tag">🏆 Notre brunch</span>
+        </div>
+        <div class="dish-info">
+          <h3 class="dish-name">Le Brunch Complet</h3>
+          <p class="dish-desc">Pâtisserie + plat salé + dessert fruité + boisson froide + boisson chaude. Une formule complète pour une escapade gourmande.</p>
+          <span class="dish-price">29,90 €</span>
+        </div>
+      </div>
+      <div class="dish-card reveal reveal-delay-1">
+        <div class="dish-img-wrap">
+          <img class="dish-img"
+            src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=600&q=80"
+            alt="New York Roll Pistache Chalyamba" loading="lazy">
+          <span class="dish-tag">🌟 Nouveau</span>
+        </div>
+        <div class="dish-info">
+          <h3 class="dish-name">New York Roll Pistache</h3>
+          <p class="dish-desc">La viennoiserie du moment. Crème de pistache généreuse, texture moelleuse, framboises fraîches.</p>
+          <span class="dish-price">4,50 €</span>
+        </div>
+      </div>
+      <div class="dish-card reveal reveal-delay-2">
+        <div class="dish-img-wrap">
+          <img class="dish-img"
+            src="https://images.unsplash.com/photo-1571115177098-24ec42ed204d?w=600&q=80"
+            alt="Cheesecake Basque Chalyamba" loading="lazy">
+          <span class="dish-tag">🍰 Vitrine</span>
+        </div>
+        <div class="dish-info">
+          <h3 class="dish-name">Cheesecake Basque</h3>
+          <p class="dish-desc">Notre cheesecake basque maison, fondant au cœur, légèrement caramélisé. Un classique réinventé.</p>
+          <span class="dish-price">2,90 €</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu" id="menu">
+  <div class="container">
+    <div class="menu-header reveal">
+      <span class="section-label">La carte</span>
+      <h2 class="section-title">Découvrez<br><em>notre menu</em></h2>
+      <div class="gold-line"></div>
+      <p style="font-size:16px;color:var(--text-muted);">Cuisine saine et généreuse, tout est préparé sur place avec les meilleurs produits.</p>
+    </div>
+
+    <!-- BRUNCH FORMULA -->
+    <div class="menu-brunch-box reveal">
+      <div>
+        <div class="brunch-title">🥞 Le Brunch — Formule Complète</div>
+        <div class="brunch-desc">
+          Pâtisserie au choix + Plat salé au choix + Dessert fruité + Boisson froide + Boisson chaude.<br>
+          Le meilleur moyen de vivre l'expérience Chalyamba dans son intégralité.
+        </div>
+        <div class="brunch-includes">
+          <span class="brunch-tag">🥐 New York Roll</span>
+          <span class="brunch-tag">🥑 Avocado Toast</span>
+          <span class="brunch-tag">🥚 Œufs Bénédicte</span>
+          <span class="brunch-tag">🧃 Smoothie</span>
+          <span class="brunch-tag">☕ Boisson chaude</span>
+          <span class="brunch-tag">🍓 Dessert fruité</span>
+        </div>
+      </div>
+      <div class="brunch-price-box">
+        <div class="brunch-price-label">Formule</div>
+        <div class="brunch-price-num">29.90</div>
+        <div class="brunch-price-unit">€ / personne</div>
+      </div>
+    </div>
+
+    <div class="menu-tabs reveal">
+      <button class="menu-tab active" data-tab="sale">🥑 Salé</button>
+      <button class="menu-tab" data-tab="sucre">🧇 Sucré</button>
+      <button class="menu-tab" data-tab="rolls">🍕 New York Rolls</button>
+      <button class="menu-tab" data-tab="smoothies">🍹 Smoothies</button>
+      <button class="menu-tab" data-tab="boissons">☕ Boissons</button>
+      <button class="menu-tab" data-tab="vitrine">🎂 Vitrine</button>
+      <button class="menu-tab" data-tab="pastes">🍝 Pâtes & Plats</button>
+    </div>
+
+    <!-- SALÉ -->
+    <div class="menu-panel active" id="tab-sale">
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Avocado Toast*</h4>
+            <p>Pain toasté, saumon, crème d'avocat, 2 œufs au plat, tomates cerises, sésame</p>
+          </div>
+          <span class="menu-item-price">14,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Bacon Toast*</h4>
+            <p>Pain toasté, crème d'avocat, 2 œufs au plat, tomates confites, bacon grillé</p>
+          </div>
+          <span class="menu-item-price">12,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Œufs Bénédicte*</h4>
+            <p>Sauce hollandaise, Philadelphia, saumon ou bacon</p>
+          </div>
+          <span class="menu-item-price">12,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Stracciatella Toast*</h4>
+            <p>Crème d'avocat, stracciatella, tomates confites, pesto maison</p>
+          </div>
+          <span class="menu-item-price">14,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Œufs Brouillés</h4>
+            <p>Bacon, haricots rouges à la tomate, servis avec focaccia</p>
+          </div>
+          <span class="menu-item-price">13,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Carpaccio Bresaola & Burrata</h4>
+            <p>Charcuterie de bœuf, burrata, salade, focaccia</p>
+          </div>
+          <span class="menu-item-price">15,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Planche de Charcuterie</h4>
+            <p>Mix charcuterie, mix fromages, focaccia</p>
+          </div>
+          <span class="menu-item-price">19,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Pancakes Salés Bénédicte</h4>
+            <p>2 pancakes, œufs pochés, sauce hollandaise, saumon</p>
+          </div>
+          <span class="menu-item-price">10,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Salade César</h4>
+            <p>Escalope de poulet, oignons rouges, croûtons, sauce césar maison</p>
+          </div>
+          <span class="menu-item-price">10,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Salade Salmon</h4>
+            <p>Saumon, tomates cerises, avocat, sauce balsamique</p>
+          </div>
+          <span class="menu-item-price">10,90 €</span>
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:12px;padding-left:8px;">* Accompagné de salade et pommes de terre</p>
+    </div>
+
+    <!-- SUCRÉ -->
+    <div class="menu-panel" id="tab-sucre">
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Pancakes Pistache</h4>
+            <p>Crème de pistache, framboise, éclats de pistache</p>
+          </div>
+          <span class="menu-item-price">7,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Pancakes Praliné</h4>
+            <p>Amlou, banane, fruits secs, éclats d'amande</p>
+          </div>
+          <span class="menu-item-price">7,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Pancakes Fruité</h4>
+            <p>Sirop d'érable ou miel, fruits de saison, fruits secs</p>
+          </div>
+          <span class="menu-item-price">6,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Waffle Pistache</h4>
+            <p>Crème de pistache, framboise, éclats de pistache</p>
+          </div>
+          <span class="menu-item-price">8,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Baghrir — Crêpes Mille Trous</h4>
+            <p>Fait maison : fruits & miel, Nutella, beurre de cacahuète ou amlou</p>
+          </div>
+          <span class="menu-item-price">4,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Grand Bowl Granola</h4>
+            <p>Yaourt grec, muesli maison, miel & pépites de chocolat ou fruits</p>
+          </div>
+          <span class="menu-item-price">5,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Banana Bread</h4>
+            <p>Servi avec banane tranchée, noix, miel et éclats d'amande</p>
+          </div>
+          <span class="menu-item-price">7,50 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Waffle Fruité</h4>
+            <p>Sirop d'érable ou miel, fruits de saison, fruits secs</p>
+          </div>
+          <span class="menu-item-price">7,90 €</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEW YORK ROLLS -->
+    <div class="menu-panel" id="tab-rolls">
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>New York Roll Pistache</h4>
+            <p>Crème de pistache, framboises, éclats de pistache</p>
+          </div>
+          <span class="menu-item-price">4,50 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>New York Roll Nutella</h4>
+            <p>Crème Nutella, noisettes torréfiées</p>
+          </div>
+          <span class="menu-item-price">4,50 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>New York Roll Vanille</h4>
+            <p>Crème vanille maison, fruits de saison</p>
+          </div>
+          <span class="menu-item-price">4,50 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>New York Roll Amlou</h4>
+            <p>Crème amlou (amandes & miel), écorces d'orange</p>
+          </div>
+          <span class="menu-item-price">4,50 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Roll Bresaola (Salé)*</h4>
+            <p>Bresaola, roquette, mozzarella</p>
+          </div>
+          <span class="menu-item-price">10,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Roll Mortadella (Salé)*</h4>
+            <p>Crème de truffe, mortadella à la pistache, stracciatella</p>
+          </div>
+          <span class="menu-item-price">10,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Roll Veggy (Salé)*</h4>
+            <p>Philadelphia, courgettes, poivrons, aubergines, pesto maison</p>
+          </div>
+          <span class="menu-item-price">10,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Cinnamon Roll</h4>
+            <p>Cannelle, sucre brun, glaçage fromage frais</p>
+          </div>
+          <span class="menu-item-price">4,50 €</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SMOOTHIES -->
+    <div class="menu-panel" id="tab-smoothies">
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Tropical 🍍</h4>
+            <p>Ananas, mangue, pamplemousse, orange</p>
+          </div>
+          <span class="menu-item-price">6,50 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Bloom 🌿</h4>
+            <p>Pomme, banane, gingembre, orange, épinard</p>
+          </div>
+          <span class="menu-item-price">6,50 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Detox 🥕</h4>
+            <p>Carotte, mangue, citron, orange</p>
+          </div>
+          <span class="menu-item-price">5,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Lemon Ginger ⚡</h4>
+            <p>Pomme, carotte, orange, citron, gingembre</p>
+          </div>
+          <span class="menu-item-price">5,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Coco 🥥</h4>
+            <p>Lait de coco, orange, ananas, banane</p>
+          </div>
+          <span class="menu-item-price">6,50 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Pink Almond 🌸</h4>
+            <p>Lait d'amande, fraise, banane</p>
+          </div>
+          <span class="menu-item-price">6,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Santa Marta 🍓</h4>
+            <p>Framboise, fraise, banane, citron</p>
+          </div>
+          <span class="menu-item-price">6,50 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Delight 🥑</h4>
+            <p>Lait d'amande, avocat, banane, miel</p>
+          </div>
+          <span class="menu-item-price">7,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Mojito Fraise 🫧</h4>
+            <p>Citron, sucre brun, menthe, sirop de fraise, glace pilée</p>
+          </div>
+          <span class="menu-item-price">6,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <h4>Piña Colada ☀️</h4>
+            <p>Jus d'ananas, ananas naturel, sirop noix de coco, glace pilée</p>
+          </div>
+          <span class="menu-item-price">7,50 €</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOISSONS -->
+    <div class="menu-panel" id="tab-boissons">
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Espresso</h4><p>Pur arabica</p></div>
+          <span class="menu-item-price">1,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Cappuccino</h4><p>Espresso, lait moussé maison</p></div>
+          <span class="menu-item-price">3,50 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Matcha Latté</h4><p>Matcha cérémonial, lait végétal</p></div>
+          <span class="menu-item-price">4,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Dirty Chai</h4><p>Chai épicé, shot d'espresso</p></div>
+          <span class="menu-item-price">4,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Grand Latté Macchiato</h4><p>Double shot, lait chaud</p></div>
+          <span class="menu-item-price">4,50 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Marocchino White</h4><p>Chocolat blanc, espresso</p></div>
+          <span class="menu-item-price">4,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Matcha Glacé</h4><p>Matcha cérémonial, lait végétal, glace</p></div>
+          <span class="menu-item-price">4,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Latté Glacé</h4><p>Espresso, lait froid, glace</p></div>
+          <span class="menu-item-price">3,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Ginseng</h4><p>Infusion tonifiante au ginseng</p></div>
+          <span class="menu-item-price">2,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Chocolat Chaud</h4><p>Chocolat artisanal, lait entier</p></div>
+          <span class="menu-item-price">3,50 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Jus d'Orange Pressé</h4><p>Fraîchement pressé, avec pulpe</p></div>
+          <span class="menu-item-price">4,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Thé Marocain</h4><p>Menthe fraîche, miel, à la marocaine</p></div>
+          <span class="menu-item-price">3,00 €</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- VITRINE -->
+    <div class="menu-panel" id="tab-vitrine">
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>New York Roll</h4><p>Pistache, Nutella, vanille, amlou, myrtilles ou praliné café</p></div>
+          <span class="menu-item-price">4,50 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Cinnamon Roll</h4><p>Cannelle, sucre brun, glaçage fromage frais</p></div>
+          <span class="menu-item-price">4,50 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Cheesecake Basque</h4><p>Fondant, légèrement caramélisé</p></div>
+          <span class="menu-item-price">2,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Tarte Citron Framboise</h4><p>Crème citron, compotée framboise</p></div>
+          <span class="menu-item-price">4,50 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Tarte au Chocolat</h4><p>Ganache chocolat noir, cacao</p></div>
+          <span class="menu-item-price">4,50 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Tiramisu Pistache ou Café</h4><p>Mascarpone maison, biscuits maison</p></div>
+          <span class="menu-item-price">3,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Carrot Cake</h4><p>Épices douces, glaçage cream cheese</p></div>
+          <span class="menu-item-price">2,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Cookie Choco Blanc & Pistache</h4><p>Ou aux pépites de chocolat</p></div>
+          <span class="menu-item-price">2,00 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Financier Caramel ou Pistache</h4><p>Beurre noisette, fondant</p></div>
+          <span class="menu-item-price">2,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Banana Bread</h4><p>Banane tranchée, noix, miel</p></div>
+          <span class="menu-item-price">2,90 €</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PÂTES & PLATS -->
+    <div class="menu-panel" id="tab-pastes">
+      <div class="menu-items">
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Pâtes au Pesto Basilic</h4><p>Pesto maison, pignons, basilic frais, huile d'olive</p></div>
+          <span class="menu-item-price">10,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Pâtes Pesto Pistache</h4><p>Pistache, amande, noix, basilic frais</p></div>
+          <span class="menu-item-price">11,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Pâtes au Saumon</h4><p>Crème fraîche, saumon, oignons, huile d'olive</p></div>
+          <span class="menu-item-price">11,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Pâtes à la Truffe</h4><p>Crème de truffe, parmesan</p></div>
+          <span class="menu-item-price">11,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Pâtes aux Fruits de Mer</h4><p>Sauce tomate maison, fruits de mer, tomates cerises</p></div>
+          <span class="menu-item-price">11,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Pâtes à l'Arrabbiata</h4><p>Sauce tomate maison, ail, piment, huile d'olive</p></div>
+          <span class="menu-item-price">9,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Escalope Milanaise</h4><p>Poulet panée, pommes de terre au four, salade balsamique</p></div>
+          <span class="menu-item-price">11,90 €</span>
+        </div>
+        <div class="menu-item">
+          <div class="menu-item-left"><h4>Escalope à la Crème</h4><p>Poulet, champignons frais, crème, huile d'olive</p></div>
+          <span class="menu-item-price">12,90 €</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="reviews">
+  <div class="container">
+    <div class="reviews-header reveal">
+      <span class="section-label">Ils nous adorent</span>
+      <h2 class="section-title">Ce que disent<br><em>nos clients</em></h2>
+      <div class="gold-line"></div>
+      <div class="reviews-rating-hero">
+        <div class="reviews-score">4.7</div>
+        <div class="reviews-score-detail">
+          <div class="stars-row">★★★★★</div>
+          <div class="reviews-total">Plus de 2 400 avis Google</div>
+          <div style="font-size:13px;color:var(--text-muted);margin-top:6px;">L'un des meilleurs brunch de Lyon</div>
+        </div>
+      </div>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">« Nous sommes venus bruncher dans le cadre d'un EVJF et nous nous sommes régalés. Le personnel est accueillant et serviable. Les portions sont généreuses et tout était délicieux ! »</p>
+        <div class="review-author">
+          <div class="review-avatar">K</div>
+          <div>
+            <div class="review-name">Karen S.</div>
+            <div class="review-date">Mai 2026</div>
+            <div class="review-google">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+              Google
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card reveal reveal-delay-1">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">« Un vrai coup de cœur ! Le brunch complet à 29,90€ est excellent : généreux, bien présenté, tout est fait maison. Le New York Roll pistache est absolument incroyable. »</p>
+        <div class="review-author">
+          <div class="review-avatar">M</div>
+          <div>
+            <div class="review-name">Marie-Laure P.</div>
+            <div class="review-date">Avril 2026</div>
+            <div class="review-google">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+              Google
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card reveal reveal-delay-2">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">« Cadre magnifique, ambiance cosy et chaleureuse. Les pâtisseries sont dingues, le matcha latté est parfait. On comprend pourquoi il faut réserver le week-end ! »</p>
+        <div class="review-author">
+          <div class="review-avatar">T</div>
+          <div>
+            <div class="review-name">Thomas R.</div>
+            <div class="review-date">Mars 2026</div>
+            <div class="review-google">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+              Google
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">« L'avocado toast est une tuerie. On a été servis rapidement malgré l'affluence du samedi. Le cadre est très photogénique, parfait pour Instagram. »</p>
+        <div class="review-author">
+          <div class="review-avatar">S</div>
+          <div>
+            <div class="review-name">Sophie A.</div>
+            <div class="review-date">Juin 2026</div>
+            <div class="review-google">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+              Google
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card reveal reveal-delay-1">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">« Meilleur brunch de Lyon sans hésitation. On a testé les œufs bénédicte et le cheesecake basque, les deux étaient parfaits. Personnel souriant, cadre cosy. »</p>
+        <div class="review-author">
+          <div class="review-avatar">L</div>
+          <div>
+            <div class="review-name">Lucas B.</div>
+            <div class="review-date">Mai 2026</div>
+            <div class="review-google">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+              Google
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card reveal reveal-delay-2">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">« Endroit merveilleux ! Les smoothies sont frais et délicieux, les pâtisseries fondent en bouche. L'équipe est aux petits soins. On reviendra sans hésiter ! »</p>
+        <div class="review-author">
+          <div class="review-avatar">C</div>
+          <div>
+            <div class="review-name">Camille V.</div>
+            <div class="review-date">Avril 2026</div>
+            <div class="review-google">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+              Google
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:48px;">
+      <a href="https://chalyamba-lyon.fr/fr/opinions" target="_blank" class="btn btn-outline">
+        Voir tous les avis →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="container">
+    <div class="gallery-header reveal">
+      <span class="section-label">Sur Instagram @chalyamba_</span>
+      <h2 class="section-title">L'univers<br><em>Chalyamba</em></h2>
+      <div class="gold-line"></div>
+      <p style="font-size:16px;color:var(--text-muted);max-width:440px;margin:0 auto;">Chaque assiette est une œuvre. Partagez vos moments avec #Chalyamba</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?w=1200&q=80')">
+        <img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?w=800&q=80" alt="Brunch Chalyamba" loading="lazy">
+        <div class="gallery-overlay">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        </div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1595475884562-073c30d45670?w=1200&q=80')">
+        <img src="https://images.unsplash.com/photo-1595475884562-073c30d45670?w=600&q=80" alt="Pâtisseries Chalyamba" loading="lazy">
+        <div class="gallery-overlay">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        </div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1585032226651-759b368d7246?w=1200&q=80')">
+        <img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?w=600&q=80" alt="Smoothies Chalyamba" loading="lazy">
+        <div class="gallery-overlay">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        </div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1445624440092-7a3d3c4cd7e7?w=1200&q=80')">
+        <img src="https://images.unsplash.com/photo-1445624440092-7a3d3c4cd7e7?w=600&q=80" alt="Café Chalyamba" loading="lazy">
+        <div class="gallery-overlay">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        </div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1534938665420-4193effeacc4?w=1200&q=80')">
+        <img src="https://images.unsplash.com/photo-1534938665420-4193effeacc4?w=600&q=80" alt="Avocado toast Chalyamba" loading="lazy">
+        <div class="gallery-overlay">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        </div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1488477181946-6428a0291777?w=1200&q=80')">
+        <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=800&q=80" alt="Waffles Chalyamba" loading="lazy">
+        <div class="gallery-overlay">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        </div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1515823662972-da6a2e4d3002?w=1200&q=80')">
+        <img src="https://images.unsplash.com/photo-1515823662972-da6a2e4d3002?w=600&q=80" alt="Desserts Chalyamba" loading="lazy">
+        <div class="gallery-overlay">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        </div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=1200&q=80')">
+        <img src="https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=600&q=80" alt="Café matcha Chalyamba" loading="lazy">
+        <div class="gallery-overlay">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="gallery-cta">
+      <a href="https://www.instagram.com/chalyamba_/" target="_blank" class="btn btn-outline">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        Suivre @chalyamba_ sur Instagram
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item reveal">
+        <span class="stat-num" data-target="2400">0</span>
+        <span class="stat-label">Avis Google</span>
+      </div>
+      <div class="stat-item reveal reveal-delay-1">
+        <span class="stat-num">4.7</span>
+        <span class="stat-label">Note Moyenne /5</span>
+      </div>
+      <div class="stat-item reveal reveal-delay-2">
+        <span class="stat-num">7</span>
+        <span class="stat-label">Jours de brunch / semaine</span>
+      </div>
+      <div class="stat-item reveal reveal-delay-3">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">Fait Maison</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section class="location" id="location">
+  <div class="container">
+    <div class="location-grid">
+      <div class="reveal">
+        <span class="section-label">Nous trouver</span>
+        <h2 class="section-title">Au cœur<br>du <em>Lyon 7</em></h2>
+        <div class="gold-line"></div>
+        <div class="location-map">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2784.408583957!2d4.838456!3d45.755522!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47f4eb9f9bcbeocb%3A0xb44c5dbf6ab547e0!2s4%20Pl.%20Raspail%2C%2069007%20Lyon!5e0!3m2!1sfr!2sfr!4v1686000000000!5m2!1sfr!2sfr"
+            allowfullscreen
+            loading="lazy"
+            title="Chalyamba — 4 Place Raspail Lyon 7">
+          </iframe>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <div class="location-info-card">
+          <div class="location-info-item">
+            <div class="location-info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="location-info-text">
+              <strong>Adresse</strong>
+              <a href="https://maps.google.com/?q=4+Place+Raspail+69007+Lyon" target="_blank">4 Place Raspail<br>69007 Lyon, France</a>
+            </div>
+          </div>
+          <div class="location-info-item">
+            <div class="location-info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.41 2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div class="location-info-text">
+              <strong>Téléphone</strong>
+              <a href="tel:+33753934970">07 53 93 49 70</a>
+            </div>
+          </div>
+          <div class="location-info-item">
+            <div class="location-info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="location-info-text">
+              <strong>Horaires d'ouverture</strong>
+              <div class="hours-grid">
+                <div class="hours-row"><span class="day">Lundi</span><span style="color:var(--text-muted);opacity:0.6;">Fermé</span></div>
+                <div class="hours-row"><span class="day">Mardi</span><span>09:00 – 19:00</span></div>
+                <div class="hours-row"><span class="day">Mercredi</span><span>09:00 – 19:00</span></div>
+                <div class="hours-row"><span class="day">Jeudi</span><span>09:00 – 19:00</span></div>
+                <div class="hours-row"><span class="day">Vendredi</span><span>09:00 – 19:00</span></div>
+                <div class="hours-row today"><span class="day">Samedi</span><span>09:00 – 19:00</span></div>
+                <div class="hours-row"><span class="day">Dimanche</span><span>10:00 – 19:00</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="location-info-item">
+            <div class="location-info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="location-info-text">
+              <strong>Réservations</strong>
+              <a href="https://chalyamba-lyon.fr/fr/booking" target="_blank">Réserver en ligne →</a>
+            </div>
+          </div>
+        </div>
+        <a href="https://chalyamba-lyon.fr/fr/booking" target="_blank" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:16px;padding:16px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Réserver une table
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="faq-header reveal">
+      <span class="section-label">Questions fréquentes</span>
+      <h2 class="section-title">Tout ce que<br>vous voulez <em>savoir</em></h2>
+      <div class="gold-line"></div>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Faut-il réserver pour venir bruncher ?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>La réservation est fortement recommandée, surtout le week-end. Chalyamba est très fréquenté le samedi et le dimanche. Pour garantir votre table, réservez en ligne directement sur notre site ou par téléphone au 07 53 93 49 70.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Le brunch est-il servi tous les jours de la semaine ?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Oui ! Le brunch est disponible 7 jours sur 7, du mardi au samedi de 9h à 19h, et le dimanche de 10h à 19h. Seul le lundi nous sommes fermés.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Proposez-vous des options végétariennes ?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Absolument. Notre carte propose de nombreuses options végétariennes : avocado toast végétarien, New York Roll Veggy, salades, pancakes, pâtes au pesto, waffles et toute notre vitrine sucrée. Nous adaptons aussi selon vos besoins.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Acceptez-vous les groupes et les EVJF ?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Oui, nous accueillons régulièrement des groupes pour des célébrations, des EVJF, des anniversaires. Contactez-nous par téléphone pour organiser votre venue en groupe afin que nous puissions vous réserver l'espace adéquat.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Peut-on privatiser Chalyamba pour un événement ?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Pour toute demande de privatisation (événement d'entreprise, anniversaire, occasion spéciale), contactez-nous directement par téléphone au 07 53 93 49 70 pour discuter des possibilités selon vos besoins et la disponibilité.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          D'où viennent vos produits ?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Nous nous approvisionnons directement au marché pour garantir des produits frais et de qualité. Notre carte évolue selon les saisons pour toujours vous proposer le meilleur. Toutes nos préparations — sauces, pâtisseries, pesto — sont réalisées sur place chaque matin.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVATION CTA -->
+<section class="reservation-cta">
+  <div style="position:relative;">
+    <h2>Prêt à vivre<br>l'expérience <em>Chalyamba</em> ?</h2>
+    <p>Réservez votre table dès maintenant. Les week-ends partent vite.</p>
+    <div class="cta-buttons">
+      <a href="https://chalyamba-lyon.fr/fr/booking" target="_blank" class="btn btn-white">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Réserver ma table
+      </a>
+      <a href="tel:+33753934970" class="btn btn-ghost">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.41 2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        07 53 93 49 70
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">Chalyamba</a>
+        <p>Cuisine saine, généreuse et faite maison au cœur du 7e arrondissement de Lyon. Brunch 7j/7, produits frais du marché.</p>
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/chalyamba_/" target="_blank" class="social-btn" aria-label="Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=100092305795704" target="_blank" class="social-btn" aria-label="Facebook">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://maps.google.com/?q=4+Place+Raspail+69007+Lyon" target="_blank" class="social-btn" aria-label="Google Maps">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#concept">Notre histoire</a></li>
+          <li><a href="#signatures">Plats signatures</a></li>
+          <li><a href="#menu">Menu complet</a></li>
+          <li><a href="#reviews">Avis clients</a></li>
+          <li><a href="#gallery">Galerie</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="https://chalyamba-lyon.fr/fr/booking" target="_blank">Réserver en ligne</a></li>
+          <li><a href="tel:+33753934970">07 53 93 49 70</a></li>
+          <li><a href="https://maps.google.com/?q=4+Place+Raspail+69007+Lyon" target="_blank">4 Place Raspail, Lyon 7</a></li>
+          <li><a href="https://www.instagram.com/chalyamba_/" target="_blank">@chalyamba_</a></li>
+          <li><a href="https://www.tripadvisor.fr/Restaurant_Review-g187265-d26523467-Reviews-Chalyamba-Lyon_Rhone_Auvergne_Rhone_Alpes.html" target="_blank">TripAdvisor</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-hours">
+        <h4>Horaires</h4>
+        <div class="hours-line closed"><span>Lundi</span><span>Fermé</span></div>
+        <div class="hours-line"><span>Mardi</span><span>9h–19h</span></div>
+        <div class="hours-line"><span>Mercredi</span><span>9h–19h</span></div>
+        <div class="hours-line"><span>Jeudi</span><span>9h–19h</span></div>
+        <div class="hours-line"><span>Vendredi</span><span>9h–19h</span></div>
+        <div class="hours-line"><span>Samedi</span><span>9h–19h</span></div>
+        <div class="hours-line"><span>Dimanche</span><span>10h–19h</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Chalyamba — Restaurant Brunch Lyon 7. Tous droits réservés.</span>
+      <span>
+        <a href="https://chalyamba-lyon.fr/fr/legal-notice" target="_blank">Mentions légales</a>
+        &nbsp;·&nbsp;
+        <a href="https://maps.google.com/?q=4+Place+Raspail+69007+Lyon" target="_blank">4 Place Raspail, 69007 Lyon</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="Chalyamba">
+</div>
+
+<script>
+  // ── NAVIGATION ──
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ── MOBILE NAV ──
+  document.getElementById('burgerBtn').addEventListener('click', () => {
+    document.getElementById('mobileNav').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+  document.getElementById('mobileClose').addEventListener('click', closeMobile);
+  function closeMobile() {
+    document.getElementById('mobileNav').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // ── HERO PARALLAX ──
+  const heroBg = document.getElementById('heroBg');
+  heroBg.classList.add('loaded');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    heroBg.style.transform = `scale(1) translateY(${y * 0.3}px)`;
+  }, { passive: true });
+
+  // ── SCROLL REVEAL ──
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // ── MENU TABS ──
+  const tabs = document.querySelectorAll('.menu-tab');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      const id = 'tab-' + tab.dataset.tab;
+      const panel = document.getElementById(id);
+      if (panel) panel.classList.add('active');
+    });
+  });
+
+  // ── FAQ ──
+  function toggleFaq(btn) {
+    const item = btn.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // ── LIGHTBOX ──
+  function openLightbox(src) {
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(e) {
+    if (!e || e.target === document.getElementById('lightbox') || e.target.classList.contains('lightbox-close')) {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox({ target: document.getElementById('lightbox') });
+  });
+
+  // ── COUNTER ANIMATION ──
+  function animateCounter(el, target) {
+    let start = 0;
+    const duration = 1800;
+    const step = Math.ceil(target / (duration / 16));
+    const timer = setInterval(() => {
+      start = Math.min(start + step, target);
+      el.textContent = start.toLocaleString('fr');
+      if (start >= target) clearInterval(timer);
+    }, 16);
+  }
+
+  const counters = document.querySelectorAll('[data-target]');
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        animateCounter(e.target, parseInt(e.target.dataset.target));
+        counterObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(el => counterObserver.observe(el));
+
+  // ── SMOOTH SCROLL FOR ANCHORS ──
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (href === '#') return;
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        const offset = 80;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+
+  // ── LAZY IMAGES ──
+  if ('loading' in HTMLImageElement.prototype) {
+    // Native lazy loading supported
+  } else {
+    const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+    const imgObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.src = e.target.dataset.src || e.target.src;
+          imgObserver.unobserve(e.target);
+        }
+      });
+    });
+    lazyImages.forEach(img => imgObserver.observe(img));
+  }
+
+  // ── HIGHLIGHT CURRENT DAY ──
+  const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+  const today = days[new Date().getDay()];
+  document.querySelectorAll('.hours-row').forEach(row => {
+    const dayEl = row.querySelector('.day');
+    if (dayEl && dayEl.textContent.trim() === today) {
+      row.classList.add('today');
+    }
+  });
+</script>
+</body>
+</html>
