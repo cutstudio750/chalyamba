@@ -27,6 +27,12 @@ function send(res, status, body) {
 
 async function readBody(req, limit = 32 * 1024) {
   if (!['POST', 'PATCH', 'PUT', 'DELETE'].includes(req.method)) return {};
+  // Sur Vercel, le corps peut déjà avoir été lu et décodé par la plateforme
+  if (req.body !== undefined) {
+    if (req.body && typeof req.body === 'object' && !Buffer.isBuffer(req.body)) return req.body;
+    if (typeof req.body === 'string' || Buffer.isBuffer(req.body)) { try { return req.body.length ? JSON.parse(req.body.toString()) : {}; } catch { fail(400, 'Requête illisible.'); } }
+    return {};
+  }
   const type = req.headers['content-type'] || '';
   let size = 0;
   const chunks = [];

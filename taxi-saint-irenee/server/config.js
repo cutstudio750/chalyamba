@@ -26,7 +26,8 @@ export const config = {
   staticExport: env('STATIC_EXPORT') === '1',
   basePath: env('BASE_PATH', '').replace(/\/$/, ''),
   secureCookies: env('SECURE_COOKIES') === '1',
-  dataFile: path.join(ROOT, 'data', env('DATA_FILE', 'db.json')),
+  // DATA_DIR : dossier du disque permanent chez l'hébergeur (par défaut ./data)
+  dataFile: path.join(path.resolve(ROOT, env('DATA_DIR', 'data')), env('DATA_FILE', 'db.json')),
 
   phoneDisplay: '06 61 88 27 07',
   contactEmail: env('CONTACT_EMAIL', 'taxisaintirenee@gmail.com'),

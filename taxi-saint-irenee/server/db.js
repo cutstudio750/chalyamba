@@ -1,9 +1,22 @@
-// Stockage JSON sur disque : suffisant pour l'activité d'un artisan,
-// sans base de données à installer. Écritures atomiques et sérialisées.
+// Stockage des données (comptes, réservations, factures) :
+// - sur un serveur classique : un fichier JSON sur disque, écritures atomiques et sérialisées ;
+// - sur Vercel (aucun disque permanent) : le même document JSON dans une base Postgres
+//   (Neon), dès que DATABASE_URL est défini.
 import { readFile, writeFile, rename, mkdir, readdir, unlink, copyFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { config } from './config.js';
+
+const PG_URL = process.env.DATABASE_URL || process.env.POSTGRES_URL || '';
+let sqlClient = null;
+async function sql() {
+  if (!sqlClient) {
+    const { neon } = await import('@neondatabase/serverless');
+    sqlClient = neon(PG_URL);
+    await sqlClient`CREATE TABLE IF NOT EXISTS site_data (id text PRIMARY KEY, data jsonb NOT NULL, updated_at timestamptz NOT NULL DEFAULT now())`;
+  }
+  return sqlClient;
+}
 
 const EMPTY = () => ({
   users: [],
@@ -23,7 +36,17 @@ class Store {
     this.queue = Promise.resolve();
   }
 
+  get usesDatabase() { return Boolean(PG_URL); }
+
   async load() {
+    if (PG_URL) {
+      const db = await sql();
+      const rows = await db`SELECT data FROM site_data WHERE id = 'main'`;
+      if (rows[0]) this.data = { ...EMPTY(), ...rows[0].data };
+      else await this.save();
+      this.purge();
+      return;
+    }
     await mkdir(path.dirname(this.file), { recursive: true });
     try {
       const raw = await readFile(this.file, 'utf8');
@@ -38,6 +61,12 @@ class Store {
   save() {
     const snapshot = JSON.stringify(this.data);
     this.queue = this.queue.then(async () => {
+      if (PG_URL) {
+        const db = await sql();
+        await db`INSERT INTO site_data (id, data, updated_at) VALUES ('main', ${snapshot}::jsonb, now())
+          ON CONFLICT (id) DO UPDATE SET data = EXCLUDED.data, updated_at = now()`;
+        return;
+      }
       const tmp = `${this.file}.${process.pid}.tmp`;
       await writeFile(tmp, snapshot, 'utf8');
       await rename(tmp, this.file);
@@ -49,6 +78,13 @@ class Store {
   async backup() {
     try {
       await this.queue;
+      if (PG_URL) {
+        const db = await sql();
+        const id = `backup-${new Date().toISOString().slice(0, 10)}`;
+        await db`INSERT INTO site_data (id, data) SELECT ${id}::text, data FROM site_data WHERE id = 'main' ON CONFLICT (id) DO NOTHING`;
+        await db`DELETE FROM site_data WHERE id LIKE 'backup-%' AND updated_at < now() - interval '30 days'`;
+        return;
+      }
       const dir = path.join(path.dirname(this.file), 'backups');
       await mkdir(dir, { recursive: true });
       const base = path.basename(this.file, '.json');

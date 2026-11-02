@@ -5,7 +5,12 @@ import { SERVICES, formatDate } from './insights.js';
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-async function push(title, body, { priority = 'high', click = `${config.siteUrl}/chauffeur`, tags = '' } = {}) {
+// Envois en cours : sur Vercel, la réponse attend leur fin (la fonction s'arrête ensuite)
+export const pending = new Set();
+const track = (promise) => { pending.add(promise); promise.finally(() => pending.delete(promise)); return promise; };
+
+function push(...args) { return track(pushNow(...args)); }
+async function pushNow(title, body, { priority = 'high', click = `${config.siteUrl}/chauffeur`, tags = '' } = {}) {
   if (!config.ntfyUrl) return;
   try {
     await fetch(config.ntfyUrl, {
@@ -19,7 +24,8 @@ async function push(title, body, { priority = 'high', click = `${config.siteUrl}
   }
 }
 
-export async function sendMail({ to, subject, html, text, replyTo }) {
+export function sendMail(message) { return track(sendMailNow(message)); }
+async function sendMailNow({ to, subject, html, text, replyTo }) {
   if (!config.resendKey || !to) return false;
   try {
     const res = await fetch('https://api.resend.com/emails', {

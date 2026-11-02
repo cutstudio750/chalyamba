@@ -92,7 +92,7 @@ async function serveStatic(req, res, pathname, url) {
   return true;
 }
 
-const server = http.createServer(async (req, res) => {
+export async function handleRequest(req, res) {
   securityHeaders(res);
   let url;
   try { url = new URL(req.url, 'http://localhost'); } catch { res.writeHead(400); res.end(); return; }
@@ -133,7 +133,7 @@ const server = http.createServer(async (req, res) => {
       res.end(html || `Incident technique. Pour réserver : ${config.phoneDisplay}`);
     }
   }
-});
+}
 
 function sitemap() {
   const today = new Date().toISOString().slice(0, 10);
@@ -142,9 +142,12 @@ function sitemap() {
 
 await db.load();
 await db.backup();
-setInterval(() => db.backup(), 6 * 60 * 60 * 1000).unref();
-server.listen(config.port, () => {
+// Sur Vercel, le site tourne en fonctions (api/index.js) : pas de serveur à démarrer ici
+if (!process.env.VERCEL) {
+  setInterval(() => db.backup(), 6 * 60 * 60 * 1000).unref();
+  http.createServer(handleRequest).listen(config.port, () => {
   console.log(`Taxi Saint-Irénée en ligne sur http://localhost:${config.port}`);
   if (!config.driverPassword) console.warn('⚠ DRIVER_PASSWORD non défini : l’espace /chauffeur est inaccessible.');
   if (!config.ntfyUrl && !config.resendKey) console.warn('⚠ Aucune notification configurée (NTFY_URL ou RESEND_API_KEY) : consultez /chauffeur pour voir les demandes.');
-});
+  });
+}

@@ -71,7 +71,26 @@ DATA_FILE=demo.json npm start
 Espace client : `claire.martin@exemple.fr` / `demo-taxi-2026` (une patiente qui va en radiothérapie chaque mardi, avec des trajets aéroport et gare).
 Les vraies données (`data/db.json`) ne sont pas touchées.
 
-## Mise en ligne
+## Mise en ligne sur Vercel (recommandé)
+
+Le site complet (pages, réservation, comptes, factures, assistant, espace chauffeur, QR code) tourne sur Vercel. Vercel n'ayant pas de disque permanent, les données sont enregistrées dans une base **Postgres Neon** (offre gratuite, ajoutée en deux clics depuis Vercel).
+
+1. Mettre ce dossier dans un dépôt GitHub (tout le projet, sans `node_modules` ni `.env`).
+2. Sur vercel.com : **Add New → Project**, choisir le dépôt, puis **Deploy** sans rien changer (la configuration est dans `vercel.json`).
+3. Dans le projet Vercel : **Storage → Create Database → Neon (Postgres)**, puis **Connect** au projet. Vercel ajoute tout seul la variable `DATABASE_URL`.
+4. **Settings → Environment Variables** : ajouter au minimum
+   - `SITE_URL` = l'adresse du site (ex. `https://taxi-saint-irenee.vercel.app`, puis votre nom de domaine),
+   - `DRIVER_PASSWORD` = le mot de passe de l'espace chauffeur,
+   - `SECURE_COOKIES` = `1`,
+   - et selon vos besoins `NTFY_URL`, `RESEND_API_KEY`, `MAIL_FROM`, `ANTHROPIC_API_KEY`, `COMPANY_*` (voir le tableau ci-dessous).
+5. **Deployments → Redeploy** pour prendre en compte les variables. C'est en ligne.
+6. Nom de domaine : **Settings → Domains → Add**, puis suivre les indications DNS de Vercel. Mettre ensuite `SITE_URL` à jour.
+
+QR code : imprimez-le **après** avoir réglé `SITE_URL` sur l'adresse définitive (ou fixez-la avec `QR_BASE_URL`). L'adresse `…vercel.app` reste active même avec un nom de domaine : un QR code imprimé avec elle continue de fonctionner.
+
+Une copie de sauvegarde quotidienne des données est gardée 30 jours dans la base. Neon permet aussi de restaurer la base à une date passée.
+
+## Mise en ligne sur un autre hébergeur Node.js
 
 L'ancien site était une simple vitrine hébergée sur GitHub Pages. Celui-ci a des comptes clients, des factures, un espace chauffeur et des notifications : il a besoin d'un **hébergeur Node.js** (GitHub Pages ne peut pas le faire tourner). Il n'y a pas de base de données à installer : tout est enregistré dans `data/db.json`. Conviennent : Render, Railway, Fly.io, un VPS, ou « Setup Node.js App » de cPanel / o2switch.
 
