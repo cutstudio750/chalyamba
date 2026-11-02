@@ -1221,3 +1221,17 @@ a.invoice-row:hover { background: var(--creme); }
 .mobile-menu__logo img { width: 200px; }
 .mobile-menu__links a { font-size: clamp(1.35rem, 5.6vw, 1.8rem); padding: 5px 4px; }
 body.menu-open .dock { opacity: 0; pointer-events: none; }
+
+/* Menu ouvert sur mobile : logo complet, plus petit, centré dans la barre */
+.site-header__bar > .site-header__full { display: none; }
+@media (max-width: 1040px) {
+  .site-header__bar > .site-header__full {
+    display: block; position: absolute; left: 50%; top: 50%; z-index: 3;
+    transform: translate(-50%, -50%) scale(.92); opacity: 0; pointer-events: none;
+    transition: opacity .35s var(--ease), transform .5s var(--ease);
+  }
+  .site-header__full img { width: 140px; height: auto; }
+  body.menu-open .site-header__bar > .site-header__full { opacity: 1; transform: translate(-50%, -50%); pointer-events: auto; }
+  body.menu-open .site-header__bar { height: 70px; }
+  .mobile-menu { padding-top: calc(var(--header-h) + 44px); }
+}
