@@ -107,6 +107,8 @@ L'ancien site était une simple vitrine hébergée sur GitHub Pages. Celui-ci a 
 | `DRIVER_PASSWORD` | Accès à `/chauffeur`. Obligatoire. |
 | `CONTACT_EMAIL` | Adresse affichée sur le site (par défaut taxisaintirenee@gmail.com). |
 | `NTFY_URL` | Notification instantanée des nouvelles demandes sur le téléphone du chauffeur : installer l'application gratuite **ntfy**, s'abonner au même sujet que dans l'URL. |
+| `GMAIL_USER`, `GMAIL_APP_PASSWORD` | E-mails automatiques envoyés depuis votre Gmail : nouvelle demande au chauffeur, accusé de réception et confirmation au client. Le mot de passe d'application se crée dans Compte Google → Sécurité → Validation en deux étapes → Mots de passe des applications. |
+| `COMPANY_INVOICE_ADDRESS` | Adresse complète du siège, imprimée seulement sur les factures (le site affiche « 69005 Lyon »). |
 | `RESEND_API_KEY`, `MAIL_FROM`, `DRIVER_EMAIL` | E-mails : demande reçue (en français ou en anglais selon le client), course confirmée, facture, mot de passe oublié (compte gratuit sur resend.com, avec le nom de domaine du site). |
 | `GOOGLE_REVIEW_URL` | Lien « Laisser un avis » (fiche Google). Sans lui, le bouton ouvre un e-mail. |
 | `ANTHROPIC_API_KEY` | Assistant rédigé par Claude. Facultatif. Modèle réglable avec `ASSISTANT_MODEL`. |
