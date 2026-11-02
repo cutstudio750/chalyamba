@@ -9,9 +9,21 @@ const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
 const header = document.querySelector('[data-header]');
 const dock = document.querySelector('[data-dock]');
 let ticking = false;
+let lastY = scrollY;
+let keyboardOpen = false;
+const mobile = matchMedia('(max-width: 1040px)');
+// Sur mobile : en descendant, l'en-tête s'efface et la barre de raccourcis apparaît ;
+// en remontant (ou en haut de page), l'en-tête revient et la barre s'efface.
 function onScroll() {
   const y = scrollY;
   header?.classList.toggle('is-scrolled', y > 24);
+  const menuOpen = document.body.classList.contains('menu-open');
+  if (mobile.matches && !menuOpen) {
+    if (y > lastY + 6 && y > 140) header?.classList.add('is-away');
+    else if (y < lastY - 6 || y < 140) header?.classList.remove('is-away');
+  } else header?.classList.remove('is-away');
+  dock?.classList.toggle('is-hidden', !header?.classList.contains('is-away') || keyboardOpen);
+  lastY = y;
   ticking = false;
 }
 addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
@@ -22,8 +34,7 @@ dock?.querySelectorAll('a[href^="/"]').forEach((a) => { if (a.pathname === locat
 // (clavier détecté par la réduction de la zone visible, pas par le simple focus d'un champ)
 if (dock && window.visualViewport) {
   const vv = window.visualViewport;
-  const check = () => dock.classList.toggle('is-hidden', vv.height < innerHeight * 0.72);
-  vv.addEventListener('resize', check);
+  vv.addEventListener('resize', () => { keyboardOpen = vv.height < innerHeight * 0.72; onScroll(); });
 }
 
 // ── Menu mobile ─────────────────────────────────────────────────────
@@ -34,6 +45,7 @@ if (toggle && menu) {
   const setOpen = (open) => {
     toggle.setAttribute('aria-expanded', String(open));
     document.body.classList.toggle('menu-open', open);
+    if (open) header?.classList.remove('is-away');
     if (open) {
       menu.hidden = false;
       requestAnimationFrame(() => requestAnimationFrame(() => menu.classList.add('is-open')));

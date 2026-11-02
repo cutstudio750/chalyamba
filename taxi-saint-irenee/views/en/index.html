@@ -180,11 +180,11 @@ scripts: home.js
     <div>
       <span class="eyebrow" data-reveal>Client area</span>
       <h2 class="h2" data-reveal data-d="1">Your account keeps track of your journeys.</h2>
-      <p class="lead mt-3" data-reveal data-d="2">Your addresses are saved, your invoices filed, your rides counted on the loyalty card. An assistant spots your regular trips and offers to book them at the right moment.</p>
+      <p class="lead mt-3" data-reveal data-d="2">Your addresses are saved, your invoices filed<!--loyalty-->, your rides counted on the loyalty card<!--/loyalty-->. An assistant spots your regular trips and offers to book them at the right moment.</p>
       <ul class="list-check mt-4" data-stagger>
         <li><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#home"/></svg><span>Saved contact details and addresses: booking takes a few seconds.</span></li>
         <li><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#file"/></svg><span>All your invoices, available to view and download at any time.</span></li>
-        <li><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#card"/></svg><span>Loyalty card: a reward every {{LOYALTY_STEP}} rides.</span></li>
+        <!--loyalty--><li><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#card"/></svg><span>Loyalty card: a reward every {{LOYALTY_STEP}} rides.</span></li><!--/loyalty-->
         <li><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#repeat"/></svg><span>An assistant that knows your habits: frequent destinations, days, times.</span></li>
       </ul>
       <p class="small muted mt-3" data-reveal>The client area is in French.</p>
@@ -197,7 +197,7 @@ scripts: home.js
     <div class="account-preview on-noir" data-reveal="scale" role="group" aria-label="Client area preview (example)">
       <div class="ambient" aria-hidden="true"><span class="ambient__halo ambient__halo--1"></span><span class="ambient__halo ambient__halo--4"></span></div>
       <p class="caps muted">Preview · example</p>
-      <div class="loyalty-card glass glass--dark">
+      <!--loyalty--><div class="loyalty-card glass glass--dark">
         <div class="loyalty-card__top">
           <div>
             <p class="loyalty-card__level">Loyalty card · Regular</p>
@@ -210,7 +210,7 @@ scripts: home.js
         </div>
         <div class="loyalty-card__foot"><span>7 of 10</span><span>3 more rides</span></div>
       </div>
-      <div class="preview-row">
+      <!--/loyalty--><div class="preview-row">
         <div class="preview-card glass glass--dark">
           <p class="caps eyebrow--sable">Assistant</p>
           <p class="mt-1">Every Tuesday around 8:15, Saint-Irénée → Lyon Sud hospital.</p>
@@ -291,7 +291,7 @@ scripts: home.js
     <div class="faq" data-reveal>
       <details>
         <summary>Do I need an account to book?<svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg></summary>
-        <div class="faq__body"><p><!--srv-->No. You can book with just your name and phone number. An account saves your addresses, keeps your invoices and counts your rides on the loyalty card.<!--/srv--><!--static-->No. Your name and phone number are enough: the request is sent by WhatsApp or email, and the driver calls you back to confirm.<!--/static--></p></div>
+        <div class="faq__body"><p><!--srv-->No. You can book with just your name and phone number. An account saves your addresses, keeps your invoices<!--loyalty--> and counts your rides on the loyalty card<!--/loyalty-->.<!--/srv--><!--static-->No. Your name and phone number are enough: the request is sent by WhatsApp or email, and the driver calls you back to confirm.<!--/static--></p></div>
       </details>
       <details>
         <summary>Is my booking confirmed as soon as I send the form?<svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg></summary>

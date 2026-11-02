@@ -1,4 +1,5 @@
 import http from 'node:http';
+import crypto from 'node:crypto';
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import zlib from 'node:zlib';
@@ -56,7 +57,7 @@ async function sendBody(req, res, status, body, ext, headers = {}) {
       let out = key && compressedCache.get(key);
       if (!out) {
         out = enc === 'br' ? await brotli(payload, { params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 9 } }) : await gzip(payload);
-        if (key) compressedCache.set(key, out);
+        if (key) { if (compressedCache.size > 400) compressedCache.clear(); compressedCache.set(key, out); }
       }
       payload = out;
       h['Content-Encoding'] = enc;
@@ -116,7 +117,7 @@ export async function handleRequest(req, res) {
     }
     const page = PAGES[pathname.length > 1 ? pathname.replace(/\/$/, '') : pathname];
     const html = page ? await renderPage(page, pathname) : null;
-    if (html) return await sendBody(req, res, 200, html, '.html', { 'Cache-Control': 'no-cache', 'X-Cache-Key': config.dev ? undefined : `page:${page}` });
+    if (html) return await sendBody(req, res, 200, html, '.html', { 'Cache-Control': 'no-cache', 'X-Cache-Key': config.dev ? undefined : `page:${page}:${crypto.createHash('sha1').update(html).digest('base64url')}` });
     if (pathname === '/sitemap.xml') return await sendBody(req, res, 200, sitemap(), '.xml', { 'Cache-Control': 'public, max-age=86400' });
     if (pathname === '/robots.txt') return await sendBody(req, res, 200, `User-agent: *\nDisallow: /compte\nDisallow: /chauffeur\nDisallow: /facture\nDisallow: /qr\nDisallow: /api/\nSitemap: ${config.siteUrl}/sitemap.xml\n`, '.txt');
     if (!page && await serveStatic(req, res, pathname, url)) return;
@@ -148,6 +149,6 @@ if (!process.env.VERCEL) {
   http.createServer(handleRequest).listen(config.port, () => {
   console.log(`Taxi Saint-Irénée en ligne sur http://localhost:${config.port}`);
   if (!config.driverPassword) console.warn('⚠ DRIVER_PASSWORD non défini : l’espace /chauffeur est inaccessible.');
-  if (!config.ntfyUrl && !config.resendKey) console.warn('⚠ Aucune notification configurée (NTFY_URL ou RESEND_API_KEY) : consultez /chauffeur pour voir les demandes.');
+  if (!config.ntfyUrl && !config.resendKey && !config.smtp.user) console.warn('⚠ Aucune notification configurée (NTFY_URL ou RESEND_API_KEY) : consultez /chauffeur pour voir les demandes.');
   });
 }

@@ -235,7 +235,7 @@ export function computeInsights(user, bookings, invoices, now = new Date()) {
   const step = config.loyalty.step;
   const earned = Math.floor(eligible / step);
   const redeemed = user.loyalty?.redeemed || 0;
-  const loyalty = {
+  const loyalty = !config.loyalty.enabled ? null : {
     step, reward: config.loyalty.reward, eligible,
     progress: eligible % step, toNext: step - (eligible % step),
     available: Math.max(0, earned - redeemed), redeemed,
@@ -283,9 +283,9 @@ export function computeInsights(user, bookings, invoices, now = new Date()) {
       action: { kind: 'save_address', label: "Enregistrer l'adresse", address: unsaved.address },
     });
   }
-  if (loyalty.available > 0) {
+  if (loyalty && loyalty.available > 0) {
     suggestions.push({ id: 'loyalty-ready', title: 'Avantage fidélité disponible', text: `${loyalty.reward}. Il sera appliqué sur votre prochaine course (hors transport conventionné).`, action: null });
-  } else if (eligible > 0 && loyalty.toNext <= 2) {
+  } else if (loyalty && eligible > 0 && loyalty.toNext <= 2) {
     suggestions.push({ id: 'loyalty-near', title: `Plus que ${loyalty.toNext} course${loyalty.toNext > 1 ? 's' : ''}`, text: `avant votre avantage fidélité : ${loyalty.reward}.`, action: null });
   }
 

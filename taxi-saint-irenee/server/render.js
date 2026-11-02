@@ -53,9 +53,12 @@ const include = (tpl, partials) => tpl.replace(/\{\{>([\w-]+)\}\}/g, (all, name)
 function modeBlocks(html) {
   const drop = config.staticExport ? 'srv' : 'static';
   const keep = config.staticExport ? 'static' : 'srv';
+  // <!--loyalty-->…<!--/loyalty--> : retiré quand la carte de fidélité est désactivée
+  const loyaltyOn = config.loyalty?.enabled !== false && !config.staticExport;
   return html
     .replace(new RegExp(`<!--${drop}-->[\\s\\S]*?<!--/${drop}-->`, 'g'), '')
-    .replace(new RegExp(`<!--/?${keep}-->`, 'g'), '');
+    .replace(new RegExp(`<!--/?${keep}-->`, 'g'), '')
+    .replace(loyaltyOn ? /<!--\/?loyalty-->/g : /<!--loyalty-->[\s\S]*?<!--\/loyalty-->/g, '');
 }
 // Adresse publique d'une page (avec barre finale dans la version GitHub Pages)
 const pageUrl = (p) => `${config.siteUrl}${p === '/' ? '/' : config.staticExport ? `${p}/` : p}`;
@@ -148,10 +151,12 @@ export async function renderPage(name, pathname) {
     COMPANY_CPAM: esc(config.company.cpam || '[à compléter]'), COMPANY_EMAIL: esc(config.company.email || config.contactEmail),
     COMPANY_VAT: esc(config.company.vatNumber || '[à compléter]'), COMPANY_MEDIATOR: esc(config.company.mediator || '[médiateur de la consommation à compléter]'),
     COMPANY_HOST: esc(config.company.host || '[hébergeur à compléter]'),
-    COMPANY_LEGAL_FORM: esc(config.company.legalForm || '[forme juridique à compléter]'),
+    COMPANY_LEGAL_FORM: esc(`${config.company.legalForm}${config.company.capital ? ` au capital de ${config.company.capital}` : ''}`),
+    COMPANY_SIREN: esc(config.company.siren), COMPANY_NAF: esc(config.company.naf),
     COMPANY_DIRECTOR: esc(config.company.director || '[à compléter]'),
     LANG: lang, ALT_URL: altPath,
     REVIEWS: '', VEHICLE_PHOTOS: '',
+    BOOKING_NOTICE: config.bookingPause?.on ? `<p class="note note--warn booking-pause" role="status"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#info"/></svg><span>${esc(config.bookingPause.message || `Les réservations en ligne sont en pause pour le moment. Appelez le ${config.phoneDisplay}.`)}</span></p>` : '',
   };
   const rawBody = modeBlocks(include(view.body, cache.partials));
   if (rawBody.includes('{{REVIEWS}}')) shared.REVIEWS = reviewsBlock(lang);
@@ -203,7 +208,7 @@ function businessJsonLd(lang) {
     foundingDate: '2014',
     areaServed: [{ '@type': 'City', name: 'Lyon' }, { '@type': 'AdministrativeArea', name: 'Métropole de Lyon' }],
     availableLanguage: ['fr', 'en'],
-    provider: { '@type': 'LocalBusiness', name: 'Taxi Saint-Irénée', telephone: config.phoneTel, foundingDate: '2014', address: { '@type': 'PostalAddress', addressLocality: 'Lyon', addressCountry: 'FR' } },
+    provider: { '@type': 'LocalBusiness', name: 'Taxi Saint-Irénée', telephone: config.phoneTel, foundingDate: '2014', address: { '@type': 'PostalAddress', addressLocality: 'Lyon', postalCode: '69005', addressCountry: 'FR' } },
   };
   return `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`;
 }

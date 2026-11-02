@@ -124,7 +124,10 @@ function moveDashPill() {
   if (!active) return;
   dashPill.style.width = `${active.offsetWidth}px`;
   dashPill.style.transform = `translateX(${active.offsetLeft}px)`;
-  active.scrollIntoView?.({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+  // On fait défiler uniquement la barre d'onglets, jamais la page (sinon, sur téléphone,
+  // l'apparition de la barre d'adresse ramenait l'écran tout en haut)
+  const nav = active.parentElement;
+  if (nav.scrollWidth > nav.clientWidth) nav.scrollTo({ left: active.offsetLeft - (nav.clientWidth - active.offsetWidth) / 2, behavior: 'smooth' });
 }
 function openTab(name, { scroll = false } = {}) {
   if (!panels[name]) name = 'apercu';
@@ -138,7 +141,8 @@ function openTab(name, { scroll = false } = {}) {
   if (scroll) document.querySelector('.dash-body').scrollIntoView({ behavior: 'smooth' });
 }
 addEventListener('hashchange', () => openTab(location.hash.slice(1)));
-addEventListener('resize', moveDashPill);
+let lastWidth = innerWidth;
+addEventListener('resize', () => { if (innerWidth !== lastWidth) { lastWidth = innerWidth; moveDashPill(); } });
 
 async function loadData() {
   const [b, i, ins] = await Promise.all([api('/bookings'), api('/invoices'), api('/insights')]);

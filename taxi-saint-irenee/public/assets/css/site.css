@@ -1248,3 +1248,62 @@ body.menu-open .dock { opacity: 0; pointer-events: none; }
 /* Version GitHub Pages : envoi de la demande par WhatsApp ou e-mail */
 .static-send { display: grid; gap: 10px; max-width: 440px; }
 .static-send .btn--quiet { justify-self: start; }
+
+/* ── Espace client : petits écrans plus aérés, sans débordement ───── */
+.stat strong { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tabs button { white-space: nowrap; font-size: 15px; }
+@media (max-width: 640px) {
+  .dash-head { padding-top: calc(var(--header-h) + 36px); }
+  .dash-head__inner { gap: 18px; padding-bottom: 28px; }
+  .dash-head__inner .btn-row { width: 100%; flex-wrap: nowrap; }
+  .dash-head__inner .btn-row .btn--creme { flex: 1; }
+  .dash-tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; overflow: visible; }
+  .dash-tabs a { padding: 0 2px; min-width: 0; }
+  .dash-tabs a span { font-size: 13px; overflow: hidden; text-overflow: ellipsis; }
+  .dash-body { padding-top: 56px; }
+  .dash-body .card { padding: 22px 18px; }
+  .stat { padding: 16px 18px; }
+  .stat strong { font-size: 1.45rem; }
+  .trip { grid-template-columns: 1fr; gap: 10px; padding: 18px; }
+  .trip__date { width: auto; height: auto; justify-self: start; display: inline-flex; align-items: baseline; gap: 6px; padding: 6px 14px; border-radius: 999px; }
+  .trip__date strong { font-size: 1.05rem; }
+  .assistant__chat { height: calc(100svh - 110px); min-height: 440px; }
+  .assistant__head { padding: 14px 16px; }
+  .assistant__log { padding: 16px 14px; }
+  .msg { max-width: 94%; padding: 12px 15px; }
+  .assistant__chips { padding: 0 14px 10px; }
+  .assistant__form { padding: 10px 12px 12px; }
+  .send-btn { right: 18px; }
+  .address-list li { grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; }
+  .address-list__icon { display: none; }
+  .invoice-row { padding: 16px 4px; }
+}
+
+/* En-tête qui s'efface en descendant ; la barre de raccourcis prend alors le relais */
+.site-header { transition: transform 320ms cubic-bezier(0.23, 1, 0.32, 1), opacity 200ms ease; }
+.site-header.is-away { transform: translateY(calc(-100% - 24px)); opacity: 0; }
+.dock { transition: transform 320ms cubic-bezier(0.23, 1, 0.32, 1), opacity 200ms ease; }
+.dock.is-hidden { pointer-events: none; }
+@media (min-width: 1041px) { .site-header.is-away { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .site-header, .dock { transition: opacity 200ms ease; } .site-header.is-away { transform: none; } .dock.is-hidden { transform: translate(-50%, 0); } }
+
+/* Espace chauffeur : chiffres, clients, réglages */
+.drv-split { display: grid; gap: 16px; }
+@media (min-width: 900px) { .drv-split { grid-template-columns: 1fr 1fr; align-items: start; } }
+.drv-stats .stat small { font-size: 13px; margin-top: 4px; }
+.drv-rank { list-style: none; margin: 0; padding: 0; display: grid; }
+.drv-rank li { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-top: 1px solid var(--line-light); }
+.drv-rank li:first-child { border-top: 0; }
+.drv-rank b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.drv-search { margin-bottom: 14px; max-width: 460px; }
+.drv-clients { display: grid; gap: 10px; }
+.drv-client { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 20px; padding: 18px 22px; }
+.drv-client p { font-size: 14px; margin-top: 2px; }
+.switch { display: flex; align-items: center; gap: 12px; cursor: pointer; font-weight: 500; }
+.switch input { position: absolute; opacity: 0; pointer-events: none; }
+.switch__track { flex: none; position: relative; width: 48px; height: 28px; border-radius: 999px; background: rgba(22, 21, 20, .18); transition: background-color 200ms ease; }
+.switch__track::after { content: ''; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .25); transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1); }
+.switch input:checked + .switch__track { background: var(--noir); }
+.switch input:checked + .switch__track::after { transform: translateX(20px); }
+.switch input:focus-visible + .switch__track { outline: 2px solid var(--sable); outline-offset: 2px; }
+.booking-pause { margin-top: 18px; }

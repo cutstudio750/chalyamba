@@ -6,8 +6,9 @@ import { pending } from '../server/notify.js';
 
 export default async function handler(req, res) {
   const { pathname } = new URL(req.url, 'http://localhost');
-  // Plusieurs copies de la fonction peuvent tourner : on relit les données à jour
-  if (pathname.startsWith('/api/') || pathname.startsWith('/qr')) await db.load();
+  // Plusieurs copies de la fonction peuvent tourner : on relit les données (et les
+  // réglages du chauffeur) à chaque requête, sauf pour les fichiers statiques
+  if (!pathname.startsWith('/assets/')) await db.load();
   // La réponse ne part qu'une fois les enregistrements et les e-mails terminés :
   // Vercel arrête la fonction juste après.
   const end = res.end.bind(res);

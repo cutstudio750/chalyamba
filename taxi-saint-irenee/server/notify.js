@@ -25,8 +25,31 @@ async function pushNow(title, body, { priority = 'high', click = `${config.siteU
 }
 
 export function sendMail(message) { return track(sendMailNow(message)); }
+let smtpTransport = null;
+async function viaSmtp({ to, subject, html, text, replyTo }) {
+  if (!smtpTransport) {
+    const { default: nodemailer } = await import('nodemailer');
+    smtpTransport = nodemailer.createTransport({
+      host: config.smtp.host, port: config.smtp.port, secure: config.smtp.port === 465,
+      auth: { user: config.smtp.user, pass: config.smtp.pass },
+      connectionTimeout: 10000, greetingTimeout: 10000, socketTimeout: 15000,
+    });
+  }
+  try {
+    await smtpTransport.sendMail({ from: { name: 'Taxi Saint-Irénée', address: config.smtp.user }, to, subject, html, text, ...(replyTo ? { replyTo } : {}) });
+    return true;
+  } catch (err) {
+    console.warn('[notify] e-mail (SMTP) en échec', err.message);
+    return false;
+  }
+}
+
+export const mailEnabled = () => Boolean((config.smtp.host && config.smtp.user && config.smtp.pass) || config.resendKey);
+
 async function sendMailNow({ to, subject, html, text, replyTo }) {
-  if (!config.resendKey || !to) return false;
+  if (!to) return false;
+  if (config.smtp.host && config.smtp.user && config.smtp.pass) return viaSmtp({ to, subject, html, text, replyTo });
+  if (!config.resendKey) return false;
   try {
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',

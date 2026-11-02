@@ -52,7 +52,7 @@ Ce que tu sais du service :
 - Une réservation en ligne est une demande : le chauffeur rappelle toujours le client pour confirmer l'horaire et les détails. Rien n'est confirmé tant qu'il n'a pas rappelé.
 - Le site ne donne aucune estimation de prix. Le tarif d'un taxi est réglementé (compteur, tarif préfectoral) et le chauffeur le précise lors de son appel. Ne donne jamais de montant estimé pour une course future.
 - Transport conventionné : il faut une prescription médicale de transport établie avant le trajet, la carte Vitale et, selon le cas, la convocation. La prise en charge dépend de la situation du patient ; l'Assurance Maladie décide, pas le taxi. Ces courses ne cumulent pas de points de fidélité.
-- Fidélité : ${config.loyalty.step} courses (hors conventionné) donnent droit à : ${config.loyalty.reward}.
+- ${config.loyalty.enabled ? `Fidélité : ${config.loyalty.step} courses (hors conventionné) donnent droit à : ${config.loyalty.reward}.` : 'Il n’y a pas de programme de fidélité en ce moment : n’en parle pas.'}
 - Pour toute urgence, modification le jour même ou annulation tardive : appeler le ${config.phoneDisplay}.
 
 Règles :

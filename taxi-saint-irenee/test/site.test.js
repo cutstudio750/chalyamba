@@ -245,3 +245,26 @@ test('adresse du QR code figée au premier lancement en ligne, même après un c
     await rm(path.join(ROOT, 'data', file), { force: true });
   }
 });
+
+test('espace chauffeur : réglages, pause des réservations, chiffres, clients, export', async () => {
+  const driver = new Client();
+  assert.equal((await driver.json('/api/driver/settings')).status, 401);
+  await driver.json('/api/driver/login', { method: 'POST', body: { password: DRIVER_PASSWORD } });
+  let r = await driver.json('/api/driver/settings', { method: 'PATCH', body: { loyalty: { enabled: false, step: 8, reward: 'Une course offerte' } } });
+  assert.equal(r.data.loyalty.enabled, false);
+  assert.doesNotMatch(await (await new Client().req('/')).text(), /Carte de fidélité/);
+  r = await driver.json('/api/driver/settings', { method: 'PATCH', body: { bookingPause: { on: true, message: 'En congés.' } } });
+  assert.equal(r.data.bookingPause.on, true);
+  r = await new Client().json('/api/bookings', { method: 'POST', body: booking() });
+  assert.equal(r.status, 503); assert.equal(r.data.field, 'pause');
+  assert.match(await (await new Client().req('/reserver')).text(), /En congés\./);
+  await driver.json('/api/driver/settings', { method: 'PATCH', body: { bookingPause: { on: false }, loyalty: { enabled: true, step: 10 } } });
+  assert.equal((await new Client().json('/api/bookings', { method: 'POST', body: booking() })).status, 200);
+  assert.equal((await driver.json('/api/driver/settings', { method: 'PATCH', body: { loyalty: { step: 1 } } })).status, 400);
+  const stats = await driver.json('/api/driver/stats');
+  assert.equal(typeof stats.data.revenue.month, 'number');
+  assert.ok((await driver.json('/api/driver/clients')).data.clients.length >= 1);
+  const csv = await driver.req('/api/driver/invoices.csv');
+  assert.match(csv.headers.get('content-type'), /text\/csv/);
+  assert.match(await csv.text(), /Numéro/);
+});

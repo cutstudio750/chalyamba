@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import { db, uid, bookingRef, nextInvoiceNumber } from './db.js';
+import { db, uid, bookingRef, nextInvoiceNumber, applySettings } from './db.js';
 import { config, hasAssistantKey } from './config.js';
 import {
   hashPassword, verifyPassword, createSession, destroySession, destroyUserSessions,
@@ -317,6 +317,7 @@ route('POST', '/api/bookings', async ({ req, res, body }) => {
   if (!rateLimit(`booking:${clientIp(req)}`, 12, 3600_000)) fail(429, 'Trop de demandes envoyées. Appelez le ' + config.phoneDisplay + '.');
   // Anti-robots : champ piège rempli, ou formulaire envoyé en moins de 2,5 secondes
   if (body.website || (typeof body.elapsed === 'number' && body.elapsed >= 0 && body.elapsed < 2500)) return { booking: { ref: bookingRef(), status: 'pending' } };
+  if (config.bookingPause.on) fail(503, config.bookingPause.message || `Les réservations en ligne sont en pause pour le moment. Appelez le ${config.phoneDisplay}.`, 'pause');
   if (body.consent !== true) fail(400, 'Merci d’accepter l’utilisation de vos données pour traiter la demande.', 'consent');
   const data = parseBooking(body);
   let user = currentUser(req);
@@ -435,6 +436,7 @@ route('GET', '/api/driver/bookings', ({ req }) => {
 });
 
 function loyaltyFor(user) {
+  if (!config.loyalty.enabled) return { eligible: 0, available: 0 };
   const eligible = db.data.bookings.filter((b) => b.userId === user.id && b.status === 'completed' && b.service !== 'conventionne').length;
   const available = Math.floor(eligible / config.loyalty.step) - (user.loyalty?.redeemed || 0);
   return { eligible, available: Math.max(0, available) };
@@ -452,7 +454,7 @@ route('POST', '/api/driver/bookings', ({ req, body }) => {
     email: c.email ? email(c.email) : account?.email || '',
   };
   const booking = storeBooking(data, { userId: account?.id || null, contact, source: 'telephone' });
-  if (body.confirmed) { booking.status = 'confirmed'; db.save(); }
+  if (body.confirmed) { booking.status = 'confirmed'; db.save(); notifyClientConfirmed(booking); }
   return { booking: publicBooking(booking) };
 });
 
@@ -500,7 +502,7 @@ route('POST', '/api/driver/bookings/:id/complete', ({ req, params, body }) => {
     amountTTC: amount, vatRate, amountHT, vat: Math.round((amount - amountHT) * 100) / 100,
     paymentMethod: methods.includes(body.paymentMethod) ? body.paymentMethod : methods[0],
     medical, patientShare, loyaltyApplied, note: text(body.note, 200),
-    company: { ...config.company },
+    company: { ...config.company, address: config.company.invoiceAddress },
   };
   db.data.invoices.push(invoice);
   b.status = 'completed';
@@ -538,6 +540,95 @@ route('GET', '/api/driver/qr.svg', ({ req, res, url }) => {
   if (url.searchParams.has('download')) headers['Content-Disposition'] = `attachment; filename="qr-code-taxi-saint-irenee-${theme}.svg"`;
   res.writeHead(200, headers);
   res.end(svg);
+  return null;
+});
+
+// ── Réglages, statistiques, clients, export comptable ───────────────
+route('GET', '/api/driver/settings', ({ req }) => {
+  requireDriver(req);
+  return { loyalty: config.loyalty, bookingPause: config.bookingPause };
+});
+
+route('PATCH', '/api/driver/settings', ({ req, body }) => {
+  requireDriver(req);
+  const s = db.data.settings = db.data.settings || {};
+  if (body.loyalty && typeof body.loyalty === 'object') {
+    const step = Number.parseInt(body.loyalty.step, 10);
+    if (body.loyalty.step !== undefined && !(step >= 2 && step <= 50)) fail(400, 'Le nombre de courses doit être entre 2 et 50.', 'step');
+    s.loyalty = {
+      enabled: body.loyalty.enabled !== false,
+      step: step || config.loyalty.step,
+      reward: text(body.loyalty.reward, 120) || config.loyalty.reward,
+    };
+  }
+  if (body.bookingPause && typeof body.bookingPause === 'object') {
+    s.bookingPause = { on: body.bookingPause.on === true, message: text(body.bookingPause.message, 300) };
+  }
+  applySettings(s);
+  db.save();
+  return { loyalty: config.loyalty, bookingPause: config.bookingPause };
+});
+
+const ttc = (i) => i.amountTTC || 0;
+route('GET', '/api/driver/stats', ({ req }) => {
+  requireDriver(req);
+  const today = parisToday().date;
+  const month = today.slice(0, 7);
+  const prev = (() => { const d = new Date(`${month}-15T12:00:00Z`); d.setUTCMonth(d.getUTCMonth() - 1); return d.toISOString().slice(0, 7); })();
+  const year = today.slice(0, 4);
+  const inv = db.data.invoices;
+  const sum = (list) => Math.round(list.reduce((t, i) => t + ttc(i), 0) * 100) / 100;
+  const done = db.data.bookings.filter((b) => b.status === 'completed');
+  const places = new Map();
+  for (const b of done) places.set(b.dropoff, (places.get(b.dropoff) || 0) + 1);
+  const bySvc = {};
+  for (const b of done.filter((x) => x.date.startsWith(year))) bySvc[SERVICES[b.service] || b.service] = (bySvc[SERVICES[b.service] || b.service] || 0) + 1;
+  return {
+    month, prev,
+    revenue: { month: sum(inv.filter((i) => i.issuedAt.startsWith(month))), prev: sum(inv.filter((i) => i.issuedAt.startsWith(prev))), year: sum(inv.filter((i) => i.issuedAt.startsWith(year))) },
+    rides: { month: done.filter((b) => b.date.startsWith(month)).length, year: done.filter((b) => b.date.startsWith(year)).length },
+    upcoming: db.data.bookings.filter((b) => b.status === 'confirmed' && b.date >= today).length,
+    pending: db.data.bookings.filter((b) => b.status === 'pending').length,
+    medical: done.filter((b) => b.service === 'conventionne' && b.date.startsWith(year)).length,
+    accounts: db.data.users.length,
+    topPlaces: [...places].sort((a, b) => b[1] - a[1]).slice(0, 5).map(([place, count]) => ({ place, count })),
+    byService: bySvc,
+    months: [...new Set(inv.map((i) => i.issuedAt.slice(0, 7)))].sort().reverse(),
+  };
+});
+
+route('GET', '/api/driver/clients', ({ req }) => {
+  requireDriver(req);
+  const map = new Map();
+  for (const b of db.data.bookings) {
+    const user = b.userId ? db.data.users.find((u) => u.id === b.userId) : null;
+    const key = user ? `u:${user.id}` : `p:${(b.contact.phone || '').replace(/\D/g, '')}`;
+    const c = map.get(key) || { name: user ? `${user.firstName} ${user.lastName}` : b.contact.name, phone: user?.phone || b.contact.phone, email: user?.email || b.contact.email || '', account: Boolean(user), rides: 0, total: 0, last: '' };
+    if (b.status === 'completed') c.rides += 1;
+    if (b.date > c.last) c.last = b.date;
+    map.set(key, c);
+  }
+  for (const i of db.data.invoices) {
+    const b = db.data.bookings.find((x) => x.id === i.bookingId);
+    if (!b) continue;
+    const user = b.userId ? db.data.users.find((u) => u.id === b.userId) : null;
+    const c = map.get(user ? `u:${user.id}` : `p:${(b.contact.phone || '').replace(/\D/g, '')}`);
+    if (c) c.total = Math.round((c.total + ttc(i)) * 100) / 100;
+  }
+  return { clients: [...map.values()].sort((a, b) => (b.last > a.last ? 1 : -1)) };
+});
+
+route('GET', '/api/driver/invoices.csv', ({ req, res, url }) => {
+  requireDriver(req);
+  const month = /^\d{4}-\d{2}$/.test(url.searchParams.get('month') || '') ? url.searchParams.get('month') : '';
+  const list = db.data.invoices.filter((i) => !month || i.issuedAt.startsWith(month)).sort((a, b) => a.number.localeCompare(b.number));
+  const cell = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const num = (n) => (typeof n === 'number' ? n.toFixed(2).replace('.', ',') : '');
+  const rows = [['Numéro', 'Date', 'Client', 'Départ', 'Arrivée', 'Montant HT', 'TVA', 'Montant TTC', 'Reste à charge patient', 'Paiement', 'Conventionné']];
+  for (const i of list) rows.push([i.number, i.issuedAt.slice(0, 10), i.client?.name || '', i.pickup, i.dropoff, num(i.amountHT), num(i.vat), num(i.amountTTC), i.medical ? num(i.patientShare || 0) : '', i.paymentMethod || '', i.medical ? 'oui' : 'non']);
+  const csv = '\ufeff' + rows.map((r) => r.map(cell).join(';')).join('\r\n');
+  res.writeHead(200, { 'Content-Type': 'text/csv; charset=utf-8', 'Cache-Control': 'no-store', 'Content-Disposition': `attachment; filename="factures-taxi-saint-irenee${month ? `-${month}` : ''}.csv"` });
+  res.end(csv);
   return null;
 });
 

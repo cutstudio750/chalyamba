@@ -469,7 +469,10 @@ form.addEventListener('submit', async (e) => {
     else if (!user) contactStore.clear();
     showDone(res, d);
   } catch (err) {
-    if (err.status === 0 || err.status >= 500) {
+    if (err.field === 'pause') {
+      alert.textContent = err.message; alert.hidden = false;
+      q('[data-fallback]').hidden = false;
+    } else if (err.status === 0 || err.status >= 500) {
       alert.textContent = t('err.network'); alert.hidden = false;
       const body = `${t('mail.intro')}\n\n${summaryText(d)}\n\n${d.contact.name}\n${d.contact.phone}${d.contact.email ? `\n${d.contact.email}` : ''}`;
       q('[data-fallback-mail]').href = `mailto:${q('[data-fallback-mail]').getAttribute('href').replace('mailto:', '').split('?')[0]}?subject=${encodeURIComponent(t('mail.subject', { date: d.asap ? t('sum.asap') : fmtDate(d.date) }))}&body=${encodeURIComponent(body)}`;

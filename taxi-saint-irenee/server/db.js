@@ -7,6 +7,14 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { config } from './config.js';
 
+// Réglages modifiables depuis l'espace chauffeur (fidélité, pause des réservations)
+const BASE_LOYALTY = { ...config.loyalty, enabled: true };
+export function applySettings(s = {}) {
+  config.loyalty = { ...BASE_LOYALTY, ...(s.loyalty || {}) };
+  config.bookingPause = { on: false, message: '', ...(s.bookingPause || {}) };
+}
+applySettings();
+
 const PG_URL = process.env.DATABASE_URL || process.env.POSTGRES_URL || '';
 let sqlClient = null;
 async function sql() {
@@ -45,6 +53,7 @@ class Store {
       if (rows[0]) this.data = { ...EMPTY(), ...rows[0].data };
       else await this.save();
       this.purge();
+      applySettings(this.data.settings);
       return;
     }
     await mkdir(path.dirname(this.file), { recursive: true });
@@ -56,6 +65,7 @@ class Store {
       await this.save();
     }
     this.purge();
+    applySettings(this.data.settings);
   }
 
   save() {

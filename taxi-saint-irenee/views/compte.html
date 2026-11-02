@@ -3,7 +3,8 @@ title: Espace client · Taxi Saint-Irénée
 description: Votre espace client Taxi Saint-Irénée : trajets, factures, carte de fidélité et assistant personnel.
 robots: noindex
 scripts: compte.js
-bodyClass: page-account
+bodyClass: page-account no-dock
+dock: none
 -->
 <h1 class="sr-only">Espace client Taxi Saint-Irénée</h1>
 <!-- Connexion / inscription -->
@@ -12,11 +13,11 @@ bodyClass: page-account
   <div class="container auth__grid">
     <div class="auth__intro">
       <span class="eyebrow">Espace client</span>
-      <h2 class="h1">Vos trajets, vos factures, votre fidélité.</h2>
+      <h2 class="h1">Vos trajets, vos factures<!--loyalty-->, votre fidélité<!--/loyalty-->.</h2>
       <ul class="list-check mt-4">
         <li><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#home"/></svg><span>Adresses et coordonnées enregistrées</span></li>
         <li><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#file"/></svg><span>Toutes vos factures en PDF</span></li>
-        <li><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#card"/></svg><span>{{LOYALTY_STEP}} courses, puis {{LOYALTY_REWARD}}</span></li>
+        <!--loyalty--><li><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#card"/></svg><span>{{LOYALTY_STEP}} courses, puis {{LOYALTY_REWARD}}</span></li><!--/loyalty-->
         <li><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#repeat"/></svg><span>Un assistant qui repère vos trajets réguliers</span></li>
       </ul>
     </div>

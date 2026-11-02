@@ -32,7 +32,7 @@ async function start() {
   show('board');
   await load();
   setInterval(() => {
-    const onQr = document.querySelector('[name="df"]:checked').value === 'qr';
+    const onQr = ['qr', 'settings', 'stats', 'clients'].includes(document.querySelector('[name="df"]:checked').value);
     if (document.visibilityState === 'visible' && !sheet.open && !onQr) load().catch(() => {});
   }, 60000);
 }
@@ -74,9 +74,14 @@ function card(b) {
   </article>`;
 }
 
+const TITLES = { pending: 'Demandes', confirmed: 'Courses confirmées', done: 'Historique', messages: 'Messages', stats: 'Chiffres', clients: 'Clients', qr: 'QR code', settings: 'Réglages' };
 function render() {
   const filter = document.querySelector('[name="df"]:checked').value;
+  document.querySelector('[data-driver-title]').textContent = TITLES[filter] || 'Demandes';
   if (filter === 'qr') { renderQr(); return; }
+  if (filter === 'stats') { renderStats(); return; }
+  if (filter === 'clients') { renderClients(); return; }
+  if (filter === 'settings') { renderSettings(); return; }
   const counts = {
     pending: data.bookings.filter((b) => b.status === 'pending').length,
     confirmed: data.bookings.filter((b) => b.status === 'confirmed').length,
@@ -103,6 +108,93 @@ function render() {
 }
 document.querySelector('[data-driver-filter]').addEventListener('change', render);
 document.querySelector('[data-refresh]').addEventListener('click', () => load().then(() => toast('À jour.')));
+
+// ── Chiffres ─────────────────────────────────────────────────────────
+const monthLabel = (m) => cap(new Date(`${m}-15T12:00:00Z`).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric', timeZone: 'UTC' }));
+async function renderStats() {
+  list.innerHTML = '<p class="empty">Chargement…</p>';
+  let s;
+  try { s = await api('/driver/stats'); } catch (err) { list.innerHTML = `<p class="empty">${esc(err.message)}</p>`; return; }
+  const diff = s.revenue.prev && s.revenue.month ? Math.round(((s.revenue.month - s.revenue.prev) / s.revenue.prev) * 100) : null;
+  const tile = (value, label, sub = '') => `<div class="stat"><strong>${value}</strong><span>${label}</span>${sub ? `<small class="muted">${sub}</small>` : ''}</div>`;
+  list.innerHTML = `<div class="drv-stats">
+    <div class="stats">
+      ${tile(fmtEuro(s.revenue.month), `Encaissé en ${monthLabel(s.month).toLowerCase()}`, diff === null ? '' : `${diff >= 0 ? '+' : ''}${diff} % par rapport au mois précédent`)}
+      ${tile(String(s.rides.month), 'Courses ce mois-ci', `${s.rides.year} depuis janvier`)}
+      ${tile(String(s.upcoming), 'Courses confirmées à venir', s.pending ? `${s.pending} demande${s.pending > 1 ? 's' : ''} à rappeler` : 'Aucune demande en attente')}
+      ${tile(fmtEuro(s.revenue.year), 'Encaissé depuis janvier', `${s.medical} transport${s.medical > 1 ? 's' : ''} conventionné${s.medical > 1 ? 's' : ''} · ${s.accounts} compte${s.accounts > 1 ? 's' : ''} client`)}
+    </div>
+    <div class="drv-split mt-3">
+      <div class="card"><p class="caps muted">Destinations les plus fréquentes</p>
+        <ol class="drv-rank mt-2">${s.topPlaces.map((p) => `<li><span>${esc(p.place)}</span><b>${p.count}</b></li>`).join('') || '<li><span class="muted">Pas encore de courses terminées.</span></li>'}</ol></div>
+      <div class="card"><p class="caps muted">Export pour le comptable</p>
+        <p class="mt-2 muted">Toutes les factures du mois, prêtes à ouvrir dans Excel ou à transmettre.</p>
+        <div class="field mt-2"><label for="csv-month">Mois</label><select class="select" id="csv-month">${s.months.map((m) => `<option value="${m}">${monthLabel(m)}</option>`).join('')}<option value="">Toutes les factures</option></select></div>
+        <a class="btn btn--noir btn--sm mt-2" href="#" data-csv>${icon('file', 'icon icon--sm')}Télécharger (CSV)</a></div>
+    </div>
+  </div>`;
+  const link = list.querySelector('[data-csv]');
+  const sync = () => { const m = list.querySelector('#csv-month').value; link.href = `/api/driver/invoices.csv${m ? `?month=${m}` : ''}`; };
+  list.querySelector('#csv-month').addEventListener('change', sync); sync();
+}
+
+// ── Clients ──────────────────────────────────────────────────────────
+async function renderClients() {
+  list.innerHTML = '<p class="empty">Chargement…</p>';
+  let c;
+  try { c = await api('/driver/clients'); } catch (err) { list.innerHTML = `<p class="empty">${esc(err.message)}</p>`; return; }
+  list.innerHTML = `<div class="field drv-search"><label class="sr-only" for="cl-q">Rechercher un client</label><input class="input" id="cl-q" type="search" placeholder="Rechercher un nom, un téléphone…" autocomplete="off"></div>
+    <div class="drv-clients" data-cl></div>`;
+  const box = list.querySelector('[data-cl]');
+  const draw = (q = '') => {
+    const n = q.trim().toLowerCase();
+    const rows = c.clients.filter((x) => !n || `${x.name} ${x.phone} ${x.email}`.toLowerCase().includes(n));
+    box.innerHTML = rows.length ? rows.map((x) => `<article class="card drv-client">
+      <div><strong>${esc(x.name)}</strong>${x.account ? ' <span class="badge">Compte</span>' : ''}<p class="muted">${x.rides} course${x.rides > 1 ? 's' : ''} terminée${x.rides > 1 ? 's' : ''}${x.total ? ` · ${fmtEuro(x.total)}` : ''}${x.last ? ` · dernière le ${esc(fmtDate(x.last, { weekday: false }))}` : ''}</p></div>
+      <div class="btn-row">${x.phone ? `<a class="btn btn--outline btn--sm" href="tel:${esc(x.phone)}">${icon('phone', 'icon icon--sm')}${esc(fmtPhone(x.phone))}</a>` : ''}${x.email ? `<a class="btn btn--quiet" href="mailto:${esc(x.email)}">E-mail</a>` : ''}</div>
+    </article>`).join('') : '<p class="empty">Aucun client trouvé.</p>';
+  };
+  list.querySelector('#cl-q').addEventListener('input', (e) => draw(e.target.value));
+  draw();
+}
+
+// ── Réglages ─────────────────────────────────────────────────────────
+async function renderSettings() {
+  list.innerHTML = '<p class="empty">Chargement…</p>';
+  let s;
+  try { s = await api('/driver/settings'); } catch (err) { list.innerHTML = `<p class="empty">${esc(err.message)}</p>`; return; }
+  list.innerHTML = `<div class="drv-split">
+    <form class="card stack" data-set="loyalty" novalidate>
+      <p class="caps muted">Carte de fidélité</p>
+      <label class="switch"><input type="checkbox" name="enabled" ${s.loyalty.enabled ? 'checked' : ''}><span class="switch__track" aria-hidden="true"></span><span>Programme de fidélité activé</span></label>
+      <p class="muted small">Désactivé, la carte disparaît de l'espace client et des pages du site. Les courses déjà faites restent comptées si vous le réactivez.</p>
+      <div class="row-2">
+        <div class="field"><label for="ly-step">Nombre de courses</label><input class="input" id="ly-step" name="step" type="number" min="2" max="50" value="${s.loyalty.step}"></div>
+        <div class="field"><label for="ly-reward">Récompense</label><input class="input" id="ly-reward" name="reward" type="text" maxlength="120" value="${esc(s.loyalty.reward)}"></div>
+      </div>
+      <div class="alert" data-form-alert hidden></div>
+      <button class="btn btn--noir btn--sm" type="submit">Enregistrer</button>
+    </form>
+    <form class="card stack" data-set="pause" novalidate>
+      <p class="caps muted">Réservations en ligne</p>
+      <label class="switch"><input type="checkbox" name="on" ${s.bookingPause.on ? 'checked' : ''}><span class="switch__track" aria-hidden="true"></span><span>Mettre en pause (congés, indisponibilité)</span></label>
+      <p class="muted small">En pause, le formulaire affiche votre message et propose d'appeler. Les courses déjà prévues ne changent pas.</p>
+      <div class="field"><label for="ps-msg">Message affiché aux clients</label><textarea class="textarea" id="ps-msg" name="message" maxlength="300" placeholder="Exemple : en congés jusqu'au 24 août. Pour une urgence, appelez le 06 61 88 27 07.">${esc(s.bookingPause.message || '')}</textarea></div>
+      <div class="alert" data-form-alert hidden></div>
+      <button class="btn btn--noir btn--sm" type="submit">Enregistrer</button>
+    </form>
+  </div>`;
+  list.querySelectorAll('[data-set]').forEach((form) => form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearFieldErrors(form);
+    const f = form.elements;
+    const body = form.dataset.set === 'loyalty'
+      ? { loyalty: { enabled: f.enabled.checked, step: f.step.value, reward: f.reward.value } }
+      : { bookingPause: { on: f.on.checked, message: f.message.value } };
+    try { await api('/driver/settings', { method: 'PATCH', body }); toast('Réglages enregistrés.'); }
+    catch (err) { if (!showFieldError(form, err)) { const a = form.querySelector('[data-form-alert]'); a.textContent = err.message; a.hidden = false; } }
+  }));
+}
 
 // ── QR code permanent ───────────────────────────────────────────────
 const QR_SHORTCUTS = (site) => [

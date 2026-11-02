@@ -180,11 +180,11 @@ scripts: home.js
     <div>
       <span class="eyebrow" data-reveal>Espace client</span>
       <h2 class="h2" data-reveal data-d="1">Votre compte garde le fil de vos trajets.</h2>
-      <p class="lead mt-3" data-reveal data-d="2">Vos adresses sont enregistrées, vos factures rangées, vos courses comptées sur la carte de fidélité. Un assistant repère vos trajets réguliers et vous propose de les réserver au bon moment.</p>
+      <p class="lead mt-3" data-reveal data-d="2">Vos adresses sont enregistrées, vos factures rangées<!--loyalty-->, vos courses comptées sur la carte de fidélité<!--/loyalty-->. Un assistant repère vos trajets réguliers et vous propose de les réserver au bon moment.</p>
       <ul class="list-check mt-4" data-stagger>
         <li><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#home"/></svg><span>Coordonnées et adresses enregistrées : une réservation se fait en quelques secondes.</span></li>
         <li><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#file"/></svg><span>Toutes vos factures, consultables et téléchargeables à tout moment.</span></li>
-        <li><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#card"/></svg><span>Carte de fidélité : {{LOYALTY_STEP}} courses, puis {{LOYALTY_REWARD}}.</span></li>
+        <!--loyalty--><li><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#card"/></svg><span>Carte de fidélité : {{LOYALTY_STEP}} courses, puis {{LOYALTY_REWARD}}.</span></li><!--/loyalty-->
         <li><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#repeat"/></svg><span>Un assistant qui connaît vos habitudes : destinations fréquentes, jours, horaires.</span></li>
       </ul>
       <div class="btn-row mt-4" data-reveal>
@@ -196,7 +196,7 @@ scripts: home.js
     <div class="account-preview on-noir" data-reveal="scale" role="group" aria-label="Aperçu de l'espace client (exemple)">
       <div class="ambient" aria-hidden="true"><span class="ambient__halo ambient__halo--1"></span><span class="ambient__halo ambient__halo--4"></span></div>
       <p class="caps muted">Aperçu · exemple</p>
-      <div class="loyalty-card glass glass--dark">
+      <!--loyalty--><div class="loyalty-card glass glass--dark">
         <div class="loyalty-card__top">
           <div>
             <p class="loyalty-card__level">Carte fidélité · Habitué</p>
@@ -209,7 +209,7 @@ scripts: home.js
         </div>
         <div class="loyalty-card__foot"><span>7 sur 10</span><span>Encore 3 courses</span></div>
       </div>
-      <div class="preview-row">
+      <!--/loyalty--><div class="preview-row">
         <div class="preview-card glass glass--dark">
           <p class="caps eyebrow--sable">Assistant</p>
           <p class="mt-1">Chaque mardi vers 8 h 15, Saint-Irénée → Centre hospitalier Lyon Sud.</p>
@@ -290,7 +290,7 @@ scripts: home.js
     <div class="faq" data-reveal>
       <details>
         <summary><!--srv-->Faut-il créer un compte pour réserver&nbsp;?<!--/srv--><!--static-->Faut-il un compte pour réserver&nbsp;?<!--/static--><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg></summary>
-        <div class="faq__body"><p><!--srv-->Non. Vous pouvez réserver en indiquant simplement votre nom et votre téléphone. Le compte sert à enregistrer vos adresses, retrouver vos factures et cumuler vos courses sur la carte de fidélité.<!--/srv--><!--static-->Non. Votre nom et votre téléphone suffisent : la demande part par WhatsApp ou par e-mail, et le chauffeur vous rappelle pour confirmer.<!--/static--></p></div>
+        <div class="faq__body"><p><!--srv-->Non. Vous pouvez réserver en indiquant simplement votre nom et votre téléphone. Le compte sert à enregistrer vos adresses, retrouver vos factures<!--loyalty--> et cumuler vos courses sur la carte de fidélité<!--/loyalty-->.<!--/srv--><!--static-->Non. Votre nom et votre téléphone suffisent : la demande part par WhatsApp ou par e-mail, et le chauffeur vous rappelle pour confirmer.<!--/static--></p></div>
       </details>
       <details>
         <summary>Combien coûte une course&nbsp;?<svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg></summary>

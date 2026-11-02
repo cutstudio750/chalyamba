@@ -38,6 +38,13 @@ export const config = {
   driverPassword: env('DRIVER_PASSWORD'),
   ntfyUrl: env('NTFY_URL'),
   resendKey: env('RESEND_API_KEY'),
+  // Envoi par Gmail (le plus simple) : adresse Gmail + mot de passe d'application
+  smtp: {
+    host: env('SMTP_HOST', env('GMAIL_USER') ? 'smtp.gmail.com' : ''),
+    port: Number(env('SMTP_PORT', '465')),
+    user: env('SMTP_USER', env('GMAIL_USER')),
+    pass: env('SMTP_PASS', env('GMAIL_APP_PASSWORD')).replace(/\s+/g, ''),
+  },
   mailFrom: env('MAIL_FROM', 'Taxi Saint-Irénée <reservation@taxi-saint-irenee.fr>'),
   driverEmail: env('DRIVER_EMAIL', env('CONTACT_EMAIL', 'taxisaintirenee@gmail.com')),
 
@@ -47,18 +54,24 @@ export const config = {
   company: {
     name: 'Taxi Saint-Irénée',
     legalName: env('COMPANY_LEGAL_NAME', 'Taxi Saint-Irénée'),
-    legalForm: env('COMPANY_LEGAL_FORM'),
+    legalForm: env('COMPANY_LEGAL_FORM', 'Société par actions simplifiée (SAS)'),
+    capital: env('COMPANY_CAPITAL'),
+    siren: env('COMPANY_SIREN', '104 411 103'),
+    naf: env('COMPANY_NAF', '4932Z · Transports de voyageurs par taxis'),
     // Nom du dirigeant : jamais affiché sur le site, sauf s'il est renseigné ici
     owner: env('COMPANY_OWNER'),
     director: env('COMPANY_DIRECTOR'),
-    address: env('COMPANY_ADDRESS'),
-    siret: env('COMPANY_SIRET'),
-    vatNumber: env('COMPANY_VAT_NUMBER'),
+    // Sur le site : seulement l'arrondissement. L'adresse complète (obligatoire sur les
+    // factures) se règle dans COMPANY_INVOICE_ADDRESS, sur l'hébergeur.
+    address: env('COMPANY_ADDRESS', '69005 Lyon'),
+    invoiceAddress: env('COMPANY_INVOICE_ADDRESS', env('COMPANY_ADDRESS', '69005 Lyon')),
+    siret: env('COMPANY_SIRET', '104 411 103 00013'),
+    vatNumber: env('COMPANY_VAT_NUMBER', 'FR48104411103'),
     ads: env('COMPANY_ADS_NUMBER'),
     cpam: env('COMPANY_CPAM_CONVENTION'),
     email: env('COMPANY_EMAIL', env('CONTACT_EMAIL', 'taxisaintirenee@gmail.com')),
     mediator: env('COMPANY_MEDIATOR'),
-    host: env('COMPANY_HOST'),
+    host: env('COMPANY_HOST', 'Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis · vercel.com'),
   },
   vatRate: Number(env('VAT_RATE', '10')),
   loyalty: {
