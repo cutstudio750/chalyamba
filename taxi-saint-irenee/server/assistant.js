@@ -65,7 +65,7 @@ Règles :
 function clientContext(user, bookings, invoices, insights) {
   const trips = bookings.slice(-60).map((b) => ({
     ref: b.ref, date: b.date, heure: b.time, depart: b.pickup, arrivee: b.dropoff,
-    service: SERVICES[b.service] || b.service, statut: b.status, retour: b.returnTrip ? `${b.returnTrip.date} ${b.returnTrip.time}` : null,
+    service: SERVICES[b.service] || b.service, statut: b.status, retour: b.returnTrip ? (b.returnTrip.tbd ? `${b.returnTrip.date} heure à convenir` : `${b.returnTrip.date} ${b.returnTrip.time}`) : null, heure_type: b.timeKind === 'rdv' ? 'heure du rendez-vous médical' : 'heure de prise en charge',
   }));
   const factures = invoices.slice(-40).map((i) => ({
     numero: i.number, date: i.issuedAt.slice(0, 10), trajet: `${i.pickup} → ${i.dropoff}`,

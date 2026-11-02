@@ -31,16 +31,16 @@ export function getMe({ refresh = false } = {}) {
 
 export const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-const MONTHS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
-const DAYS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+const DATE_LOCALE = (document.documentElement.lang || 'fr').startsWith('en') ? 'en-GB' : 'fr-FR';
 export function fmtDate(date, { weekday = true, year = false } = {}) {
   if (!date) return '';
   const d = new Date(`${date}T12:00:00Z`);
-  return `${weekday ? `${DAYS[d.getUTCDay()]} ` : ''}${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}${year ? ` ${d.getUTCFullYear()}` : ''}`;
+  return new Intl.DateTimeFormat(DATE_LOCALE, { timeZone: 'UTC', weekday: weekday ? 'long' : undefined, day: 'numeric', month: 'long', year: year ? 'numeric' : undefined }).format(d);
 }
 export function fmtTime(t) {
   if (!t) return '';
   const [h, m] = t.split(':');
+  if (DATE_LOCALE === 'en-GB') return `${h}:${m}`;
   return `${Number(h)}\u00a0h${m && m !== '00' ? `\u00a0${m}` : ''}`;
 }
 export const fmtEuro = (n) => `${Number(n || 0).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;

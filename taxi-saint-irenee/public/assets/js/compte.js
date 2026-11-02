@@ -57,7 +57,7 @@ const pill = document.querySelector('.tabs__pill');
 
 function authTab(name) {
   ['login', 'register', 'forgot', 'reset'].forEach((k) => { forms[k].hidden = k !== name; });
-  tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.authTab === name)));
+  tabs.forEach((t) => t.setAttribute('aria-pressed', String(t.dataset.authTab === name)));
   const active = tabs.find((t) => t.dataset.authTab === name);
   document.querySelector('.tabs').hidden = !active;
   if (active) {
@@ -220,9 +220,9 @@ function renderLoyalty() {
     <div class="loyalty-card glass glass--dark">
       <div class="loyalty-card__top">
         <div><p class="loyalty-card__level">Carte fidélité · ${esc(l.level)}</p><p class="mt-1">${esc(state.user.firstName)} ${esc(state.user.lastName.charAt(0))}.</p></div>
-        <img class="loyalty-card__mono" src="/assets/img/monogramme-creme.svg" alt="">
+        <img width="120" height="105" class="loyalty-card__mono" src="/assets/img/monogramme-creme.svg" alt="">
       </div>
-      <div class="stamps" data-n="${l.step}" aria-label="${l.progress} courses sur ${l.step}">${stamps}</div>
+      <div class="stamps" data-n="${l.step}" role="img" aria-label="${l.progress} courses sur ${l.step}">${stamps}</div>
       <div class="loyalty-card__foot"><span>${l.progress} sur ${l.step}</span><span>${l.available > 0 ? 'Avantage disponible' : `Encore ${l.toNext} course${l.toNext > 1 ? 's' : ''}`}</span></div>
     </div>
     <p class="loyalty-wrap__note">${l.available > 0 ? `${esc(l.reward)} : appliqué sur votre prochaine course.` : `Récompense : ${esc(l.reward)}.`} Hors transport conventionné.</p>
@@ -293,7 +293,7 @@ function tripItem(b) {
     <div class="trip__date"><strong>${d.getUTCDate()}</strong><span>${MONTHS_SHORT[d.getUTCMonth()]}</span></div>
     <div class="trip__main">
       <p class="trip__route"><span>${esc(b.pickup)}</span>${icon('arrow', 'icon icon--sm')}<span>${esc(b.dropoff)}</span></p>
-      <p class="trip__meta">${esc(cap(fmtDate(b.date, { year: d.getUTCFullYear() !== new Date().getFullYear() })))} · ${fmtTime(b.time)} · ${esc(SERVICES[b.service] || '')} · ${esc(b.ref)}${b.returnTrip ? ` · retour ${esc(fmtDate(b.returnTrip.date, { weekday: false }))} ${fmtTime(b.returnTrip.time)}` : ''}</p>
+      <p class="trip__meta">${esc(cap(fmtDate(b.date, { year: d.getUTCFullYear() !== new Date().getFullYear() })))} · ${b.timeKind === 'rdv' ? 'rendez-vous ' : ''}${fmtTime(b.time)} · ${esc(SERVICES[b.service] || '')} · ${esc(b.ref)}${b.returnTrip ? (b.returnTrip.tbd ? ' · retour à convenir' : ` · retour ${b.returnTrip.date === b.date ? '' : `${esc(fmtDate(b.returnTrip.date, { weekday: false }))} `}${fmtTime(b.returnTrip.time)}`) : ''}</p>
     </div>
     <div class="trip__side"><span class="badge badge--${cls}">${label}</span><div class="trip__actions">${actions}</div></div>
   </li>`;

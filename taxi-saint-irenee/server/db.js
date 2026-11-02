@@ -1,6 +1,6 @@
 // Stockage JSON sur disque : suffisant pour l'activité d'un artisan,
 // sans base de données à installer. Écritures atomiques et sérialisées.
-import { readFile, writeFile, rename, mkdir } from 'node:fs/promises';
+import { readFile, writeFile, rename, mkdir, readdir, unlink, copyFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { config } from './config.js';
@@ -45,6 +45,26 @@ class Store {
     return this.queue;
   }
 
+  // Copie de sauvegarde quotidienne (data/backups), conservée 30 jours
+  async backup() {
+    try {
+      await this.queue;
+      const dir = path.join(path.dirname(this.file), 'backups');
+      await mkdir(dir, { recursive: true });
+      const base = path.basename(this.file, '.json');
+      const day = new Date().toISOString().slice(0, 10);
+      const target = path.join(dir, `${base}-${day}.json`);
+      try { await stat(target); } catch { await copyFile(this.file, target); }
+      const limit = Date.now() - 30 * 86400000;
+      for (const name of await readdir(dir)) {
+        const m = name.match(/^(.*)-(\d{4}-\d{2}-\d{2})\.json$/);
+        if (m && m[1] === base && Date.parse(m[2]) < limit) await unlink(path.join(dir, name));
+      }
+    } catch (err) {
+      console.error('[db] sauvegarde impossible', err.message);
+    }
+  }
+
   purge() {
     const now = Date.now();
     const before = this.data.sessions.length + this.data.resetTokens.length;
@@ -57,12 +77,14 @@ class Store {
 export const db = new Store(config.dataFile);
 export const uid = (prefix = '') => prefix + crypto.randomBytes(9).toString('base64url');
 
-// Référence courte lisible au téléphone : TSI-4F7K2
-export function bookingRef() {
+// Référence lisible au téléphone : TSI-AAMMJJ-XXXX (date de la demande, heure de Paris)
+export function bookingRef(now = new Date()) {
   const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  let ref = '';
-  for (const b of crypto.randomBytes(5)) ref += alphabet[b % alphabet.length];
-  return `TSI-${ref}`;
+  let suffix = '';
+  for (const b of crypto.randomBytes(4)) suffix += alphabet[b % alphabet.length];
+  const p = new Intl.DateTimeFormat('fr-CA', { timeZone: 'Europe/Paris', year: '2-digit', month: '2-digit', day: '2-digit' }).formatToParts(now)
+    .reduce((acc, x) => ({ ...acc, [x.type]: x.value }), {});
+  return `TSI-${p.year}${p.month}${p.day}-${suffix}`;
 }
 
 // Numérotation des factures continue et chronologique par année : F2026-0001

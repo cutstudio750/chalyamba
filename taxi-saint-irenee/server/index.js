@@ -6,8 +6,9 @@ import { promisify } from 'node:util';
 import { ROOT, config } from './config.js';
 import { db } from './db.js';
 import { handleApi } from './api.js';
-import { renderPage, PAGES } from './render.js';
+import { renderPage, PAGES, PUBLIC_PAGES } from './render.js';
 import { qrTarget, recordScan } from './qr.js';
+import { versionOf, versionHtml, versionJs, minifyCss } from './assets.js';
 
 const PUBLIC = path.join(ROOT, 'public');
 const brotli = promisify(zlib.brotliCompress);
@@ -24,8 +25,8 @@ const COMPRESSIBLE = new Set(['.html', '.css', '.js', '.svg', '.json', '.webmani
 const CSP = [
   "default-src 'self'",
   "script-src 'self'",
-  "style-src 'self' https://fonts.googleapis.com",
-  "font-src 'self' https://fonts.gstatic.com",
+  "style-src 'self'",
+  "font-src 'self'",
   "img-src 'self' data:",
   "connect-src 'self' https://data.geopf.fr https://api-adresse.data.gouv.fr",
   "frame-ancestors 'none'",
@@ -67,22 +68,27 @@ async function sendBody(req, res, status, body, ext, headers = {}) {
   res.end(req.method === 'HEAD' ? undefined : payload);
 }
 
-async function serveStatic(req, res, pathname) {
-  const decoded = decodeURIComponent(pathname);
+async function serveStatic(req, res, pathname, url) {
+  let decoded;
+  try { decoded = decodeURIComponent(pathname); } catch { return false; }
   const file = path.normalize(path.join(PUBLIC, decoded));
   if (!file.startsWith(PUBLIC + path.sep)) return false;
   let info;
   try { info = await stat(file); } catch { return false; }
   if (!info.isFile()) return false;
   const ext = path.extname(file).toLowerCase();
-  const etag = `W/"${info.size.toString(16)}-${info.mtimeMs.toString(16)}"`;
-  if (req.headers['if-none-match'] === etag) { res.writeHead(304, { ETag: etag }); res.end(); return true; }
-  const immutable = pathname.startsWith('/assets/');
-  await sendBody(req, res, 200, await readFile(file), ext, {
-    ETag: etag,
-    'Cache-Control': immutable && !config.dev ? 'public, max-age=604800, stale-while-revalidate=86400' : 'public, max-age=3600',
-    'X-Cache-Key': `${file}:${info.mtimeMs}`,
-  });
+  const version = versionOf(decoded);
+  const etag = `W/"${info.size.toString(16)}-${info.mtimeMs.toString(16)}-${version || '0'}"`;
+  // URL versionnée (?v= identique à l'empreinte actuelle) : cache d'un an ; sinon revalidation
+  let cache;
+  if (version && url.searchParams.get('v') === version && !config.dev) cache = 'public, max-age=31536000, immutable';
+  else if (['.css', '.js', '.html', '.webmanifest'].includes(ext) || config.dev) cache = 'no-cache';
+  else cache = 'public, max-age=86400, stale-while-revalidate=604800';
+  if (req.headers['if-none-match'] === etag) { res.writeHead(304, { ETag: etag, 'Cache-Control': cache }); res.end(); return true; }
+  let body = await readFile(file);
+  if (ext === '.js' && decoded.startsWith('/assets/js/')) body = Buffer.from(versionJs(body.toString('utf8'), decoded));
+  if (ext === '.css') body = Buffer.from(versionHtml(config.dev ? body.toString('utf8') : minifyCss(body.toString('utf8'))));
+  await sendBody(req, res, 200, body, ext, { ETag: etag, 'Cache-Control': cache, 'X-Cache-Key': `${file}:${info.mtimeMs}:${version}` });
   return true;
 }
 
@@ -109,28 +115,34 @@ const server = http.createServer(async (req, res) => {
       return;
     }
     const page = PAGES[pathname.length > 1 ? pathname.replace(/\/$/, '') : pathname];
-    if (page) {
-      const html = await renderPage(page, pathname);
-      return sendBody(req, res, 200, html, '.html', { 'Cache-Control': 'no-cache', 'X-Cache-Key': config.dev ? undefined : `page:${page}` });
-    }
-    if (pathname === '/sitemap.xml') return sendBody(req, res, 200, sitemap(), '.xml', { 'Cache-Control': 'public, max-age=86400' });
-    if (pathname === '/robots.txt') return sendBody(req, res, 200, `User-agent: *\nDisallow: /compte\nDisallow: /chauffeur\nDisallow: /facture\nDisallow: /api/\nSitemap: ${config.siteUrl}/sitemap.xml\n`, '.txt');
-    if (await serveStatic(req, res, pathname)) return;
+    const html = page ? await renderPage(page, pathname) : null;
+    if (html) return await sendBody(req, res, 200, html, '.html', { 'Cache-Control': 'no-cache', 'X-Cache-Key': config.dev ? undefined : `page:${page}` });
+    if (pathname === '/sitemap.xml') return await sendBody(req, res, 200, sitemap(), '.xml', { 'Cache-Control': 'public, max-age=86400' });
+    if (pathname === '/robots.txt') return await sendBody(req, res, 200, `User-agent: *\nDisallow: /compte\nDisallow: /chauffeur\nDisallow: /facture\nDisallow: /qr\nDisallow: /api/\nSitemap: ${config.siteUrl}/sitemap.xml\n`, '.txt');
+    if (!page && await serveStatic(req, res, pathname, url)) return;
 
-    const html = await renderPage('404', pathname);
-    return sendBody(req, res, 404, html || 'Page introuvable', '.html', { 'Cache-Control': 'no-cache' });
+    const english = pathname === '/en' || pathname.startsWith('/en/');
+    const notFound = (english && await renderPage('en/404', pathname)) || await renderPage('404', pathname);
+    return await sendBody(req, res, 404, notFound || 'Page introuvable', '.html', { 'Cache-Control': 'no-cache' });
   } catch (err) {
     console.error('[server]', err);
-    if (!res.headersSent) { res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' }); res.end('Erreur serveur'); }
+    if (!res.headersSent) {
+      let html = null;
+      try { html = await renderPage('500', '/'); } catch { /* gabarit indisponible */ }
+      res.writeHead(500, { 'Content-Type': html ? 'text/html; charset=utf-8' : 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' });
+      res.end(html || `Incident technique. Pour réserver : ${config.phoneDisplay}`);
+    }
   }
 });
 
 function sitemap() {
-  const pub = ['/', '/prestations', '/aeroport-gares', '/conventionne', '/a-propos', '/contact', '/reserver', '/mentions-legales'];
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${pub.map((p) => `  <url><loc>${config.siteUrl}${p}</loc></url>`).join('\n')}\n</urlset>\n`;
+  const today = new Date().toISOString().slice(0, 10);
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${PUBLIC_PAGES.map((p) => `  <url><loc>${config.siteUrl}${p}</loc><lastmod>${today}</lastmod></url>`).join('\n')}\n</urlset>\n`;
 }
 
 await db.load();
+await db.backup();
+setInterval(() => db.backup(), 6 * 60 * 60 * 1000).unref();
 server.listen(config.port, () => {
   console.log(`Taxi Saint-Irénée en ligne sur http://localhost:${config.port}`);
   if (!config.driverPassword) console.warn('⚠ DRIVER_PASSWORD non défini : l’espace /chauffeur est inaccessible.');

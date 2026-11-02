@@ -71,7 +71,7 @@ applyVars();
 document.querySelectorAll('[data-stagger]').forEach((group) => {
   [...group.children].forEach((child, i) => {
     if (!child.hasAttribute('data-reveal')) child.setAttribute('data-reveal', group.dataset.stagger || '');
-    child.style.setProperty('--d', i);
+    child.style.setProperty('--d', Math.min(i, 8));
   });
 });
 const revealables = document.querySelectorAll('[data-reveal]');

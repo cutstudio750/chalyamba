@@ -26,6 +26,8 @@ export const config = {
   dataFile: path.join(ROOT, 'data', env('DATA_FILE', 'db.json')),
 
   phoneDisplay: '06 61 88 27 07',
+  contactEmail: env('CONTACT_EMAIL', 'taxisaintirenee@gmail.com'),
+  googleReviewUrl: env('GOOGLE_REVIEW_URL'),
   phoneTel: '+33661882707',
   whatsapp: 'https://wa.me/33661882707',
 
@@ -33,21 +35,24 @@ export const config = {
   ntfyUrl: env('NTFY_URL'),
   resendKey: env('RESEND_API_KEY'),
   mailFrom: env('MAIL_FROM', 'Taxi Saint-Irénée <reservation@taxi-saint-irenee.fr>'),
-  driverEmail: env('DRIVER_EMAIL'),
+  driverEmail: env('DRIVER_EMAIL', env('CONTACT_EMAIL', 'taxisaintirenee@gmail.com')),
 
   anthropicKey: env('ANTHROPIC_API_KEY'),
   assistantModel: env('ASSISTANT_MODEL', 'claude-opus-5-5'),
 
   company: {
     name: 'Taxi Saint-Irénée',
-    legalName: env('COMPANY_LEGAL_NAME', 'Taxi Saint-Irénée SAS'),
+    legalName: env('COMPANY_LEGAL_NAME', 'Taxi Saint-Irénée'),
+    legalForm: env('COMPANY_LEGAL_FORM'),
     owner: 'Salim Belgasmi',
     address: env('COMPANY_ADDRESS'),
     siret: env('COMPANY_SIRET'),
     vatNumber: env('COMPANY_VAT_NUMBER'),
     ads: env('COMPANY_ADS_NUMBER'),
     cpam: env('COMPANY_CPAM_CONVENTION'),
-    email: env('COMPANY_EMAIL'),
+    email: env('COMPANY_EMAIL', env('CONTACT_EMAIL', 'taxisaintirenee@gmail.com')),
+    mediator: env('COMPANY_MEDIATOR'),
+    host: env('COMPANY_HOST'),
   },
   vatRate: Number(env('VAT_RATE', '10')),
   loyalty: {

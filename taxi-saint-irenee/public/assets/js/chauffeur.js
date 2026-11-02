@@ -39,20 +39,22 @@ async function start() {
 
 // ── Liste ───────────────────────────────────────────────────────────
 function card(b) {
-  const when = b.asap ? '<strong>Dès que possible</strong>' : `<strong>${esc(cap(fmtDate(b.date)))}</strong><span>${fmtTime(b.time)}</span>`;
-  const details = [b.serviceLabel, `${b.passengers} pass.`, `${b.luggage} bag.`, b.travelRef && `Vol/train ${b.travelRef}`, ...(b.options || [])].filter(Boolean).map(esc).join(' · ');
-  const medical = b.medical ? `<p class="drv-med">${icon('medical', 'icon icon--sm')} Prescription : ${b.medical.prescription ? 'oui' : '<b>non</b>'}${b.medical.series ? ' · soins en série' : ''}${b.medical.establishment ? ` · ${esc(b.medical.establishment)}` : ''}</p>` : '';
+  const when = b.asap ? '<strong>Dès que possible</strong>' : `<strong>${esc(cap(fmtDate(b.date)))}</strong><span>${b.timeKind === 'rdv' ? 'RDV ' : ''}${fmtTime(b.time)}</span>`;
+  const details = [b.serviceLabel, `${b.passengers} pass.`, `${b.luggage} bag.`, b.travelRef && `Vol/train ${b.travelRef}`, b.estimate && `≈ ${b.estimate.km} km · ${b.estimate.minutes} min`, b.lang === 'en' && 'Client anglophone', ...(b.options || [])].filter(Boolean).map(esc).join(' · ');
+  const presc = { oui: 'oui', remise: 'à venir', non: '<b>non, course à ses frais</b>' }[b.medical?.prescription] || 'oui';
+  const medical = b.medical ? `<p class="drv-med">${icon('medical', 'icon icon--sm')} Prescription : ${presc}${b.medical.recurring ? ' · transports réguliers' : ''}${b.timeKind === 'rdv' ? ' · heure = rendez-vous médical' : ''}</p>` : '';
+  const ret = b.returnTrip ? (b.returnTrip.tbd ? 'Retour : heure à convenir avec le patient' : `Retour ${b.returnTrip.date === b.date ? 'le même jour' : esc(fmtDate(b.returnTrip.date))} à ${fmtTime(b.returnTrip.time)}`) : '';
   const account = b.account ? `<span class="badge">Compte client${b.account.loyalty.available ? ` · ${b.account.loyalty.available} avantage dispo` : ''}</span>` : '<span class="badge">Sans compte</span>';
   const actions = {
-    pending: `<button class="btn btn--noir btn--sm" data-act="confirm" data-id="${b.id}">Confirmer</button><button class="btn btn--quiet" data-act="decline" data-id="${b.id}">Refuser</button>`,
-    confirmed: `<button class="btn btn--noir btn--sm" data-act="complete" data-id="${b.id}">Terminer · facture</button><button class="btn btn--quiet" data-act="edit" data-id="${b.id}">Modifier</button><button class="btn btn--quiet" data-act="cancel" data-id="${b.id}">Annuler</button>`,
+    pending: `<button type="button" class="btn btn--noir btn--sm" data-act="confirm" data-id="${b.id}">Confirmer</button><button type="button" class="btn btn--quiet" data-act="decline" data-id="${b.id}">Refuser</button>`,
+    confirmed: `<button type="button" class="btn btn--noir btn--sm" data-act="complete" data-id="${b.id}">Terminer · facture</button><button type="button" class="btn btn--quiet" data-act="edit" data-id="${b.id}">Modifier</button><button type="button" class="btn btn--quiet" data-act="cancel" data-id="${b.id}">Annuler</button>`,
     completed: b.invoice ? `<a class="btn btn--outline btn--sm" href="/facture?id=${encodeURIComponent(b.invoice.id)}" target="_blank">${esc(b.invoice.number)} · ${fmtEuro(b.invoice.amountTTC)}</a>` : '',
   }[b.status] || '';
   return `<article class="drv-card card drv-card--${b.status}">
     <div class="drv-card__when">${when}<span class="muted">${esc(b.ref)}</span></div>
     <div class="drv-card__main">
       <p class="drv-route">${esc(b.pickup)} ${icon('arrow', 'icon icon--sm')} ${esc(b.dropoff)}</p>
-      ${b.returnTrip ? `<p class="muted">Retour ${esc(fmtDate(b.returnTrip.date))} à ${fmtTime(b.returnTrip.time)}</p>` : ''}
+      ${ret ? `<p class="muted">${ret}</p>` : ''}
       <p class="muted">${details}</p>
       ${medical}
       ${b.notes ? `<p class="drv-notes">« ${esc(b.notes)} »</p>` : ''}
@@ -85,7 +87,7 @@ function render() {
     list.innerHTML = data.messages.length ? data.messages.map((m) => `<article class="card drv-msg${m.read ? '' : ' is-unread'}">
       <div class="panel-head panel-head--flat"><strong>${esc(m.name)}</strong><span class="muted">${new Date(m.createdAt).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' })}</span></div>
       <p class="mt-1">${esc(m.message)}</p>
-      <div class="btn-row mt-2">${m.phone ? `<a class="btn btn--outline btn--sm" href="tel:${esc(m.phone)}">${esc(fmtPhone(m.phone))}</a>` : ''}${m.email ? `<a class="btn btn--outline btn--sm" href="mailto:${esc(m.email)}">${esc(m.email)}</a>` : ''}${m.read ? '' : `<button class="btn btn--quiet" data-read="${m.id}">Marquer comme lu</button>`}</div></article>`).join('')
+      <div class="btn-row mt-2">${m.phone ? `<a class="btn btn--outline btn--sm" href="tel:${esc(m.phone)}">${esc(fmtPhone(m.phone))}</a>` : ''}${m.email ? `<a class="btn btn--outline btn--sm" href="mailto:${esc(m.email)}">${esc(m.email)}</a>` : ''}${m.read ? '' : `<button type="button" class="btn btn--quiet" data-read="${m.id}">Marquer comme lu</button>`}</div></article>`).join('')
       : '<p class="empty">Aucun message.</p>';
     return;
   }
@@ -103,10 +105,10 @@ document.querySelector('[data-driver-filter]').addEventListener('change', render
 document.querySelector('[data-refresh]').addEventListener('click', () => load().then(() => toast('À jour.')));
 
 // ── QR code permanent ───────────────────────────────────────────────
-const QR_SHORTCUTS = [
-  ['Accueil du site', '/'],
-  ['Réservation', '/reserver'],
-  ['Transport conventionné', '/conventionne'],
+const QR_SHORTCUTS = (site) => [
+  ['Accueil du site', `${site}/`],
+  ['Réservation', `${site}/reserver`],
+  ['Transport conventionné', `${site}/reserver?service=conventionne`],
   ['WhatsApp', 'https://wa.me/33661882707'],
 ];
 let qrTheme = 'noir';
@@ -119,15 +121,17 @@ async function renderQr() {
     <div class="qr-panel__code"><img src="/api/driver/qr.svg?theme=${qrTheme}&v=${Date.now()}" alt="QR code Taxi Saint-Irénée" width="280" height="280" data-qr-img></div>
     <div class="qr-panel__info stack">
       <div>
-        <p class="caps muted">Adresse contenue dans le QR code (ne change jamais)</p>
+        <p class="caps muted">Adresse imprimée dans le QR code (ne change jamais)</p>
         <p class="qr-panel__url">${esc(q.url)}</p>
+        ${q.provisional ? '<p class="alert mt-1">Adresse provisoire : le site tourne en local. Une fois en ligne avec SITE_URL renseignée, l’adresse définitive est enregistrée. N’imprimez pas avant.</p>' : '<p class="muted mt-1">Elle reste la même même si vous changez de nom de domaine : seule la destination ci-dessous se modifie.</p>'}
       </div>
       <form class="stack" data-qr-form novalidate>
         <div class="field">
-          <label for="qr-target">Le QR code mène vers</label>
-          <input class="input" id="qr-target" name="target" value="${esc(q.target)}" placeholder="/reserver ou https://…">
+          <label for="qr-target">Lien de destination complet</label>
+          <input type="url" inputmode="url" class="input" id="qr-target" name="target" value="${esc(q.target)}" placeholder="https://www.votre-domaine.fr/reserver">
+          <p class="field-hint">N’importe quel lien : une page du site, votre futur nom de domaine, WhatsApp, votre fiche Google… Le QR code imprimé suit immédiatement.</p>
         </div>
-        <div class="chips">${QR_SHORTCUTS.map(([l, v]) => `<button type="button" class="chip chip--sm" data-qr-shortcut="${esc(v)}">${esc(l)}</button>`).join('')}</div>
+        <div class="chips">${QR_SHORTCUTS(q.siteUrl).map(([l, v]) => `<button type="button" class="chip chip--sm" data-qr-shortcut="${esc(v)}">${esc(l)}</button>`).join('')}</div>
         <div class="alert" data-form-alert hidden></div>
         <div class="btn-row"><button class="btn btn--noir btn--sm" type="submit">Enregistrer la destination</button><a class="btn btn--quiet" href="/qr" target="_blank" rel="noopener">Tester</a></div>
       </form>
@@ -227,7 +231,7 @@ list.addEventListener('click', async (e) => {
       <p class="muted">${esc(b.pickup)} → ${esc(b.dropoff)}</p>
       <div class="row-2"><div class="field"><label>Date</label><input class="input" type="date" name="date" value="${esc(b.date)}"></div>
       <div class="field"><label>Heure</label><input class="input" type="time" name="time" value="${esc(b.time)}" step="300"></div></div>
-      <div class="field"><label>Note pour le client <span class="muted">(visible dans son espace et l'e-mail)</span></label><input class="input" name="driverNote" value="${esc(b.driverNote || '')}" placeholder="Ex. Rendez-vous devant l'entrée principale"></div>`,
+      <div class="field"><label>Note pour le client <span class="muted">(visible dans son espace et l'e-mail)</span></label><input type="text" class="input" name="driverNote" value="${esc(b.driverNote || '')}" placeholder="Ex. Rendez-vous devant l'entrée principale"></div>`,
     act === 'confirm' ? 'Confirmer' : 'Enregistrer', (d) => api(`/driver/bookings/${b.id}`, { method: 'PATCH', body: { status: 'confirmed', date: d.date, time: d.time, driverNote: d.driverNote } }));
   }
   if (act === 'decline' || act === 'cancel') {
@@ -240,15 +244,15 @@ list.addEventListener('click', async (e) => {
     openSheet('Terminer la course', `
       <p class="muted">${esc(b.contact.name)} · ${esc(b.pickup)} → ${esc(b.dropoff)}</p>
       <div class="row-2">
-        <div class="field"><label for="s-amount">Montant TTC (compteur)</label><input class="input" id="s-amount" name="amountTTC" inputmode="decimal" placeholder="0,00" required></div>
-        <div class="field"><label for="s-km">Distance (km)</label><input class="input" id="s-km" name="distanceKm" inputmode="decimal" placeholder="Facultatif"></div>
+        <div class="field"><label for="s-amount">Montant TTC (compteur)</label><input type="text" class="input" id="s-amount" name="amountTTC" inputmode="decimal" placeholder="0,00" required></div>
+        <div class="field"><label for="s-km">Distance (km)</label><input type="text" class="input" id="s-km" name="distanceKm" inputmode="decimal" placeholder="Facultatif"></div>
       </div>
-      ${medical ? '<div class="field"><label for="s-share">Reste à charge du patient</label><input class="input" id="s-share" name="patientShare" inputmode="decimal" placeholder="0,00"></div>' : ''}
+      ${medical ? '<div class="field"><label for="s-share">Reste à charge du patient</label><input type="text" class="input" id="s-share" name="patientShare" inputmode="decimal" placeholder="0,00"></div>' : ''}
       <div class="field"><label for="s-pay">Règlement</label><select class="select" id="s-pay" name="paymentMethod">
         ${(medical ? ['Tiers payant Assurance Maladie', 'Carte bancaire', 'Espèces'] : ['Carte bancaire', 'Espèces', 'Virement', 'Compte entreprise']).map((m) => `<option>${m}</option>`).join('')}
       </select></div>
       ${!medical && b.account?.loyalty.available ? '<label class="check"><input type="checkbox" name="loyaltyApplied" value="1"><span>Avantage fidélité appliqué sur cette course</span></label>' : ''}
-      <div class="field"><label for="s-note">Mention sur la facture <span class="muted">(facultatif)</span></label><input class="input" id="s-note" name="note" maxlength="200"></div>`,
+      <div class="field"><label for="s-note">Mention sur la facture <span class="muted">(facultatif)</span></label><input type="text" class="input" id="s-note" name="note" maxlength="200"></div>`,
     'Créer la facture', async (d) => {
       const res = await api(`/driver/bookings/${b.id}/complete`, { method: 'POST', body: { ...d, loyaltyApplied: d.loyaltyApplied === '1' } });
       toast(`Facture ${res.invoice.number} créée${b.contact.email ? ' et envoyée' : ''}.`);
@@ -262,13 +266,13 @@ document.querySelector('[data-new-booking]').addEventListener('click', () => {
     <div class="field"><label>Type</label><select class="select" name="service">
       <option value="ville">Course en ville</option><option value="aeroport">Aéroport</option><option value="gare">Gare</option>
       <option value="conventionne">Transport conventionné</option><option value="longue">Longue distance</option><option value="dispo">Mise à disposition</option></select></div>
-    <div class="field"><label>Départ</label><div class="input-icon">${icon('dot')}<input class="input" name="pickup" data-address required></div></div>
-    <div class="field"><label>Arrivée</label><div class="input-icon">${icon('pin')}<input class="input" name="dropoff" data-address required></div></div>
+    <div class="field"><label>Départ</label><div class="input-icon">${icon('dot')}<input type="text" class="input" name="pickup" data-address required></div></div>
+    <div class="field"><label>Arrivée</label><div class="input-icon">${icon('pin')}<input type="text" class="input" name="dropoff" data-address required></div></div>
     <div class="row-2"><div class="field"><label>Date</label><input class="input" type="date" name="date" value="${now.date}"></div>
     <div class="field"><label>Heure</label><input class="input" type="time" name="time" step="300"></div></div>
     <div class="field"><label>E-mail du compte client <span class="muted">(pour rattacher la course à son espace)</span></label><input class="input" type="email" name="accountEmail"></div>
-    <div class="row-2"><div class="field"><label>Nom</label><input class="input" name="name"></div><div class="field"><label>Téléphone</label><input class="input" name="phone" type="tel"></div></div>
-    <div class="field"><label>Note</label><input class="input" name="notes"></div>
+    <div class="row-2"><div class="field"><label>Nom</label><input type="text" class="input" name="name"></div><div class="field"><label>Téléphone</label><input class="input" name="phone" type="tel"></div></div>
+    <div class="field"><label>Note</label><input type="text" class="input" name="notes"></div>
     <label class="check"><input type="checkbox" name="confirmed" value="1" checked><span>Course déjà confirmée avec le client</span></label>`,
   'Enregistrer', (d) => api('/driver/bookings', {
     method: 'POST',

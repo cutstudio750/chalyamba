@@ -25,7 +25,7 @@ const issued = (iso) => new Date(iso).toLocaleDateString('fr-FR', { day: 'numeri
         <img src="/assets/img/logo-horizontal-noir.svg" alt="Taxi Saint-Irénée" width="240" height="60">
         <div class="invoice__title">
           <p class="caps">Facture</p>
-          <p class="invoice__number">${esc(i.number)}</p>
+          <h1 class="invoice__number">${esc(i.number)}</h1>
           <p class="muted">Émise le ${esc(issued(i.issuedAt))}</p>
         </div>
       </header>

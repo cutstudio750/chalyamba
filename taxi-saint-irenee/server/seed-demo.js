@@ -34,8 +34,8 @@ const weekday = (date) => new Date(`${date}T12:00:00Z`).getUTCDay();
 
 function add(date, time, pickup, dropoff, service, status, amount, share) {
   const b = {
-    id: uid('b_'), ref: bookingRef(), status, userId: user.id, source: 'site', service, pickup, dropoff, asap: false, date, time,
-    returnTrip: null, passengers: 1, luggage: service === 'aeroport' ? 2 : 0, options: [], medical: service === 'conventionne' ? { prescription: true, series: true, establishment: 'Lyon Sud, radiothérapie' } : null,
+    id: uid('b_'), ref: bookingRef(new Date(`${shift(date, -3)}T10:00:00Z`)), status, userId: user.id, source: 'site', service, pickup, dropoff, asap: false, date, time,
+    returnTrip: null, passengers: 1, luggage: service === 'aeroport' ? 2 : 0, options: [], medical: service === 'conventionne' ? { prescription: 'oui', recurring: true } : null, timeKind: service === 'conventionne' ? 'rdv' : 'prise-en-charge', estimate: null, lang: 'fr',
     travelRef: '', notes: '', contact: { name: 'Claire Martin', phone: user.phone, email: user.email }, driverNote: '', invoiceId: null,
     createdAt: new Date(`${shift(date, -3)}T10:00:00Z`).toISOString(), updatedAt: new Date().toISOString(),
   };

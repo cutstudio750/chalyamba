@@ -1,7 +1,9 @@
 <!--meta
 title: Taxi Saint-Irénée · Taxi conventionné haut de gamme à Lyon depuis 2014
-description: Taxi conventionné CPAM à Lyon et dans la métropole depuis 2014. Aéroport Saint-Exupéry, gares, rendez-vous médicaux. Réservation en ligne, confirmation par téléphone : 06 61 88 27 07.
+description: Taxi conventionné CPAM à Lyon et dans la métropole depuis 2014. Aéroport Saint-Exupéry, gares, rendez-vous médicaux, en SUV Mercedes 7 places. Réservation en ligne, confirmation par téléphone : 06 61 88 27 07.
 jsonld: business
+faq: yes
+alt: /en
 scripts: home.js
 -->
 <section class="hero hero--home">
@@ -11,7 +13,7 @@ scripts: home.js
     <span class="ambient__halo ambient__halo--3"></span>
     <span class="ambient__halo ambient__halo--4"></span>
   </div>
-  <img class="monogram-watermark" src="/assets/img/monogramme-creme.svg" alt="" aria-hidden="true">
+  <img width="120" height="105" class="monogram-watermark" src="/assets/img/monogramme-creme.svg" alt="" aria-hidden="true">
   <div class="container hero-b rel">
     <div class="hero-b__text">
       <p class="hero__meta" data-reveal><span>Taxi conventionné</span><span class="hide-sm">Lyon &amp; métropole</span><span>Depuis 2014</span></p>
@@ -33,12 +35,12 @@ scripts: home.js
               <div class="input-icon">
                 <svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#dot"/></svg>
                 <label class="sr-only" for="qb-from">Adresse de départ</label>
-                <input class="input" id="qb-from" name="from" placeholder="Adresse de départ" autocomplete="off" required data-address>
+                <input type="text" class="input" id="qb-from" name="from" placeholder="Adresse de départ" autocomplete="off" required data-address>
               </div>
               <div class="input-icon">
                 <svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#pin"/></svg>
                 <label class="sr-only" for="qb-to">Adresse d'arrivée</label>
-                <input class="input" id="qb-to" name="to" placeholder="Destination, gare, aéroport…" autocomplete="off" required data-address>
+                <input type="text" class="input" id="qb-to" name="to" placeholder="Destination, gare, aéroport…" autocomplete="off" required data-address>
               </div>
               <button class="swap-btn" type="button" data-swap aria-label="Inverser départ et arrivée"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#swap"/></svg></button>
             </div>
@@ -64,7 +66,7 @@ scripts: home.js
     <dl class="key-facts" data-stagger>
       <div><dt>2014</dt><dd>Le même artisan au volant depuis douze ans</dd></div>
       <div><dt>CPAM</dt><dd>Taxi conventionné par l'Assurance Maladie</dd></div>
-      <div><dt>24&nbsp;h / 24</dt><dd>Demandes en ligne, confirmées par appel</dd></div>
+      <div><dt>7 places</dt><dd>Un SUV Mercedes récent, bagages compris</dd></div>
       <div><dt>1 chauffeur</dt><dd>Qui répond, conduit et établit la facture</dd></div>
     </dl>
   </div>
@@ -84,7 +86,8 @@ scripts: home.js
       <a href="/conventionne"><span class="svc-list__n">02</span><h3>Transport conventionné</h3><p>Consultations, hospitalisations, dialyse, chimiothérapie, radiothérapie.</p><span class="svc-list__go"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></span></a>
       <a href="/prestations#ville"><span class="svc-list__n">03</span><h3>Courses en ville</h3><p>Rendez-vous, soirées, restaurants, partout dans la métropole.</p><span class="svc-list__go"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></span></a>
       <a href="/prestations#longue-distance"><span class="svc-list__n">04</span><h3>Longues distances</h3><p>Genève, Annecy, Grenoble, Paris : de porte à porte, sans correspondance.</p><span class="svc-list__go"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></span></a>
-      <a href="/prestations#entreprises"><span class="svc-list__n">05</span><h3>Entreprises</h3><p>Transferts de clients et de collaborateurs, factures nominatives.</p><span class="svc-list__go"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></span></a>
+      <a href="/prestations#familles"><span class="svc-list__n">05</span><h3>Familles &amp; groupes</h3><p>Jusqu'à sept passagers dans un seul véhicule, valises comprises.</p><span class="svc-list__go"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></span></a>
+      <a href="/prestations#entreprises"><span class="svc-list__n">06</span><h3>Entreprises</h3><p>Transferts de clients et de collaborateurs, factures nominatives.</p><span class="svc-list__go"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></span></a>
     </div>
   </div>
 </section>
@@ -123,6 +126,24 @@ scripts: home.js
   </div>
 </section>
 
+<section class="section section--blanc" id="vehicule">
+  <div class="container">
+    <div class="split">
+      <div>
+        <span class="eyebrow" data-reveal>À bord</span>
+        <h2 class="h2" data-reveal data-d="1">Un SUV Mercedes récent, sept places.</h2>
+        <p class="lead mt-3" data-reveal data-d="2">Le véhicule est au service du trajet, pas l'inverse. Il a été choisi pour voyager seul, en famille ou en équipe, avec la place qu'il faut pour les bagages.</p>
+      </div>
+      <ul class="detail-list" data-stagger>
+        <li><strong>Jusqu'à 7 passagers</strong><span>Une famille, un groupe d'amis, une équipe : tout le monde voyage ensemble, dans un seul véhicule.</span></li>
+        <li><strong>De la place pour les bagages</strong><span>Valises, poussette, équipement de ski ou fauteuil roulant pliable : indiquez-le en réservant.</span></li>
+        <li><strong>Un habitacle calme</strong><span>Une conduite souple, un intérieur propre et entretenu, la température réglée avant votre arrivée.</span></li>
+        <li><strong>Sièges enfant sur demande</strong><span>Siège bébé ou rehausseur installé à l'avance, selon l'âge de l'enfant.</span></li>
+      </ul>
+    </div>
+    {{VEHICLE_PHOTOS}}
+  </div>
+</section>
 
 <section class="section section--noir">
   <div class="ambient ambient--soft" aria-hidden="true"><span class="ambient__halo ambient__halo--2"></span></div>
@@ -172,7 +193,7 @@ scripts: home.js
       </div>
     </div>
 
-    <div class="account-preview on-noir" data-reveal="scale" aria-label="Aperçu de l'espace client (exemple)">
+    <div class="account-preview on-noir" data-reveal="scale" role="group" aria-label="Aperçu de l'espace client (exemple)">
       <div class="ambient" aria-hidden="true"><span class="ambient__halo ambient__halo--1"></span><span class="ambient__halo ambient__halo--4"></span></div>
       <p class="caps muted">Aperçu · exemple</p>
       <div class="loyalty-card glass glass--dark">
@@ -181,7 +202,7 @@ scripts: home.js
             <p class="loyalty-card__level">Carte fidélité · Habitué</p>
             <p class="mt-1">Claire M.</p>
           </div>
-          <img class="loyalty-card__mono" src="/assets/img/monogramme-creme.svg" alt="">
+          <img width="120" height="105" class="loyalty-card__mono" src="/assets/img/monogramme-creme.svg" alt="">
         </div>
         <div class="stamps" data-n="10" aria-hidden="true">
           <span class="stamp is-on"></span><span class="stamp is-on"></span><span class="stamp is-on"></span><span class="stamp is-on"></span><span class="stamp is-on"></span><span class="stamp is-on"></span><span class="stamp is-on"></span><span class="stamp"></span><span class="stamp"></span><span class="stamp"></span>
@@ -249,6 +270,16 @@ scripts: home.js
   </div>
 </section>
 
+<section class="section section--blanc" id="avis">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow" data-reveal>Avis clients</span>
+      <h2 class="h2" data-reveal data-d="1">Ce qu'en disent nos clients.</h2>
+    </div>
+    {{REVIEWS}}
+  </div>
+</section>
+
 <section class="section section--creme-2">
   <div class="container split">
     <div>
@@ -264,6 +295,14 @@ scripts: home.js
       <details>
         <summary>Combien coûte une course&nbsp;?<svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg></summary>
         <div class="faq__body"><p>Le prix d'un taxi est encadré par le tarif préfectoral et indiqué par le compteur : il dépend de la distance, de l'heure et du jour. Le site ne donne pas d'estimation automatique ; Salim vous renseigne lors de son appel de confirmation.</p></div>
+      </details>
+      <details>
+        <summary>Ma réservation est-elle confirmée dès l'envoi du formulaire&nbsp;?<svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg></summary>
+        <div class="faq__body"><p>Non. Le formulaire transmet une demande. Salim vous rappelle pour confirmer sa disponibilité, l'horaire et le lieu de prise en charge. La course est confirmée à ce moment-là.</p></div>
+      </details>
+      <details>
+        <summary>Combien de passagers pouvez-vous transporter&nbsp;?<svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg></summary>
+        <div class="faq__body"><p>Le véhicule dispose de 7 places. Indiquez le nombre de passagers et de bagages dans votre demande pour que la prise en charge soit adaptée.</p></div>
       </details>
       <details>
         <summary>Comment se règle la course&nbsp;?<svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg></summary>

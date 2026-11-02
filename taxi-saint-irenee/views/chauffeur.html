@@ -6,11 +6,12 @@ footer: none
 dock: none
 bodyClass: page-driver
 -->
+<h1 class="sr-only">Espace chauffeur Taxi Saint-Irénée</h1>
 <section class="driver-login on-noir" data-driver-view="login" hidden>
   <div class="ambient" aria-hidden="true"><span class="ambient__halo ambient__halo--1"></span></div>
   <form class="auth__card glass glass--dark driver-login__card" data-driver-login novalidate>
     <img src="/assets/img/monogramme-creme.svg" alt="" width="64" height="56">
-    <h1 class="h3">Espace chauffeur</h1>
+    <h2 class="h3">Espace chauffeur</h2>
     <div class="field"><label for="drv-pass">Mot de passe</label><input class="input" id="drv-pass" name="password" type="password" autocomplete="current-password" required></div>
     <div class="alert" data-form-alert hidden></div>
     <button class="btn btn--creme btn--block" type="submit">Entrer</button>
@@ -22,7 +23,7 @@ bodyClass: page-driver
     <div class="driver__head">
       <div>
         <span class="eyebrow">Espace chauffeur</span>
-        <h1 class="h2" data-driver-title>Demandes</h1>
+        <h2 class="h2" data-driver-title>Demandes</h2>
       </div>
       <div class="btn-row">
         <button class="btn btn--outline btn--sm" type="button" data-refresh><svg class="icon icon--sm" aria-hidden="true"><use href="/assets/img/icons.svg#repeat"/></svg>Actualiser</button>
@@ -42,9 +43,9 @@ bodyClass: page-driver
 
 <dialog class="sheet" data-sheet>
   <form method="dialog" class="sheet__inner" data-sheet-form novalidate>
-    <div class="sheet__head"><h2 class="h3" data-sheet-title></h2><button class="icon-btn icon-btn--light" value="cancel" aria-label="Fermer"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#close"/></svg></button></div>
+    <div class="sheet__head"><h2 class="h3" data-sheet-title>Course</h2><button type="submit" class="icon-btn icon-btn--light" value="cancel" aria-label="Fermer"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#close"/></svg></button></div>
     <div class="sheet__body" data-sheet-body></div>
     <div class="alert" data-form-alert hidden></div>
-    <div class="sheet__foot"><button class="btn btn--quiet" value="cancel">Annuler</button><button class="btn btn--noir" type="submit" value="ok" data-sheet-submit>Valider</button></div>
+    <div class="sheet__foot"><button type="submit" class="btn btn--quiet" value="cancel">Annuler</button><button class="btn btn--noir" type="submit" value="ok" data-sheet-submit>Valider</button></div>
   </form>
 </dialog>

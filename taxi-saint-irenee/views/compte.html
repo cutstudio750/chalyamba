@@ -5,13 +5,14 @@ robots: noindex
 scripts: compte.js
 bodyClass: page-account
 -->
+<h1 class="sr-only">Espace client Taxi Saint-Irénée</h1>
 <!-- Connexion / inscription -->
 <section class="auth on-noir" data-view="auth" hidden>
   <div class="ambient" aria-hidden="true"><span class="ambient__halo ambient__halo--1"></span><span class="ambient__halo ambient__halo--2"></span><span class="ambient__halo ambient__halo--4"></span></div>
   <div class="container auth__grid">
     <div class="auth__intro">
       <span class="eyebrow">Espace client</span>
-      <h1 class="h1">Vos trajets, vos factures, votre fidélité.</h1>
+      <h2 class="h1">Vos trajets, vos factures, votre fidélité.</h2>
       <ul class="list-check mt-4">
         <li><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#home"/></svg><span>Adresses et coordonnées enregistrées</span></li>
         <li><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#file"/></svg><span>Toutes vos factures en PDF</span></li>
@@ -21,13 +22,13 @@ bodyClass: page-account
     </div>
 
     <div class="auth__card glass glass--dark on-noir">
-      <div class="tabs" role="tablist" aria-label="Connexion ou inscription">
-        <button role="tab" id="tab-login" aria-controls="panel-login" aria-selected="true" data-auth-tab="login">Se connecter</button>
-        <button role="tab" id="tab-register" aria-controls="panel-register" aria-selected="false" data-auth-tab="register">Créer un compte</button>
+      <div class="tabs" role="group" aria-label="Connexion ou inscription">
+        <button type="button" id="tab-login" aria-pressed="true" data-auth-tab="login">Se connecter</button>
+        <button type="button" id="tab-register" aria-pressed="false" data-auth-tab="register">Créer un compte</button>
         <span class="tabs__pill" aria-hidden="true"></span>
       </div>
 
-      <form id="panel-login" role="tabpanel" aria-labelledby="tab-login" class="auth__form" data-form="login" novalidate>
+      <form id="panel-login" aria-label="Connexion" class="auth__form" data-form="login" novalidate>
         <div class="field"><label for="l-email">E-mail</label><input class="input" id="l-email" name="email" type="email" autocomplete="email" required></div>
         <div class="field"><label for="l-pass">Mot de passe</label><input class="input" id="l-pass" name="password" type="password" autocomplete="current-password" required></div>
         <div class="alert" data-form-alert hidden></div>
@@ -35,10 +36,10 @@ bodyClass: page-account
         <button class="btn btn--quiet auth__link" type="button" data-forgot>Mot de passe oublié&nbsp;?</button>
       </form>
 
-      <form id="panel-register" role="tabpanel" aria-labelledby="tab-register" class="auth__form" data-form="register" novalidate hidden>
+      <form id="panel-register" aria-label="Création de compte" class="auth__form" data-form="register" novalidate hidden>
         <div class="row-2">
-          <div class="field"><label for="r-first">Prénom</label><input class="input" id="r-first" name="firstName" autocomplete="given-name" required></div>
-          <div class="field"><label for="r-last">Nom</label><input class="input" id="r-last" name="lastName" autocomplete="family-name" required></div>
+          <div class="field"><label for="r-first">Prénom</label><input type="text" class="input" id="r-first" name="firstName" autocomplete="given-name" required></div>
+          <div class="field"><label for="r-last">Nom</label><input type="text" class="input" id="r-last" name="lastName" autocomplete="family-name" required></div>
         </div>
         <div class="field"><label for="r-email">E-mail</label><input class="input" id="r-email" name="email" type="email" autocomplete="email" required></div>
         <div class="field"><label for="r-phone">Téléphone</label><input class="input" id="r-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required></div>
@@ -74,11 +75,11 @@ bodyClass: page-account
     <div class="container rel dash-head__inner">
       <div>
         <span class="eyebrow">Espace client</span>
-        <h1 class="h1" data-greeting>Bonjour</h1>
+        <h2 class="h1" data-greeting>Bonjour</h2>
       </div>
       <div class="btn-row">
         <a class="btn btn--creme" href="/reserver"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg>Nouvelle course</a>
-        <a class="btn btn--glass" href="tel:{{PHONE_TEL}}"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#phone"/></svg><span class="hide-sm">Appeler Salim</span></a>
+        <a class="btn btn--glass" href="tel:{{PHONE_TEL}}" aria-label="Appeler Salim"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#phone"/></svg><span class="hide-sm">Appeler Salim</span></a>
       </div>
     </div>
     <div class="container rel">
@@ -142,11 +143,11 @@ bodyClass: page-account
             <div class="assistant__chips" data-chat-chips></div>
             <form class="assistant__form" data-chat-form>
               <label class="sr-only" for="chat-input">Votre question</label>
-              <input class="input" id="chat-input" name="message" placeholder="Ex. Réserve mon trajet habituel de mardi" autocomplete="off" maxlength="800">
+              <input type="text" class="input" id="chat-input" name="message" placeholder="Ex. Réserve mon trajet habituel de mardi" autocomplete="off" maxlength="800">
               <button class="send-btn" type="submit" aria-label="Envoyer"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#send"/></svg></button>
             </form>
           </div>
-          <aside class="assistant__side" data-habits></aside>
+          <div class="assistant__side" data-habits></div>
         </div>
       </section>
 
@@ -156,8 +157,8 @@ bodyClass: page-account
           <form class="card stack" data-form="profile" novalidate>
             <h2 class="h3">Coordonnées</h2>
             <div class="row-2">
-              <div class="field"><label for="p-first">Prénom</label><input class="input" id="p-first" name="firstName" autocomplete="given-name"></div>
-              <div class="field"><label for="p-last">Nom</label><input class="input" id="p-last" name="lastName" autocomplete="family-name"></div>
+              <div class="field"><label for="p-first">Prénom</label><input type="text" class="input" id="p-first" name="firstName" autocomplete="given-name"></div>
+              <div class="field"><label for="p-last">Nom</label><input type="text" class="input" id="p-last" name="lastName" autocomplete="family-name"></div>
             </div>
             <div class="field"><label for="p-email">E-mail</label><input class="input" id="p-email" name="email" type="email" autocomplete="email"></div>
             <div class="field"><label for="p-phone">Téléphone</label><input class="input" id="p-phone" name="phone" type="tel" autocomplete="tel"></div>
@@ -172,8 +173,8 @@ bodyClass: page-account
             </div>
             <ul class="address-list" data-addresses></ul>
             <form class="address-form" data-form="address" hidden novalidate>
-              <div class="field"><label for="a-label">Nom</label><input class="input" id="a-label" name="label" placeholder="Domicile, Travail, Cabinet…" maxlength="40"></div>
-              <div class="field"><label for="a-address">Adresse</label><div class="input-icon"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#pin"/></svg><input class="input" id="a-address" name="address" data-address></div></div>
+              <div class="field"><label for="a-label">Nom</label><input type="text" class="input" id="a-label" name="label" placeholder="Domicile, Travail, Cabinet…" maxlength="40"></div>
+              <div class="field"><label for="a-address">Adresse</label><div class="input-icon"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#pin"/></svg><input type="text" class="input" id="a-address" name="address" data-address></div></div>
               <div class="btn-row"><button class="btn btn--noir btn--sm" type="submit">Enregistrer l'adresse</button><button class="btn btn--quiet" type="button" data-cancel-address>Annuler</button></div>
             </form>
           </div>

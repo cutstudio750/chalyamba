@@ -2,6 +2,8 @@
 title: Contact · Taxi Saint-Irénée, Lyon · 06 61 88 27 07
 description: Joindre Taxi Saint-Irénée : téléphone, WhatsApp ou formulaire. Questions fréquentes sur la réservation, le paiement, le transport conventionné.
 nav: contact
+faq: yes
+alt: /en/contact
 scripts: contact.js
 -->
 <section class="hero hero--page">
@@ -20,6 +22,10 @@ scripts: contact.js
       <a class="contact-card glass glass--dark" href="{{WHATSAPP}}" rel="noopener" target="_blank">
         <svg class="icon icon--lg" aria-hidden="true"><use href="/assets/img/icons.svg#whatsapp"/></svg>
         <span><small>WhatsApp</small>Envoyer un message</span>
+      </a>
+      <a class="contact-card glass glass--dark" href="mailto:{{EMAIL}}">
+        <svg class="icon icon--lg" aria-hidden="true"><use href="/assets/img/icons.svg#mail"/></svg>
+        <span><small>E-mail</small><span class="contact-card__mail">{{EMAIL}}</span></span>
       </a>
       <a class="contact-card glass glass--dark" href="/reserver">
         <svg class="icon icon--lg" aria-hidden="true"><use href="/assets/img/icons.svg#calendar"/></svg>
@@ -40,7 +46,7 @@ scripts: contact.js
       <div class="form-grid">
         <div class="field span-2">
           <label for="c-name">Nom</label>
-          <input class="input" id="c-name" name="name" autocomplete="name" required>
+          <input type="text" class="input" id="c-name" name="name" autocomplete="name" required>
         </div>
         <div class="field">
           <label for="c-phone">Téléphone</label>
@@ -64,7 +70,7 @@ scripts: contact.js
           <label for="c-message">Message</label>
           <textarea class="textarea" id="c-message" name="message" required></textarea>
         </div>
-        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="text" class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
         <label class="check span-2"><input type="checkbox" name="consent" required><span>J'accepte que mes coordonnées soient utilisées pour répondre à ce message. <a class="text-link" href="/mentions-legales#donnees">En savoir plus</a></span></label>
       </div>
       <div class="form-foot">
@@ -104,7 +110,7 @@ scripts: contact.js
       </details>
       <details>
         <summary>Combien de passagers et de bagages&nbsp;?<svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg></summary>
-        <div class="faq__body"><p>Indiquez le nombre de passagers et de valises en réservant. Pour un groupe ou un départ en vacances chargé, Salim vérifie avec vous que tout le monde et tous les bagages tiendront confortablement.</p></div>
+        <div class="faq__body"><p>Le véhicule, un SUV Mercedes, dispose de 7 places. Indiquez le nombre de passagers et de valises en réservant : pour un groupe ou un départ en vacances chargé, Salim vérifie avec vous que tout le monde et tous les bagages tiendront confortablement.</p></div>
       </details>
     </div>
   </div>

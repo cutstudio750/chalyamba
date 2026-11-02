@@ -12,7 +12,24 @@ const mono = readFileSync(path.join(ROOT, 'public/assets/img/monogramme-noir.svg
 const MONO_VB = mono.match(/viewBox="([^"]+)"/)[1].split(/\s+/).map(Number);
 const MONO_D = mono.match(/ d="([^"]+)"/)[1];
 
-export const qrUrl = () => `${config.siteUrl}/qr`;
+const isLocal = (u) => /^https?:\/\/(localhost|127\.|0\.0\.0\.0|\[::1\])/i.test(u);
+
+// Adresse contenue dans le QR code. Elle est enregistrée une fois pour toutes (première
+// utilisation sur le site en ligne) : changer ensuite de nom de domaine ne la modifie pas,
+// le QR code déjà imprimé reste donc valable. QR_BASE_URL permet de l'imposer.
+export function qrUrl() {
+  if (process.env.QR_BASE_URL) return process.env.QR_BASE_URL.trim().replace(/\/$/, '');
+  const saved = db.data.settings?.qrBase;
+  if (saved) return saved;
+  const current = `${config.siteUrl}/qr`;
+  if (!isLocal(current)) {
+    db.data.settings = db.data.settings || {};
+    db.data.settings.qrBase = current;
+    db.save();
+  }
+  return current;
+}
+export const qrIsProvisional = () => !process.env.QR_BASE_URL && !db.data.settings?.qrBase;
 
 export function qrTarget() {
   return db.data.settings?.qrTarget || '/';

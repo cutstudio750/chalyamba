@@ -3,41 +3,42 @@
     <div class="site-footer__top">
       <div class="site-footer__brand">
         <img src="/assets/img/logo-creme.svg" alt="Taxi Saint-Irénée, Lyon, depuis 2014" width="220" height="86" loading="lazy">
-        <p>Taxi conventionné à Lyon et dans la métropole. Salim Belgasmi conduit lui-même chaque client depuis 2014.</p>
+        <p>{{T:footer.tagline}}</p>
       </div>
       <div class="site-footer__cols">
         <div>
-          <p class="site-footer__title">Services</p>
+          <p class="site-footer__title">{{T:footer.services}}</p>
           <ul>
-            <li><a href="/prestations">Courses en ville</a></li>
-            <li><a href="/aeroport-gares">Aéroport &amp; gares</a></li>
-            <li><a href="/conventionne">Transport conventionné</a></li>
-            <li><a href="/prestations#longue-distance">Longues distances</a></li>
-            <li><a href="/prestations#entreprises">Entreprises</a></li>
+            <li><a href="{{T:footer.city.url}}">{{T:footer.city}}</a></li>
+            <li><a href="{{T:footer.airport.url}}">{{T:footer.airport}}</a></li>
+            <li><a href="{{T:footer.medical.url}}">{{T:footer.medical}}</a></li>
+            <li><a href="{{T:footer.long.url}}">{{T:footer.long}}</a></li>
+            <li><a href="{{T:footer.business.url}}">{{T:footer.business}}</a></li>
           </ul>
         </div>
         <div>
-          <p class="site-footer__title">Taxi Saint-Irénée</p>
+          <p class="site-footer__title">{{T:footer.company}}</p>
           <ul>
-            <li><a href="/a-propos">À propos</a></li>
-            <li><a href="/reserver">Réserver</a></li>
-            <li><a href="/compte">Espace client</a></li>
-            <li><a href="/contact">Contact &amp; questions</a></li>
+            <li><a href="{{T:footer.about.url}}">{{T:footer.about}}</a></li>
+            <li><a href="{{T:book.url}}">{{T:footer.book}}</a></li>
+            <li><a href="/compte">{{T:footer.space}}</a></li>
+            <li><a href="{{T:contact.url}}">{{T:footer.contact}}</a></li>
           </ul>
         </div>
         <div>
-          <p class="site-footer__title">Réservation</p>
+          <p class="site-footer__title">{{T:footer.booking}}</p>
           <ul>
             <li><a class="site-footer__phone" href="tel:{{PHONE_TEL}}">{{PHONE}}</a></li>
+            <li><a href="mailto:{{EMAIL}}">{{EMAIL}}</a></li>
             <li><a href="{{WHATSAPP}}" rel="noopener" target="_blank">WhatsApp</a></li>
-            <li>Demandes en ligne 24 h / 24</li>
+            <li>{{T:footer.online}}</li>
           </ul>
         </div>
       </div>
     </div>
     <div class="site-footer__bottom">
       <p>© {{YEAR}} Taxi Saint-Irénée · Lyon</p>
-      <p><a href="/mentions-legales">Mentions légales &amp; confidentialité</a></p>
+      <p><a href="{{ALT_URL}}" lang="{{T:lang.otherCode}}" hreflang="{{T:lang.otherCode}}" data-lang-switch>{{T:lang.otherAria}}</a> · <a href="{{T:legal.url}}">{{T:footer.legal}}</a></p>
     </div>
   </div>
 </footer>

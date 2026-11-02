@@ -7,7 +7,7 @@ import {
 } from './auth.js';
 import { SERVICES, computeInsights, parisToday } from './insights.js';
 import { askAssistant } from './assistant.js';
-import { qrUrl, qrTarget, normalizeTarget, brandedQrSvg, QR_THEMES } from './qr.js';
+import { qrUrl, qrTarget, normalizeTarget, brandedQrSvg, QR_THEMES, qrIsProvisional } from './qr.js';
 import {
   notifyNewBooking, notifyClientReceived, notifyClientConfirmed, notifyInvoice,
   notifyCancelled, notifyContact, sendResetMail,
@@ -96,7 +96,7 @@ function publicBooking(b) {
     id: b.id, ref: b.ref, status: b.status, service: b.service, serviceLabel: SERVICES[b.service],
     pickup: b.pickup, dropoff: b.dropoff, asap: b.asap, date: b.date, time: b.time, returnTrip: b.returnTrip,
     passengers: b.passengers, luggage: b.luggage, options: b.options, travelRef: b.travelRef, notes: b.notes,
-    medical: b.medical, driverNote: b.driverNote, createdAt: b.createdAt,
+    medical: b.medical, timeKind: b.timeKind, estimate: b.estimate, lang: b.lang, driverNote: b.driverNote, createdAt: b.createdAt,
     invoice: inv ? { id: inv.id, number: inv.number, amountTTC: inv.amountTTC } : null,
   };
 }
@@ -136,22 +136,36 @@ function parseBooking(body, { byDriver = false } = {}) {
     const h = Math.floor(today.minutes / 60); const m = today.minutes % 60;
     time = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
   }
+  const medicalRide = service === 'conventionne';
   let returnTrip = null;
-  if (body.returnTrip && (body.returnTrip.date || body.returnTrip.time)) {
-    if (!isDate(body.returnTrip.date) || !isTime(body.returnTrip.time)) fail(400, 'Précisez la date et l’heure du retour.', 'returnDate');
-    if (`${body.returnTrip.date}T${body.returnTrip.time}` <= `${date}T${time}`) fail(400, 'Le retour doit avoir lieu après l’aller.', 'returnDate');
-    returnTrip = { date: body.returnTrip.date, time: body.returnTrip.time };
+  if (body.returnTrip && typeof body.returnTrip === 'object') {
+    if (medicalRide) {
+      // Transport médical : retour le même jour, heure facultative (à convenir avec le chauffeur)
+      const rt = body.returnTrip.time ? body.returnTrip.time : '';
+      if (rt && !isTime(rt)) fail(400, 'Heure de retour invalide.', 'returnTime');
+      if (rt && rt <= time) fail(400, 'Le retour doit avoir lieu après le rendez-vous.', 'returnTime');
+      returnTrip = { date, time: rt, tbd: !rt };
+    } else if (body.returnTrip.date || body.returnTrip.time) {
+      if (!isDate(body.returnTrip.date) || !isTime(body.returnTrip.time)) fail(400, 'Précisez la date et l’heure du retour.', 'returnDate');
+      if (`${body.returnTrip.date}T${body.returnTrip.time}` <= `${date}T${time}`) fail(400, 'Le retour doit avoir lieu après l’aller.', 'returnDate');
+      returnTrip = { date: body.returnTrip.date, time: body.returnTrip.time };
+    }
   }
-  const passengers = Math.min(8, Math.max(1, Number.parseInt(body.passengers, 10) || 1));
+  const passengers = Math.min(7, Math.max(1, Number.parseInt(body.passengers, 10) || 1));
   const luggage = Math.min(8, Math.max(0, Number.parseInt(body.luggage, 10) || 0));
   const options = Array.isArray(body.options) ? [...new Set(body.options.filter((o) => Object.hasOwn(OPTIONS, o)))].map((o) => OPTIONS[o]) : [];
-  const medical = service === 'conventionne' ? {
-    prescription: body.medical?.prescription === true,
-    series: body.medical?.series === true,
-    establishment: str(body.medical?.establishment, { max: 160 }),
-  } : null;
+  // Transport médical : aucune donnée de santé, seulement la situation administrative
+  let medical = null;
+  if (medicalRide) {
+    const p = body.medical?.prescription;
+    const prescription = ['oui', 'remise', 'non'].includes(p) ? p : (byDriver ? 'oui' : fail(400, 'Indiquez si vous avez une prescription médicale de transport.', 'prescription'));
+    medical = { prescription, recurring: body.medical?.recurring === true };
+  }
+  const km = Number(body.estimate?.km); const minutes = Number(body.estimate?.minutes);
+  const estimate = km > 0 && km < 3000 && minutes > 0 && minutes < 3000 ? { km: Math.round(km * 10) / 10, minutes: Math.round(minutes) } : null;
   return {
-    service, pickup, dropoff, asap, date, time, returnTrip, passengers, luggage, options, medical,
+    service, pickup, dropoff, asap, date, time, timeKind: medicalRide ? 'rdv' : 'prise-en-charge', returnTrip, passengers, luggage, options, medical, estimate,
+    lang: body.lang === 'en' ? 'en' : 'fr',
     travelRef: str(body.travelRef, { max: 24 }), notes: text(body.notes),
   };
 }
@@ -295,7 +309,8 @@ route('POST', '/api/me/delete', async ({ req, res, body }) => {
 // Réservations
 route('POST', '/api/bookings', async ({ req, res, body }) => {
   if (!rateLimit(`booking:${clientIp(req)}`, 12, 3600_000)) fail(429, 'Trop de demandes envoyées. Appelez le ' + config.phoneDisplay + '.');
-  if (body.website) return { booking: { ref: bookingRef() } }; // champ piège anti-robots
+  // Anti-robots : champ piège rempli, ou formulaire envoyé en moins de 2,5 secondes
+  if (body.website || (typeof body.elapsed === 'number' && body.elapsed >= 0 && body.elapsed < 2500)) return { booking: { ref: bookingRef(), status: 'pending' } };
   if (body.consent !== true) fail(400, 'Merci d’accepter l’utilisation de vos données pour traiter la demande.', 'consent');
   const data = parseBooking(body);
   let user = currentUser(req);
@@ -495,12 +510,14 @@ route('POST', '/api/driver/bookings/:id/complete', ({ req, params, body }) => {
 route('GET', '/api/driver/qr', ({ req }) => {
   requireDriver(req);
   const s = db.data.settings || {};
-  return { url: qrUrl(), target: qrTarget(), scans: s.qrScans || 0, lastScanAt: s.qrLastScanAt || null };
+  const url = qrUrl();
+  const target = qrTarget();
+  return { url, provisional: qrIsProvisional(), siteUrl: config.siteUrl, target: target.startsWith('/') ? `${config.siteUrl}${target}` : target, scans: s.qrScans || 0, lastScanAt: s.qrLastScanAt || null };
 });
 
 route('POST', '/api/driver/qr', ({ req, body }) => {
   requireDriver(req);
-  const target = normalizeTarget(body.target) || fail(400, 'Indiquez une adresse commençant par https:// ou une page du site (ex. /reserver).', 'target');
+  const target = normalizeTarget(body.target) || fail(400, 'Indiquez un lien complet commençant par https:// (ou une page du site, ex. /reserver).', 'target');
   db.data.settings = db.data.settings || {};
   db.data.settings.qrTarget = target;
   db.save();
