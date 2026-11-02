@@ -4,23 +4,26 @@ description: Taxi conventionné CPAM à Lyon et dans la métropole depuis 2014. 
 jsonld: business
 scripts: home.js
 -->
-<section class="hero hero--light hero--home">
-  <div class="container hero-b">
+<section class="hero hero--home">
+  <div class="ambient" aria-hidden="true">
+    <span class="ambient__halo ambient__halo--1"></span>
+    <span class="ambient__halo ambient__halo--2"></span>
+    <span class="ambient__halo ambient__halo--3"></span>
+    <span class="ambient__halo ambient__halo--4"></span>
+  </div>
+  <img class="monogram-watermark" src="/assets/img/monogramme-creme.svg" alt="" aria-hidden="true">
+  <div class="container hero-b rel">
     <div class="hero-b__text">
       <p class="hero__meta" data-reveal><span>Taxi conventionné</span><span class="hide-sm">Lyon &amp; métropole</span><span>Depuis 2014</span></p>
       <h1 class="hero-b__title" data-reveal data-d="1">Chaque trajet, <em>préparé à l'avance.</em></h1>
       <p class="lead" data-reveal data-d="2">Aéroport, gares, rendez-vous médicaux, courses en ville. Vous indiquez le trajet, Salim vous rappelle, et le jour venu il est déjà là.</p>
       <div class="btn-row" data-reveal data-d="3">
-        <a class="btn btn--noir btn--lg" href="/reserver">Réserver une course <svg class="icon icon--move" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></a>
+        <a class="btn btn--creme btn--lg" href="/reserver">Réserver une course <svg class="icon icon--move" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></a>
       </div>
       <p class="hero__note" data-reveal data-d="4">Sans compte, sans paiement en ligne.</p>
     </div>
 
-    <div class="stone-panel" data-reveal="scale" data-d="2">
-      <span class="stone-panel__light" aria-hidden="true"></span>
-      <span class="stone-panel__tag caps">Réservation en ligne</span>
-      <img class="stone-panel__mono" src="/assets/img/monogramme-creme.svg" alt="" aria-hidden="true">
-      <div class="quick-book glass on-noir">
+    <div class="quick-book glass on-noir" data-reveal="scale" data-d="2">
         <div class="quick-book__title">
           <h2>Où allez-vous&nbsp;?</h2>
           <span>Confirmation par téléphone</span>
@@ -55,10 +58,9 @@ scripts: home.js
             </div>
           </form>
       </div>
-    </div>
   </div>
 
-  <div class="container">
+  <div class="container rel">
     <dl class="key-facts" data-stagger>
       <div><dt>2014</dt><dd>Le même artisan au volant depuis douze ans</dd></div>
       <div><dt>CPAM</dt><dd>Taxi conventionné par l'Assurance Maladie</dd></div>

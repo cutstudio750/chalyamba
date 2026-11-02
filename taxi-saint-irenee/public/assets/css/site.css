@@ -256,9 +256,9 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   color: var(--creme);
   transition: height .4s var(--ease), box-shadow .4s, background-color .4s;
 }
-.site-header.is-scrolled .site-header__bar { height: 58px; --glass-tint: rgba(22, 21, 20, .93); }
-.site-header__logo img { width: 184px; height: auto; transition: width .4s var(--ease); }
-.site-header.is-scrolled .site-header__logo img { width: 170px; }
+.site-header.is-scrolled .site-header__bar { height: 58px; --glass-tint: rgba(22, 21, 20, .8); }
+.site-header__logo img { width: 150px; height: auto; transition: width .4s var(--ease); }
+.site-header.is-scrolled .site-header__logo img { width: 138px; }
 .site-nav { margin-left: auto; }
 .site-nav ul { display: flex; gap: 2px; }
 .site-nav a {
@@ -288,7 +288,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   .site-header { inset: 10px 0 auto; }
   .site-header__bar { height: 60px; padding: 0 7px 0 18px; width: calc(100% - 20px); }
   .site-header__actions .btn { display: none; }
-  .site-header__logo img, .site-header.is-scrolled .site-header__logo img { width: 180px; }
+  .site-header__logo img, .site-header.is-scrolled .site-header__logo img { width: 136px; }
 }
 
 .mobile-menu {
@@ -1102,13 +1102,10 @@ a.invoice-row:hover { background: var(--creme); }
 /* ==========================================================================
    Thème clair (maquette B) : pages crème, barre de navigation en verre sombre
    ========================================================================== */
-.site-header__bar, .anchor-nav, .info-panel, .contact-card, .dash-tabs, .auth__card { --glass-tint: rgba(22, 21, 20, .88); }
 
 .hero--light { background: var(--creme); color: var(--noir); }
 .hero--light .hero__meta span { color: var(--taupe-ink); }
 .hero--light .hero__meta span + span::before { color: var(--sable); }
-.hero--light .ambient, .booking-head .ambient, .auth .ambient, .dash-head .ambient { opacity: .5; }
-.hero--light .ambient::after, .booking-head .ambient::after, .auth .ambient::after, .dash-head .ambient::after { display: none; }
 .hero--light .monogram-watermark { opacity: .05; }
 .hero__note { margin-top: 20px; font-size: 14px; color: var(--taupe-ink); }
 
@@ -1185,14 +1182,21 @@ a.invoice-row:hover { background: var(--creme); }
 .welcome-sign.stone-panel figcaption { color: rgba(22, 21, 20, .72); }
 
 /* Réservation, espace client : en-têtes clairs */
-.booking-head { background: var(--creme-2); }
-.auth { background: var(--creme); }
-.auth .eyebrow { color: var(--taupe-ink); }
-.dash-head { background: var(--creme-2); }
-.page-loader { background: var(--creme); }
-.page-loader span { border-color: rgba(22, 21, 20, .15); border-top-color: var(--noir); }
 @media (max-width: 560px) {
   .stone-panel .quick-book { padding: 20px 16px; }
   .stone-panel .quick-book__title span { display: none; }
   .stone-panel .row-2 .input { padding-inline: 12px; font-size: 15px; }
+}
+
+/* Accueil sur fond sombre (fond de la première version) */
+.hero--home { padding-bottom: clamp(24px, 4vw, 48px); }
+.hero--home .hero-b__title em { color: var(--sable); }
+.hero--home .hero__note { color: var(--on-noir-faint); }
+.hero--home .key-facts { border-color: var(--line-dark); }
+.hero--home .key-facts > div { border-color: var(--line-dark) !important; }
+.hero--home .key-facts dd { color: var(--on-noir-soft); }
+.hero--home .hero-b { align-items: center; }
+@media (max-width: 560px) {
+  .hero--home .quick-book__title span { display: none; }
+  .hero--home .row-2 .input { padding-inline: 12px; font-size: 15px; }
 }
