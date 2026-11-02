@@ -31,7 +31,10 @@ async function load() {
 async function start() {
   show('board');
   await load();
-  setInterval(() => { if (document.visibilityState === 'visible' && !sheet.open) load().catch(() => {}); }, 60000);
+  setInterval(() => {
+    const onQr = document.querySelector('[name="df"]:checked').value === 'qr';
+    if (document.visibilityState === 'visible' && !sheet.open && !onQr) load().catch(() => {});
+  }, 60000);
 }
 
 // ── Liste ───────────────────────────────────────────────────────────
@@ -71,6 +74,7 @@ function card(b) {
 
 function render() {
   const filter = document.querySelector('[name="df"]:checked').value;
+  if (filter === 'qr') { renderQr(); return; }
   const counts = {
     pending: data.bookings.filter((b) => b.status === 'pending').length,
     confirmed: data.bookings.filter((b) => b.status === 'confirmed').length,
@@ -97,6 +101,78 @@ function render() {
 }
 document.querySelector('[data-driver-filter]').addEventListener('change', render);
 document.querySelector('[data-refresh]').addEventListener('click', () => load().then(() => toast('À jour.')));
+
+// ── QR code permanent ───────────────────────────────────────────────
+const QR_SHORTCUTS = [
+  ['Accueil du site', '/'],
+  ['Réservation', '/reserver'],
+  ['Transport conventionné', '/conventionne'],
+  ['WhatsApp', 'https://wa.me/33661882707'],
+];
+async function renderQr() {
+  list.innerHTML = '<p class="empty">Chargement…</p>';
+  let q;
+  try { q = await api('/driver/qr'); } catch (err) { list.innerHTML = `<p class="empty">${esc(err.message)}</p>`; return; }
+  const last = q.lastScanAt ? new Date(q.lastScanAt).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' }) : null;
+  list.innerHTML = `<div class="qr-panel card">
+    <div class="qr-panel__code"><img src="/api/driver/qr.svg?v=${Date.now()}" alt="QR code Taxi Saint-Irénée" width="280" height="280"></div>
+    <div class="qr-panel__info stack">
+      <div>
+        <p class="caps muted">Adresse contenue dans le QR code (ne change jamais)</p>
+        <p class="qr-panel__url">${esc(q.url)}</p>
+      </div>
+      <form class="stack" data-qr-form novalidate>
+        <div class="field">
+          <label for="qr-target">Le QR code mène vers</label>
+          <input class="input" id="qr-target" name="target" value="${esc(q.target)}" placeholder="/reserver ou https://…">
+        </div>
+        <div class="chips">${QR_SHORTCUTS.map(([l, v]) => `<button type="button" class="chip chip--sm" data-qr-shortcut="${esc(v)}">${esc(l)}</button>`).join('')}</div>
+        <div class="alert" data-form-alert hidden></div>
+        <div class="btn-row"><button class="btn btn--noir btn--sm" type="submit">Enregistrer la destination</button><a class="btn btn--quiet" href="/qr" target="_blank" rel="noopener">Tester</a></div>
+      </form>
+      <p class="muted">Scanné ${q.scans} fois${last ? `, dernier scan le ${esc(last)}` : ''}.</p>
+      <div class="btn-row">
+        <a class="btn btn--outline btn--sm" href="/api/driver/qr.svg?download=1">Télécharger pour l'imprimeur (SVG)</a>
+        <button class="btn btn--outline btn--sm" type="button" data-qr-png>Télécharger en image (PNG)</button>
+      </div>
+    </div>
+  </div>`;
+  const form = list.querySelector('[data-qr-form]');
+  form.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-qr-shortcut]');
+    if (b) form.elements.target.value = b.dataset.qrShortcut;
+  });
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearFieldErrors(form);
+    const alert = form.querySelector('[data-form-alert]');
+    try {
+      const r = await api('/driver/qr', { method: 'POST', body: { target: form.elements.target.value } });
+      form.elements.target.value = r.target;
+      alert.textContent = 'Destination enregistrée. Le QR code imprimé mène désormais vers cette adresse.';
+      alert.classList.add('alert--ok'); alert.hidden = false;
+    } catch (err) {
+      if (!showFieldError(form, err)) { alert.textContent = err.message; alert.classList.remove('alert--ok'); alert.hidden = false; }
+    }
+  });
+  list.querySelector('[data-qr-png]').addEventListener('click', async () => {
+    const svg = await (await fetch('/api/driver/qr.svg', { credentials: 'same-origin' })).text();
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement('canvas');
+      c.width = 2048; c.height = 2048;
+      c.getContext('2d').drawImage(img, 0, 0, 2048, 2048);
+      c.toBlob((blob) => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'qr-code-taxi-saint-irenee.png';
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+      }, 'image/png');
+    };
+    img.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+  });
+}
 
 // ── Feuille de saisie ───────────────────────────────────────────────
 function openSheet(title, body, submitLabel, handler) {

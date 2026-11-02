@@ -1235,3 +1235,10 @@ body.menu-open .dock { opacity: 0; pointer-events: none; }
   body.menu-open .site-header__bar { height: 70px; }
   .mobile-menu { padding-top: calc(var(--header-h) + 44px); }
 }
+
+/* Espace chauffeur : QR code permanent */
+.qr-panel { display: grid; gap: 28px; align-items: start; }
+@media (min-width: 820px) { .qr-panel { grid-template-columns: 300px 1fr; } }
+.qr-panel__code img { width: 100%; max-width: 300px; height: auto; border-radius: 18px; box-shadow: 0 20px 40px -24px rgba(22, 21, 20, .5); }
+.qr-panel__url { font-size: 1.15rem; font-weight: 600; margin-top: 4px; overflow-wrap: anywhere; }
+.page-driver .site-header__bar { --glass-tint: rgba(22, 21, 20, .88); }

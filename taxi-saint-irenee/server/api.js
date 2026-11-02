@@ -7,6 +7,7 @@ import {
 } from './auth.js';
 import { SERVICES, computeInsights, parisToday } from './insights.js';
 import { askAssistant } from './assistant.js';
+import { qrUrl, qrTarget, normalizeTarget, brandedQrSvg } from './qr.js';
 import {
   notifyNewBooking, notifyClientReceived, notifyClientConfirmed, notifyInvoice,
   notifyCancelled, notifyContact, sendResetMail,
@@ -490,6 +491,32 @@ route('POST', '/api/driver/bookings/:id/complete', ({ req, params, body }) => {
   return { invoice: publicInvoice(invoice), link };
 });
 
+// QR code permanent
+route('GET', '/api/driver/qr', ({ req }) => {
+  requireDriver(req);
+  const s = db.data.settings || {};
+  return { url: qrUrl(), target: qrTarget(), scans: s.qrScans || 0, lastScanAt: s.qrLastScanAt || null };
+});
+
+route('POST', '/api/driver/qr', ({ req, body }) => {
+  requireDriver(req);
+  const target = normalizeTarget(body.target) || fail(400, 'Indiquez une adresse commençant par https:// ou une page du site (ex. /reserver).', 'target');
+  db.data.settings = db.data.settings || {};
+  db.data.settings.qrTarget = target;
+  db.save();
+  return { url: qrUrl(), target };
+});
+
+route('GET', '/api/driver/qr.svg', ({ req, res, url }) => {
+  requireDriver(req);
+  const svg = brandedQrSvg();
+  const headers = { 'Content-Type': 'image/svg+xml; charset=utf-8', 'Cache-Control': 'no-store' };
+  if (url.searchParams.has('download')) headers['Content-Disposition'] = 'attachment; filename="qr-code-taxi-saint-irenee.svg"';
+  res.writeHead(200, headers);
+  res.end(svg);
+  return null;
+});
+
 route('POST', '/api/driver/messages/:id/read', ({ req, params }) => {
   requireDriver(req);
   const m = db.data.messages.find((x) => x.id === params.id);
@@ -510,7 +537,7 @@ export async function handleApi(req, res, url) {
     const values = url.pathname.match(match.re).slice(1);
     const params = Object.fromEntries(match.keys.map((k, i) => [k, decodeURIComponent(values[i])]));
     const result = await match.handler({ req, res, body: body && typeof body === 'object' ? body : {}, params, url });
-    send(res, 200, result);
+    if (!res.headersSent) send(res, 200, result);
   } catch (err) {
     if (err instanceof HttpError) send(res, err.status, { error: err.message, field: err.field });
     else {

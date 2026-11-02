@@ -30,6 +30,15 @@ Charte graphique respectée : logos vectoriels extraits de la charte (jamais ret
 
 **Assistant** : il analyse les trajets du client (lieux fréquents, trajets réguliers par jour et heure, aller-retour, dépenses, fidélité) et propose de réserver le prochain trajet habituel en un geste. Sans clé API, il fonctionne avec l'analyse intégrée ; avec une clé Claude, il répond en langage naturel à n'importe quelle question du client sur ses déplacements.
 
+## QR code permanent
+
+Le QR code contient toujours la même adresse : `<votre site>/qr`. Cette adresse redirige vers la destination choisie dans l'espace chauffeur, onglet **QR code** : accueil, réservation, WhatsApp ou n'importe quel lien. On peut la changer autant de fois que l'on veut, **sans jamais réimprimer le QR code**.
+
+- Télécharger le QR code : espace chauffeur → QR code → *Télécharger pour l'imprimeur (SVG)* ou *en image (PNG)*.
+- Ou en ligne de commande : `npm run qr` (crée `qr/qr-code-taxi-saint-irenee.svg`).
+- Le QR code est construit à partir de `SITE_URL` : réglez cette variable sur le **nom de domaine définitif** avant d'imprimer. Tant que le domaine reste le même, le QR code reste valable.
+- Le nombre de scans et la date du dernier scan s'affichent dans l'onglet (aucune donnée personnelle n'est enregistrée).
+
 ## Lancer le site sur un ordinateur
 
 Il faut Node.js 20 ou plus récent.

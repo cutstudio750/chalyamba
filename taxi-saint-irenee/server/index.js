@@ -7,6 +7,7 @@ import { ROOT, config } from './config.js';
 import { db } from './db.js';
 import { handleApi } from './api.js';
 import { renderPage, PAGES } from './render.js';
+import { qrTarget, recordScan } from './qr.js';
 
 const PUBLIC = path.join(ROOT, 'public');
 const brotli = promisify(zlib.brotliCompress);
@@ -99,6 +100,13 @@ const server = http.createServer(async (req, res) => {
     if (pathname.endsWith('.html')) {
       const clean = pathname === '/index.html' ? '/' : pathname.replace(/\.html$/, '');
       if (PAGES[clean]) { res.writeHead(301, { Location: clean + url.search }); res.end(); return; }
+    }
+    // QR code permanent : redirection temporaire (302) pour que la destination reste modifiable
+    if (pathname === '/qr' || pathname === '/qr/') {
+      recordScan();
+      res.writeHead(302, { Location: qrTarget(), 'Cache-Control': 'no-store' });
+      res.end();
+      return;
     }
     const page = PAGES[pathname.length > 1 ? pathname.replace(/\/$/, '') : pathname];
     if (page) {

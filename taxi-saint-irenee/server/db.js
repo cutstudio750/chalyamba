@@ -12,6 +12,7 @@ const EMPTY = () => ({
   invoices: [],
   messages: [],
   resetTokens: [],
+  settings: {},
   counters: { booking: 0, invoice: {} },
 });
 
