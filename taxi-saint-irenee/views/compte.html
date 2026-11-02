@@ -6,7 +6,7 @@ scripts: compte.js
 bodyClass: page-account
 -->
 <!-- Connexion / inscription -->
-<section class="auth on-noir" data-view="auth" hidden>
+<section class="auth" data-view="auth" hidden>
   <div class="ambient" aria-hidden="true"><span class="ambient__halo ambient__halo--1"></span><span class="ambient__halo ambient__halo--2"></span><span class="ambient__halo ambient__halo--4"></span></div>
   <div class="container auth__grid">
     <div class="auth__intro">
@@ -20,7 +20,7 @@ bodyClass: page-account
       </ul>
     </div>
 
-    <div class="auth__card glass glass--dark">
+    <div class="auth__card glass glass--dark on-noir">
       <div class="tabs" role="tablist" aria-label="Connexion ou inscription">
         <button role="tab" id="tab-login" aria-controls="panel-login" aria-selected="true" data-auth-tab="login">Se connecter</button>
         <button role="tab" id="tab-register" aria-controls="panel-register" aria-selected="false" data-auth-tab="register">Créer un compte</button>
@@ -69,7 +69,7 @@ bodyClass: page-account
 
 <!-- Tableau de bord -->
 <div class="dash" data-view="dash" hidden>
-  <section class="dash-head on-noir">
+  <section class="dash-head">
     <div class="ambient" aria-hidden="true"><span class="ambient__halo ambient__halo--1"></span><span class="ambient__halo ambient__halo--4"></span></div>
     <div class="container rel dash-head__inner">
       <div>
@@ -77,12 +77,12 @@ bodyClass: page-account
         <h1 class="h1" data-greeting>Bonjour</h1>
       </div>
       <div class="btn-row">
-        <a class="btn btn--creme" href="/reserver"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg>Nouvelle course</a>
-        <a class="btn btn--glass" href="tel:{{PHONE_TEL}}"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#phone"/></svg><span class="hide-sm">Appeler Salim</span></a>
+        <a class="btn btn--noir" href="/reserver"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg>Nouvelle course</a>
+        <a class="btn btn--outline" href="tel:{{PHONE_TEL}}"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#phone"/></svg><span class="hide-sm">Appeler Salim</span></a>
       </div>
     </div>
     <div class="container rel">
-      <nav class="dash-tabs glass glass--dark" aria-label="Sections de l'espace client" data-dash-tabs>
+      <nav class="dash-tabs glass glass--dark on-noir" aria-label="Sections de l'espace client" data-dash-tabs>
         <a href="#apercu" data-tab="apercu"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#home"/></svg><span>Aperçu</span></a>
         <a href="#trajets" data-tab="trajets"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#route"/></svg><span>Trajets</span></a>
         <a href="#factures" data-tab="factures"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#file"/></svg><span>Factures</span></a>

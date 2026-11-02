@@ -4,65 +4,90 @@ description: Taxi conventionné CPAM à Lyon et dans la métropole depuis 2014. 
 jsonld: business
 scripts: home.js
 -->
-<section class="hero">
-  <div class="ambient" aria-hidden="true">
-    <span class="ambient__halo ambient__halo--1"></span>
-    <span class="ambient__halo ambient__halo--2"></span>
-    <span class="ambient__halo ambient__halo--3"></span>
-    <span class="ambient__halo ambient__halo--4"></span>
-  </div>
-  <img class="monogram-watermark" src="/assets/img/monogramme-creme.svg" alt="" aria-hidden="true">
-  <div class="container hero__grid">
-    <div>
+<section class="hero hero--light hero--home">
+  <div class="container hero-b">
+    <div class="hero-b__text">
       <p class="hero__meta" data-reveal><span>Taxi conventionné</span><span class="hide-sm">Lyon &amp; métropole</span><span>Depuis 2014</span></p>
-      <h1 class="display" data-reveal data-d="1">Votre taxi haut de gamme à Lyon et dans toute la métropole.</h1>
-      <p class="lead" data-reveal data-d="2">Courses en ville, aéroport, gares et transport médical conventionné. Salim conduit lui-même chaque client et vous rappelle pour confirmer chaque réservation.</p>
+      <h1 class="hero-b__title" data-reveal data-d="1">Chaque trajet, <em>préparé à l'avance.</em></h1>
+      <p class="lead" data-reveal data-d="2">Aéroport, gares, rendez-vous médicaux, courses en ville. Vous indiquez le trajet, Salim vous rappelle, et le jour venu il est déjà là.</p>
       <div class="btn-row" data-reveal data-d="3">
-        <a class="btn btn--creme btn--lg" href="/reserver">Réserver une course <svg class="icon icon--move" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></a>
-        <a class="btn btn--glass btn--lg" href="tel:{{PHONE_TEL}}"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#phone"/></svg>{{PHONE}}</a>
+        <a class="btn btn--noir btn--lg" href="/reserver">Réserver une course <svg class="icon icon--move" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></a>
       </div>
-      <p class="hero__phone-note" data-reveal data-d="4">Réservation possible sans compte. Aucun paiement en ligne.</p>
+      <p class="hero__note" data-reveal data-d="4">Sans compte, sans paiement en ligne.</p>
     </div>
 
-    <div class="quick-book glass on-noir" data-reveal="scale" data-d="3">
-      <div class="quick-book__title">
-        <h2>Où allez-vous&nbsp;?</h2>
-        <span>Confirmation par téléphone</span>
+    <div class="stone-panel" data-reveal="scale" data-d="2">
+      <span class="stone-panel__light" aria-hidden="true"></span>
+      <span class="stone-panel__tag caps">Réservation en ligne</span>
+      <img class="stone-panel__mono" src="/assets/img/monogramme-creme.svg" alt="" aria-hidden="true">
+      <div class="quick-book glass on-noir">
+        <div class="quick-book__title">
+          <h2>Où allez-vous&nbsp;?</h2>
+          <span>Confirmation par téléphone</span>
+        </div>
+          <form action="/reserver" method="get" data-quick-book>
+            <div class="route-fields">
+              <div class="input-icon">
+                <svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#dot"/></svg>
+                <label class="sr-only" for="qb-from">Adresse de départ</label>
+                <input class="input" id="qb-from" name="from" placeholder="Adresse de départ" autocomplete="off" required data-address>
+              </div>
+              <div class="input-icon">
+                <svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#pin"/></svg>
+                <label class="sr-only" for="qb-to">Adresse d'arrivée</label>
+                <input class="input" id="qb-to" name="to" placeholder="Destination, gare, aéroport…" autocomplete="off" required data-address>
+              </div>
+              <button class="swap-btn" type="button" data-swap aria-label="Inverser départ et arrivée"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#swap"/></svg></button>
+            </div>
+            <div class="row-2">
+              <div class="field">
+                <label class="sr-only" for="qb-date">Date</label>
+                <input class="input" type="date" id="qb-date" name="date" required>
+              </div>
+              <div class="field">
+                <label class="sr-only" for="qb-time">Heure</label>
+                <input class="input" type="time" id="qb-time" name="time" step="300" required>
+              </div>
+            </div>
+            <div class="quick-book__foot">
+              <button class="btn btn--creme btn--block" type="submit">Continuer <svg class="icon icon--move" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></button>
+              <p class="quick-book__note">Salim vous rappelle pour valider l'horaire et les détails.</p>
+            </div>
+          </form>
       </div>
-      <form action="/reserver" method="get" data-quick-book>
-        <div class="route-fields">
-          <div class="input-icon">
-            <svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#dot"/></svg>
-            <label class="sr-only" for="qb-from">Adresse de départ</label>
-            <input class="input" id="qb-from" name="from" placeholder="Adresse de départ" autocomplete="off" required data-address>
-          </div>
-          <div class="input-icon">
-            <svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#pin"/></svg>
-            <label class="sr-only" for="qb-to">Adresse d'arrivée</label>
-            <input class="input" id="qb-to" name="to" placeholder="Destination, gare, aéroport…" autocomplete="off" required data-address>
-          </div>
-          <button class="swap-btn" type="button" data-swap aria-label="Inverser départ et arrivée"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#swap"/></svg></button>
-        </div>
-        <div class="row-2">
-          <div class="field">
-            <label class="sr-only" for="qb-date">Date</label>
-            <input class="input" type="date" id="qb-date" name="date" required>
-          </div>
-          <div class="field">
-            <label class="sr-only" for="qb-time">Heure</label>
-            <input class="input" type="time" id="qb-time" name="time" step="300" required>
-          </div>
-        </div>
-        <div class="quick-book__foot">
-          <button class="btn btn--creme btn--block" type="submit">Continuer <svg class="icon icon--move" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></button>
-          <p class="quick-book__note">Salim vous rappelle pour valider l'horaire et les détails.</p>
-        </div>
-      </form>
+    </div>
+  </div>
+
+  <div class="container">
+    <dl class="key-facts" data-stagger>
+      <div><dt>2014</dt><dd>Le même artisan au volant depuis douze ans</dd></div>
+      <div><dt>CPAM</dt><dd>Taxi conventionné par l'Assurance Maladie</dd></div>
+      <div><dt>24&nbsp;h / 24</dt><dd>Demandes en ligne, confirmées par appel</dd></div>
+      <div><dt>1 chauffeur</dt><dd>Qui répond, conduit et établit la facture</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="section section--creme svc-section">
+  <div class="container">
+    <div class="svc-head">
+      <div>
+        <span class="eyebrow" data-reveal>Prestations</span>
+        <h2 class="h2" data-reveal data-d="1">Tous vos trajets,<br>de la porte au quai.</h2>
+      </div>
+      <a class="btn btn--outline" href="/prestations" data-reveal data-d="2">Toutes les prestations</a>
+    </div>
+    <div class="svc-list" data-stagger>
+      <a href="/aeroport-gares"><span class="svc-list__n">01</span><h3>Aéroport &amp; gares</h3><p>Horaire réel du vol suivi, accueil avec une pancarte à votre nom.</p><span class="svc-list__go"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></span></a>
+      <a href="/conventionne"><span class="svc-list__n">02</span><h3>Transport conventionné</h3><p>Consultations, hospitalisations, dialyse, chimiothérapie, radiothérapie.</p><span class="svc-list__go"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></span></a>
+      <a href="/prestations#ville"><span class="svc-list__n">03</span><h3>Courses en ville</h3><p>Rendez-vous, soirées, restaurants, partout dans la métropole.</p><span class="svc-list__go"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></span></a>
+      <a href="/prestations#longue-distance"><span class="svc-list__n">04</span><h3>Longues distances</h3><p>Genève, Annecy, Grenoble, Paris : de porte à porte, sans correspondance.</p><span class="svc-list__go"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></span></a>
+      <a href="/prestations#entreprises"><span class="svc-list__n">05</span><h3>Entreprises</h3><p>Transferts de clients et de collaborateurs, factures nominatives.</p><span class="svc-list__go"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></span></a>
     </div>
   </div>
 </section>
 
-<section class="section section--creme">
+<section class="section section--creme-2">
   <div class="container">
     <div class="section-head section-head--split">
       <div>
@@ -96,56 +121,6 @@ scripts: home.js
   </div>
 </section>
 
-<section class="section section--creme-2">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow" data-reveal>Prestations</span>
-      <h2 class="h2" data-reveal data-d="1">Tous vos trajets, de la porte au quai.</h2>
-    </div>
-    <div class="bento" data-stagger="scale">
-      <a class="bento__item bento__item--noir bento__item--w4" href="/aeroport-gares" data-glow>
-        <div>
-          <span class="bento__tag">Saint-Exupéry · Part-Dieu · Perrache</span>
-          <h3 class="mt-2">Aéroport &amp; gares</h3>
-          <p>Prise en charge calée sur l'horaire réel de votre vol ou de votre train, accueil à l'arrivée avec une pancarte à votre nom, aide pour les bagages.</p>
-        </div>
-        <div class="bento__foot"><span class="muted">Départs matinaux sur réservation</span><span class="bento__arrow"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></span></div>
-      </a>
-      <a class="bento__item bento__item--sable bento__item--w2" href="/conventionne">
-        <div>
-          <span class="bento__tag">Agréé CPAM</span>
-          <h3 class="mt-2">Transport conventionné</h3>
-          <p>Consultations, hospitalisations, soins en série : dialyse, chimiothérapie, radiothérapie.</p>
-        </div>
-        <div class="bento__foot"><span></span><span class="bento__arrow"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></span></div>
-      </a>
-      <a class="bento__item bento__item--w2" href="/prestations#ville">
-        <div>
-          <span class="bento__tag">Lyon &amp; métropole</span>
-          <h3 class="mt-2">Courses en ville</h3>
-          <p>Rendez-vous, soirées, restaurants, déplacements du quotidien dans Lyon et toute la métropole.</p>
-        </div>
-        <div class="bento__foot"><span></span><span class="bento__arrow"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></span></div>
-      </a>
-      <a class="bento__item bento__item--creme bento__item--w2" href="/prestations#longue-distance">
-        <div>
-          <span class="bento__tag">Sur réservation</span>
-          <h3 class="mt-2">Longues distances</h3>
-          <p>Genève, Annecy, Grenoble, Saint-Étienne, Paris : de porte à porte, sans correspondance.</p>
-        </div>
-        <div class="bento__foot"><span></span><span class="bento__arrow"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></span></div>
-      </a>
-      <a class="bento__item bento__item--w2" href="/prestations#entreprises">
-        <div>
-          <span class="bento__tag">Professionnels</span>
-          <h3 class="mt-2">Entreprises</h3>
-          <p>Transferts de clients et de collaborateurs, rendez-vous d'affaires, factures nominatives pour chaque course.</p>
-        </div>
-        <div class="bento__foot"><span></span><span class="bento__arrow"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></span></div>
-      </a>
-    </div>
-  </div>
-</section>
 
 <section class="section section--noir">
   <div class="ambient ambient--soft" aria-hidden="true"><span class="ambient__halo ambient__halo--2"></span></div>
@@ -173,7 +148,6 @@ scripts: home.js
     </ol>
     <div class="btn-row mt-4" data-reveal>
       <a class="btn btn--creme" href="/reserver">Faire une demande <svg class="icon icon--move" aria-hidden="true"><use href="/assets/img/icons.svg#arrow"/></svg></a>
-      <a class="btn btn--quiet" href="tel:{{PHONE_TEL}}"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#phone"/></svg>Ou appelez le {{PHONE}}</a>
     </div>
   </div>
 </section>
