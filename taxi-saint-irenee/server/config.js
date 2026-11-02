@@ -22,6 +22,9 @@ export const config = {
   port: Number(env('PORT', '3000')),
   dev: env('NODE_ENV') === 'development',
   siteUrl: env('SITE_URL', 'http://localhost:3000').replace(/\/$/, ''),
+  // Version fixe pour GitHub Pages (npm run build:pages) : pas de serveur, pas de comptes
+  staticExport: env('STATIC_EXPORT') === '1',
+  basePath: env('BASE_PATH', '').replace(/\/$/, ''),
   secureCookies: env('SECURE_COOKIES') === '1',
   dataFile: path.join(ROOT, 'data', env('DATA_FILE', 'db.json')),
 

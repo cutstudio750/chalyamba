@@ -48,6 +48,18 @@ function fill(tpl, vars, lang) {
 }
 const include = (tpl, partials) => tpl.replace(/\{\{>([\w-]+)\}\}/g, (all, name) => partials[name] ?? '');
 
+// Blocs réservés à une version : <!--srv-->…<!--/srv--> (site avec serveur : comptes,
+// factures, assistant) et <!--static-->…<!--/static--> (version GitHub Pages).
+function modeBlocks(html) {
+  const drop = config.staticExport ? 'srv' : 'static';
+  const keep = config.staticExport ? 'static' : 'srv';
+  return html
+    .replace(new RegExp(`<!--${drop}-->[\\s\\S]*?<!--/${drop}-->`, 'g'), '')
+    .replace(new RegExp(`<!--/?${keep}-->`, 'g'), '');
+}
+// Adresse publique d'une page (avec barre finale dans la version GitHub Pages)
+const pageUrl = (p) => `${config.siteUrl}${p === '/' ? '/' : config.staticExport ? `${p}/` : p}`;
+
 export const PAGES = {
   '/': 'index',
   '/prestations': 'prestations',
@@ -141,19 +153,19 @@ export async function renderPage(name, pathname) {
     LANG: lang, ALT_URL: altPath,
     REVIEWS: '', VEHICLE_PHOTOS: '',
   };
-  const rawBody = include(view.body, cache.partials);
+  const rawBody = modeBlocks(include(view.body, cache.partials));
   if (rawBody.includes('{{REVIEWS}}')) shared.REVIEWS = reviewsBlock(lang);
   if (rawBody.includes('{{VEHICLE_PHOTOS}}')) shared.VEHICLE_PHOTOS = vehiclePhotos(lang);
   const body = fill(rawBody, shared, lang);
-  const header = fill(cache.partials.header, { ...shared, NAV: nav, HEADER_CLASS: '' }, lang);
-  const footer = meta.footer === 'none' ? '' : fill(cache.partials.footer, shared, lang);
+  const header = fill(modeBlocks(cache.partials.header), { ...shared, NAV: nav, HEADER_CLASS: '' }, lang);
+  const footer = meta.footer === 'none' ? '' : fill(modeBlocks(cache.partials.footer), shared, lang);
   const scripts = (meta.scripts || '').split(',').map((s) => s.trim()).filter(Boolean)
     .map((s) => `<script type="module" src="/assets/js/${s}"></script>`).join('\n');
-  const canonical = `${config.siteUrl}${pathname === '/' ? '/' : pathname}`;
+  const canonical = pageUrl(pathname);
   const alternates = meta.alt
     ? [[lang, pathname], [lang === 'en' ? 'fr' : 'en', meta.alt]]
-      .map(([l, p]) => `<link rel="alternate" hreflang="${l}" href="${config.siteUrl}${p === '/' ? '/' : p}">`).join('\n')
-      + `\n<link rel="alternate" hreflang="x-default" href="${config.siteUrl}${lang === 'fr' ? (pathname === '/' ? '/' : pathname) : meta.alt}">`
+      .map(([l, p]) => `<link rel="alternate" hreflang="${l}" href="${pageUrl(p)}">`).join('\n')
+      + `\n<link rel="alternate" hreflang="x-default" href="${pageUrl(lang === 'fr' ? pathname : meta.alt)}">`
     : '';
   const jsonld = [meta.jsonld === 'business' ? businessJsonLd(lang) : '', meta.faq === 'yes' ? faqJsonLd(body) : ''].join('\n');
   return versionHtml(fill(cache.partials.layout, {
@@ -167,7 +179,8 @@ export async function renderPage(name, pathname) {
     BODY_CLASS: meta.bodyClass || '',
     HEADER: meta.header === 'none' ? '' : header,
     FOOTER: footer,
-    DOCK: meta.dock === 'none' ? '' : fill(cache.partials.dock, shared, lang),
+    DOCK: meta.dock === 'none' ? '' : fill(modeBlocks(cache.partials.dock), shared, lang),
+    HTML_ATTRS: config.staticExport ? ` data-static data-base="${esc(config.basePath)}"` : '',
     CONTENT: body,
     SCRIPTS: scripts,
     JSONLD: jsonld,

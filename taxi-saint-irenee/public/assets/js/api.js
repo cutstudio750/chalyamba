@@ -1,4 +1,8 @@
 // Client HTTP de l'API du site.
+
+// Version GitHub Pages (sans serveur) et adresse de base du site, par exemple /taxistirenee
+export const STATIC = document.documentElement.hasAttribute('data-static');
+export const BASE = document.documentElement.dataset.base || '';
 export class ApiError extends Error {
   constructor(message, status, field) { super(message); this.status = status; this.field = field; }
 }
@@ -25,6 +29,7 @@ export async function api(path, { method = 'GET', body, signal } = {}) {
 
 let mePromise = null;
 export function getMe({ refresh = false } = {}) {
+  if (STATIC) return Promise.resolve(null);
   if (!mePromise || refresh) mePromise = api('/me').then((d) => d.user).catch(() => null);
   return mePromise;
 }
@@ -89,5 +94,5 @@ export function clearFieldErrors(form) {
 }
 
 export function icon(name, cls = 'icon') {
-  return `<svg class="${cls}" aria-hidden="true"><use href="/assets/img/icons.svg#${name}"/></svg>`;
+  return `<svg class="${cls}" aria-hidden="true"><use href="${BASE}/assets/img/icons.svg#${name}"/></svg>`;
 }

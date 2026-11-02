@@ -60,7 +60,7 @@ scripts: contact.js
           <label for="c-subject">Subject</label>
           <select class="select" id="c-subject" name="subject">
             <option>General question</option>
-            <option value="entreprise">Business account</option>
+            <option value="entreprise"><!--srv-->Business account<!--/srv--><!--static-->Business<!--/static--></option>
             <option>Medical transport</option>
             <option>Long distance or chauffeur by the hour</option>
             <option>Invoice</option>
@@ -90,7 +90,7 @@ scripts: contact.js
     <div class="faq" data-reveal>
       <details>
         <summary>How does an online booking work?<svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg></summary>
-        <div class="faq__body"><p>You send a request with the route, the date and your details. The driver calls you back to confirm: the ride is only booked after this call. If you have an account, its status changes to "confirmed" in your client area.</p></div>
+        <div class="faq__body"><p>You send a request with the route, the date and your details. The driver calls you back to confirm: the ride is only booked after this call.<!--srv--> If you have an account, its status changes to "confirmed" in your client area.<!--/srv--></p></div>
       </details>
       <details>
         <summary>Why is there no price estimate on the site?<svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg></summary>
@@ -102,11 +102,11 @@ scripts: contact.js
       </details>
       <details>
         <summary>Where can I find my invoices?<svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg></summary>
-        <div class="faq__body"><p>With an account, all your invoices are in your client area, to view or save as PDF. Without an account, the invoice is emailed to you if you gave your address.</p></div>
+        <div class="faq__body"><p><!--srv-->With an account, all your invoices are in your client area, to view or save as PDF. Without an account, the invoice is emailed to you if you gave your address.<!--/srv--><!--static-->You are given an invoice at the end of every ride. On request, it can also be emailed to you.<!--/static--></p></div>
       </details>
       <details>
         <summary>How do I cancel or change a ride?<svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg></summary>
-        <div class="faq__body"><p>From your client area, or by phone. For a same-day change, call {{PHONE_INTL}} directly.</p></div>
+        <div class="faq__body"><p><!--srv-->From your client area, or by phone.<!--/srv--><!--static-->By phone, WhatsApp or email.<!--/static--> For a same-day change, call {{PHONE_INTL}} directly.</p></div>
       </details>
       <details>
         <summary>How many passengers and how much luggage?<svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg></summary>

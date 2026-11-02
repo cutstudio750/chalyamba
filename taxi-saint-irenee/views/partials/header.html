@@ -13,7 +13,7 @@
     <div class="site-header__actions">
       <a class="header-phone" href="tel:{{PHONE_TEL}}"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#phone"/></svg><span>{{PHONE}}</span></a>
       <a class="lang-switch" href="{{ALT_URL}}" hreflang="{{T:lang.otherCode}}" lang="{{T:lang.otherCode}}" aria-label="{{T:lang.otherAria}}" data-lang-switch>{{T:lang.other}}</a>
-      <a class="icon-btn" href="/compte" data-account-link aria-label="{{T:header.account}}"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#user"/></svg></a>
+      <!--srv--><a class="icon-btn" href="/compte" data-account-link aria-label="{{T:header.account}}"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#user"/></svg></a><!--/srv-->
       <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="menu-mobile" data-menu-toggle>
         <span class="menu-toggle__lines" aria-hidden="true"><span></span><span></span></span>
         <span class="sr-only">{{T:header.menu}}</span>
@@ -25,7 +25,7 @@
       <ul class="mobile-menu__links">
         <li><a href="{{T:home.url}}">{{T:header.home}}</a></li>
         {{NAV}}
-        <li><a href="/compte">{{T:header.account}}</a></li>
+        <!--srv--><li><a href="/compte">{{T:header.account}}</a></li><!--/srv-->
       </ul>
     </nav>
     <div class="mobile-menu__foot">

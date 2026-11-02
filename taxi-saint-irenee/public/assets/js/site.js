@@ -1,5 +1,5 @@
 // Comportements communs : en-tête, menu, dock, apparitions, reflets du verre.
-import { getMe } from './api.js';
+import { getMe, BASE } from './api.js';
 
 const root = document.documentElement;
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -114,7 +114,7 @@ root.classList.add('js');
 
 // ── Hors connexion : service worker (HTTPS ou poste local) ───────────
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
-  addEventListener('load', () => { navigator.serviceWorker.register('/sw.js').catch(() => {}); });
+  addEventListener('load', () => { navigator.serviceWorker.register(`${BASE}/sw.js`, { scope: `${BASE}/` }).catch(() => {}); });
 }
 
 // ── Suggestion de langue : visiteur anglophone sur une page française ──

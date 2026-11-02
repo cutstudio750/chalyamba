@@ -3,7 +3,8 @@
 // prescription, aller-retour, transports réguliers), estimation indicative de distance
 // et de durée, raccourcis de date, alerte de départ imminent, mémorisation des
 // coordonnées, partage, agenda avec rappel, repli par téléphone ou e-mail.
-import { api, getMe, toast, showFieldError, clearFieldErrors, fmtDate, fmtTime, parisNow, fmtPhone, esc } from './api.js';
+// Version GitHub Pages (sans serveur) : la demande part par WhatsApp ou par e-mail, déjà rédigée.
+import { api, getMe, toast, showFieldError, clearFieldErrors, fmtDate, fmtTime, parisNow, fmtPhone, esc, STATIC } from './api.js';
 import { attachAddress, locate, PLACES } from './address.js';
 import { t, lang } from './i18n.js';
 
@@ -161,8 +162,10 @@ function syncConditional() {
   q('[data-return-fields]').hidden = !$('roundtrip').checked;
   q('[data-return-date-field]').hidden = medical;
   q('[data-prescription-no]').hidden = !(medical && form.querySelector('[name="prescription"]:checked')?.value === 'non');
-  const create = $('createAccount').checked;
-  q('[data-password-field]').hidden = !create;
+  // (la création de compte n'existe pas dans la version GitHub Pages)
+  const create = Boolean($('createAccount')?.checked);
+  const pwd = q('[data-password-field]');
+  if (pwd) pwd.hidden = !create;
   q('[data-email-optional]').hidden = create;
   q('[data-remember-box]').hidden = Boolean(user) || create;
   document.querySelectorAll('[data-day]').forEach((c) => c.setAttribute('aria-pressed', String(val('date') === isoPlus(Number(c.dataset.day)))));
@@ -374,7 +377,7 @@ function validate(step) {
     if (d.contact.name.length < 2) return fail('name', 'err.name');
     if (d.contact.phone.replace(/\D/g, '').length < 9) return fail('phone', 'err.phone');
     if (d.contact.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(d.contact.email)) return fail('email', 'err.email');
-    if ($('createAccount').checked) {
+    if ($('createAccount')?.checked) {
       if (!d.contact.email) return fail('email', 'err.emailAccount');
       if (val('password').length < 8) return fail('password', 'err.password');
     }
@@ -436,7 +439,9 @@ function summaryText(d, ref = '') {
     whenText(d),
     d.returnTrip ? `${lang === 'en' ? 'Return' : 'Retour'} : ${returnText(d)}` : '',
     paxText(d),
+    d.medical ? `${t('presc.label')} : ${t(`presc.${d.medical.prescription}`)}${d.medical.recurring ? ` · ${t('sum.recurring')}` : ''}` : '',
     d.travelRef ? `${lang === 'en' ? 'Flight/train' : 'Vol/train'} : ${d.travelRef}` : '',
+    d.options?.length ? d.options.map((o) => t(`opt.${o}`)).join(', ') : '',
     d.notes,
   ].filter(Boolean).join('\n');
 }
@@ -452,9 +457,10 @@ form.addEventListener('submit', async (e) => {
   const payload = {
     ...d, consent: true, website: val('website'), elapsed: Date.now() - startedAt,
     contact: { ...d.contact, phone: d.contact.phone.replace(/\s/g, '') },
-    createAccount: !user && $('createAccount').checked ? { password: $('password').value } : null,
+    createAccount: !user && $('createAccount')?.checked ? { password: $('password').value } : null,
   };
   if (d.asap) { delete payload.date; delete payload.time; }
+  if (STATIC) { btn.removeAttribute('aria-busy'); sendWithoutServer(d); return; }
   try {
     const res = await api('/bookings', { method: 'POST', body: payload });
     lastBooking = { ...res.booking, contactPhone: d.contact.phone };
@@ -479,6 +485,29 @@ form.addEventListener('submit', async (e) => {
   }
 });
 
+// Sans serveur : référence créée sur l'appareil, message prêt pour WhatsApp et l'e-mail
+function newRef() {
+  const now = parisNow().date.replace(/-/g, '').slice(2);
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const rnd = crypto.getRandomValues(new Uint8Array(4));
+  return `TSI-${now}-${[...rnd].map((n) => chars[n % chars.length]).join('')}`;
+}
+function sendWithoutServer(d) {
+  if (val('website')) return;
+  const ref = newRef();
+  const body = `${t('mail.intro')}\n\n${summaryText(d, ref)}\n\n${d.contact.name}\n${d.contact.phone}${d.contact.email ? `\n${d.contact.email}` : ''}`;
+  const wa = q('[data-send-wa]');
+  const mail = q('[data-send-mail]');
+  wa.href = `${wa.getAttribute('href').split('?')[0]}?text=${encodeURIComponent(body)}`;
+  mail.href = `mailto:${mail.getAttribute('href').replace('mailto:', '').split('?')[0]}?subject=${encodeURIComponent(`${t('mail.subject', { date: d.asap ? t('sum.asap') : fmtDate(d.date) })} · ${ref}`)}&body=${encodeURIComponent(body)}`;
+  draftStore.clear();
+  if ($('remember').checked) contactStore.set({ name: d.contact.name, phone: d.contact.phone, email: d.contact.email });
+  else contactStore.clear();
+  lastBooking = { ref, asap: d.asap, date: d.date, time: d.time, pickup: d.pickup, dropoff: d.dropoff, contactPhone: d.contact.phone };
+  showDone({ booking: lastBooking }, d);
+  q('[data-done-text]').textContent = t('done.static', { phone: d.contact.phone });
+}
+
 function showDone(res, d) {
   const b = res.booking;
   form.hidden = true;
@@ -492,7 +521,7 @@ function showDone(res, d) {
     ? t('done.asap', { phone })
     : t(d.medical ? 'done.textMedical' : 'done.text', { phone, date: fmtDate(b.date), time: fmtTime(b.time) });
   q('[data-done-medical]').hidden = !d.medical;
-  if (user || res.accountCreated) q('[data-done-account]').hidden = false;
+  if ((user || res.accountCreated) && q('[data-done-account]')) q('[data-done-account]').hidden = false;
   if (res.accountCreated) toast(t('done.account'));
   done.focus({ preventScroll: true });
   scrollTo({ top: 0, behavior: 'smooth' });

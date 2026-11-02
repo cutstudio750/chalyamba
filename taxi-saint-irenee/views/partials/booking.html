@@ -175,7 +175,7 @@
               <p data-signed-name></p>
             </div>
           </div>
-          <p class="note" data-guest-note><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#user"/></svg><span>{{T:bk.guestNote}}</span></p>
+          <p class="note" data-guest-note><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#user"/></svg><span><!--srv-->{{T:bk.guestNote}}<!--/srv--><!--static-->{{T:bk.guestNoteStatic}}<!--/static--></span></p>
 
           <div class="form-grid">
             <div class="field span-2">
@@ -196,6 +196,7 @@
 
           <label class="check" data-remember-box><input type="checkbox" name="remember"><span>{{T:bk.remember}}<br><span class="muted">{{T:bk.rememberHint}}</span></span></label>
 
+          <!--srv-->
           <div class="account-offer" data-account-offer>
             <label class="check"><input type="checkbox" name="createAccount" data-create-account><span><strong>{{T:bk.createAccount}}</strong><br><span class="muted">{{T:bk.createAccountHint}}</span></span></label>
             <div class="field" data-password-field hidden>
@@ -204,6 +205,7 @@
               <p class="field-hint">{{T:bk.passwordHint}}</p>
             </div>
           </div>
+          <!--/srv-->
 
           <input type="text" class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
           <label class="check"><input type="checkbox" name="consent" required><span><span data-consent-text data-label-default="{{T:bk.consent}}" data-label-medical="{{T:bk.consentMedical}}">{{T:bk.consent}}</span> <a class="text-link" href="{{T:privacy.url}}" target="_blank">{{T:bk.privacy}}</a></span></label>
@@ -227,13 +229,18 @@
       <!-- Confirmation -->
       <div class="booking-done" data-done hidden tabindex="-1">
         <div class="done-mark" aria-hidden="true"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="24"/><path d="m15 27 7.5 7.5L38 19"/></svg></div>
-        <span class="eyebrow">{{T:bk.done.kicker}}</span>
-        <h2 class="h2">{{T:bk.done.title}}</h2>
+        <span class="eyebrow"><!--srv-->{{T:bk.done.kicker}}<!--/srv--><!--static-->{{T:bk.st.kicker}}<!--/static--></span>
+        <h2 class="h2"><!--srv-->{{T:bk.done.title}}<!--/srv--><!--static-->{{T:bk.st.title}}<!--/static--></h2>
         <p class="lead mt-2" data-done-text></p>
         <p class="note mt-2" data-done-medical hidden><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#file"/></svg><span>{{T:bk.done.medicalReminder}}</span></p>
-        <div class="done-ref"><span class="caps muted">{{T:bk.done.ref}}</span><strong data-done-ref></strong><span class="badge badge--pending">{{T:bk.done.status}}</span></div>
+        <div class="done-ref"><span class="caps muted">{{T:bk.done.ref}}</span><strong data-done-ref></strong><span class="badge badge--pending"><!--srv-->{{T:bk.done.status}}<!--/srv--><!--static-->{{T:bk.st.status}}<!--/static--></span></div>
+        <!--static--><div class="static-send mt-3" data-static-send>
+          <a class="btn btn--noir btn--lg" href="{{WHATSAPP}}" data-send-wa rel="noopener" target="_blank"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#whatsapp"/></svg>{{T:bk.st.whatsapp}}</a>
+          <a class="btn btn--outline btn--lg" href="mailto:{{EMAIL}}" data-send-mail><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#mail"/></svg>{{T:bk.st.mail}}</a>
+          <a class="btn btn--quiet" href="tel:{{PHONE_TEL}}"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#phone"/></svg>{{T:bk.st.call}}</a>
+        </div><!--/static-->
         <div class="btn-row mt-4">
-          <a class="btn btn--noir" href="/compte#trajets" data-done-account hidden>{{T:bk.done.account}}</a>
+          <!--srv--><a class="btn btn--noir" href="/compte#trajets" data-done-account hidden>{{T:bk.done.account}}</a><!--/srv-->
           <button class="btn btn--outline" type="button" data-ics><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#calendar"/></svg>{{T:bk.done.calendar}}</button>
           <button class="btn btn--outline" type="button" data-share><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#send"/></svg>{{T:bk.done.share}}</button>
           <a class="btn btn--quiet" href="{{T:book.url}}">{{T:bk.done.new}}</a>

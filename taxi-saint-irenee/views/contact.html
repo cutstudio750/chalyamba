@@ -60,7 +60,7 @@ scripts: contact.js
           <label for="c-subject">Sujet</label>
           <select class="select" id="c-subject" name="subject">
             <option>Question générale</option>
-            <option value="entreprise">Compte entreprise</option>
+            <option value="entreprise"><!--srv-->Compte entreprise<!--/srv--><!--static-->Entreprise<!--/static--></option>
             <option>Transport conventionné</option>
             <option>Longue distance ou mise à disposition</option>
             <option>Facture</option>
@@ -90,7 +90,7 @@ scripts: contact.js
     <div class="faq" data-reveal>
       <details>
         <summary>Comment se passe une réservation en ligne&nbsp;?<svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg></summary>
-        <div class="faq__body"><p>Vous envoyez une demande avec le trajet, la date et vos coordonnées. Le chauffeur vous rappelle pour confirmer : la course n'est réservée qu'après cet appel. Si vous avez un compte, le statut passe à « confirmée » dans votre espace.</p></div>
+        <div class="faq__body"><p>Vous envoyez une demande avec le trajet, la date et vos coordonnées. Le chauffeur vous rappelle pour confirmer : la course n'est réservée qu'après cet appel.<!--srv--> Si vous avez un compte, le statut passe à « confirmée » dans votre espace.<!--/srv--></p></div>
       </details>
       <details>
         <summary>Pourquoi pas d'estimation de prix sur le site&nbsp;?<svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg></summary>
@@ -102,11 +102,11 @@ scripts: contact.js
       </details>
       <details>
         <summary>Où trouver mes factures&nbsp;?<svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg></summary>
-        <div class="faq__body"><p>Avec un compte, toutes vos factures sont dans votre espace client, à consulter ou à enregistrer en PDF. Sans compte, la facture vous est envoyée par e-mail si vous avez indiqué votre adresse.</p></div>
+        <div class="faq__body"><p><!--srv-->Avec un compte, toutes vos factures sont dans votre espace client, à consulter ou à enregistrer en PDF. Sans compte, la facture vous est envoyée par e-mail si vous avez indiqué votre adresse.<!--/srv--><!--static-->Une facture vous est remise à la fin de chaque course. Sur demande, elle peut aussi vous être envoyée par e-mail.<!--/static--></p></div>
       </details>
       <details>
         <summary>Comment annuler ou modifier une course&nbsp;?<svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg></summary>
-        <div class="faq__body"><p>Depuis votre espace client, ou par téléphone. Pour un changement le jour même, appelez directement le {{PHONE}}.</p></div>
+        <div class="faq__body"><p><!--srv-->Depuis votre espace client, ou par téléphone.<!--/srv--><!--static-->Par téléphone, par WhatsApp ou par e-mail.<!--/static--> Pour un changement le jour même, appelez directement le {{PHONE}}.</p></div>
       </details>
       <details>
         <summary>Combien de passagers et de bagages&nbsp;?<svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#plus"/></svg></summary>

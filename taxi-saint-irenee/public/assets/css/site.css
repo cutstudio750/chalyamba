@@ -1245,3 +1245,6 @@ body.menu-open .dock { opacity: 0; pointer-events: none; }
 .driver__filter::-webkit-scrollbar { display: none; }
 .driver__filter label { flex: none; }
 .segmented label, .option-chips label, .service-opt { position: relative; }
+/* Version GitHub Pages : envoi de la demande par WhatsApp ou e-mail */
+.static-send { display: grid; gap: 10px; max-width: 440px; }
+.static-send .btn--quiet { justify-self: start; }
