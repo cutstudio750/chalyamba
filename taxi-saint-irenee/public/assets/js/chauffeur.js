@@ -109,13 +109,14 @@ const QR_SHORTCUTS = [
   ['Transport conventionné', '/conventionne'],
   ['WhatsApp', 'https://wa.me/33661882707'],
 ];
+let qrTheme = 'noir';
 async function renderQr() {
   list.innerHTML = '<p class="empty">Chargement…</p>';
   let q;
   try { q = await api('/driver/qr'); } catch (err) { list.innerHTML = `<p class="empty">${esc(err.message)}</p>`; return; }
   const last = q.lastScanAt ? new Date(q.lastScanAt).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' }) : null;
   list.innerHTML = `<div class="qr-panel card">
-    <div class="qr-panel__code"><img src="/api/driver/qr.svg?v=${Date.now()}" alt="QR code Taxi Saint-Irénée" width="280" height="280"></div>
+    <div class="qr-panel__code"><img src="/api/driver/qr.svg?theme=${qrTheme}&v=${Date.now()}" alt="QR code Taxi Saint-Irénée" width="280" height="280" data-qr-img></div>
     <div class="qr-panel__info stack">
       <div>
         <p class="caps muted">Adresse contenue dans le QR code (ne change jamais)</p>
@@ -131,8 +132,16 @@ async function renderQr() {
         <div class="btn-row"><button class="btn btn--noir btn--sm" type="submit">Enregistrer la destination</button><a class="btn btn--quiet" href="/qr" target="_blank" rel="noopener">Tester</a></div>
       </form>
       <p class="muted">Scanné ${q.scans} fois${last ? `, dernier scan le ${esc(last)}` : ''}.</p>
+      <div class="field">
+        <label for="qr-theme">Version</label>
+        <select class="select" id="qr-theme" data-qr-theme>
+          <option value="noir"${qrTheme === 'noir' ? ' selected' : ''}>Fond noir, pour la voiture</option>
+          <option value="cadre"${qrTheme === 'cadre' ? ' selected' : ''}>Fond noir avec cadre crème (lu par tous les téléphones)</option>
+          <option value="creme"${qrTheme === 'creme' ? ' selected' : ''}>Fond crème (cartes, documents)</option>
+        </select>
+      </div>
       <div class="btn-row">
-        <a class="btn btn--outline btn--sm" href="/api/driver/qr.svg?download=1">Télécharger pour l'imprimeur (SVG)</a>
+        <a class="btn btn--outline btn--sm" href="/api/driver/qr.svg?theme=${qrTheme}&download=1" data-qr-svg>Télécharger pour l'imprimeur (SVG)</a>
         <button class="btn btn--outline btn--sm" type="button" data-qr-png>Télécharger en image (PNG)</button>
       </div>
     </div>
@@ -155,8 +164,13 @@ async function renderQr() {
       if (!showFieldError(form, err)) { alert.textContent = err.message; alert.classList.remove('alert--ok'); alert.hidden = false; }
     }
   });
+  list.querySelector('[data-qr-theme]').addEventListener('change', (e) => {
+    qrTheme = e.target.value;
+    list.querySelector('[data-qr-img]').src = `/api/driver/qr.svg?theme=${qrTheme}&v=${Date.now()}`;
+    list.querySelector('[data-qr-svg]').href = `/api/driver/qr.svg?theme=${qrTheme}&download=1`;
+  });
   list.querySelector('[data-qr-png]').addEventListener('click', async () => {
-    const svg = await (await fetch('/api/driver/qr.svg', { credentials: 'same-origin' })).text();
+    const svg = await (await fetch(`/api/driver/qr.svg?theme=${qrTheme}`, { credentials: 'same-origin' })).text();
     const img = new Image();
     img.onload = () => {
       const c = document.createElement('canvas');
@@ -165,7 +179,7 @@ async function renderQr() {
       c.toBlob((blob) => {
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = 'qr-code-taxi-saint-irenee.png';
+        a.download = `qr-code-taxi-saint-irenee-${qrTheme}.png`;
         a.click();
         setTimeout(() => URL.revokeObjectURL(a.href), 2000);
       }, 'image/png');

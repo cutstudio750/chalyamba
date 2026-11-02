@@ -7,7 +7,7 @@ import {
 } from './auth.js';
 import { SERVICES, computeInsights, parisToday } from './insights.js';
 import { askAssistant } from './assistant.js';
-import { qrUrl, qrTarget, normalizeTarget, brandedQrSvg } from './qr.js';
+import { qrUrl, qrTarget, normalizeTarget, brandedQrSvg, QR_THEMES } from './qr.js';
 import {
   notifyNewBooking, notifyClientReceived, notifyClientConfirmed, notifyInvoice,
   notifyCancelled, notifyContact, sendResetMail,
@@ -509,9 +509,10 @@ route('POST', '/api/driver/qr', ({ req, body }) => {
 
 route('GET', '/api/driver/qr.svg', ({ req, res, url }) => {
   requireDriver(req);
-  const svg = brandedQrSvg();
+  const theme = QR_THEMES.includes(url.searchParams.get('theme')) ? url.searchParams.get('theme') : 'creme';
+  const svg = brandedQrSvg(qrUrl(), { theme });
   const headers = { 'Content-Type': 'image/svg+xml; charset=utf-8', 'Cache-Control': 'no-store' };
-  if (url.searchParams.has('download')) headers['Content-Disposition'] = 'attachment; filename="qr-code-taxi-saint-irenee.svg"';
+  if (url.searchParams.has('download')) headers['Content-Disposition'] = `attachment; filename="qr-code-taxi-saint-irenee-${theme}.svg"`;
   res.writeHead(200, headers);
   res.end(svg);
   return null;

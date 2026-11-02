@@ -35,7 +35,9 @@ Charte graphique respectée : logos vectoriels extraits de la charte (jamais ret
 Le QR code contient toujours la même adresse : `<votre site>/qr`. Cette adresse redirige vers la destination choisie dans l'espace chauffeur, onglet **QR code** : accueil, réservation, WhatsApp ou n'importe quel lien. On peut la changer autant de fois que l'on veut, **sans jamais réimprimer le QR code**.
 
 - Télécharger le QR code : espace chauffeur → QR code → *Télécharger pour l'imprimeur (SVG)* ou *en image (PNG)*.
-- Ou en ligne de commande : `npm run qr` (crée `qr/qr-code-taxi-saint-irenee.svg`).
+- Trois versions : **fond noir** pour la voiture (crème sur noir), **fond noir avec cadre crème** (lisible par absolument tous les lecteurs de QR code) et **fond crème** pour les cartes et documents.
+- Ou en ligne de commande : `npm run qr` (crée les trois versions dans `qr/`).
+- Sur la voiture : prévoir au moins 12 à 15 cm de côté pour une lecture à un ou deux mètres, en vinyle mat (les reflets gênent la lecture). Le marquage d'un taxi se fait valider par la mairie ou la préfecture.
 - Le QR code est construit à partir de `SITE_URL` : réglez cette variable sur le **nom de domaine définitif** avant d'imprimer. Tant que le domaine reste le même, le QR code reste valable.
 - Le nombre de scans et la date du dernier scan s'affichent dans l'onglet (aucune donnée personnelle n'est enregistrée).
 
