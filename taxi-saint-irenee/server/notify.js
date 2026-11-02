@@ -115,12 +115,12 @@ export function notifyClientReceived(b) {
     replyTo: config.contactEmail,
     subject: en ? `Request received · ${b.ref}` : `Demande reçue · ${b.ref}`,
     text: en
-      ? `Hello ${b.contact.name},\n\nYour request ${b.ref} has been received. Salim will call you back on ${b.contact.phone} to confirm the ride.\n\nTaxi Saint-Irénée · +33 6 61 88 27 07`
-      : `Bonjour ${b.contact.name},\n\nVotre demande ${b.ref} est bien reçue. Salim vous rappelle au ${b.contact.phone} pour confirmer la course.\n\nTaxi Saint-Irénée · ${config.phoneDisplay}`,
+      ? `Hello ${b.contact.name},\n\nYour request ${b.ref} has been received. The driver will call you back on ${b.contact.phone} to confirm the ride.\n\nTaxi Saint-Irénée · +33 6 61 88 27 07`
+      : `Bonjour ${b.contact.name},\n\nVotre demande ${b.ref} est bien reçue. Le chauffeur vous rappelle au ${b.contact.phone} pour confirmer la course.\n\nTaxi Saint-Irénée · ${config.phoneDisplay}`,
     html: mailLayout(en ? 'Request received' : 'Demande reçue', `<h1 style="font-size:22px;margin:0 0 12px">${en ? `Thank you ${first}.` : `Merci ${first}.`}</h1>
       <p style="margin:0 0 18px;font-size:15px;line-height:1.6">${en
-        ? `Your request <strong>${esc(b.ref)}</strong> has been received. Salim will call you back on ${esc(b.contact.phone)} to confirm the time and details. The ride is only confirmed after this call.`
-        : `Votre demande <strong>${esc(b.ref)}</strong> est bien reçue. Salim vous rappelle au ${esc(b.contact.phone)} pour confirmer l'horaire et les détails. La course n'est confirmée qu'après cet appel.`}</p>
+        ? `Your request <strong>${esc(b.ref)}</strong> has been received. The driver will call you back on ${esc(b.contact.phone)} to confirm the time and details. The ride is only confirmed after this call.`
+        : `Votre demande <strong>${esc(b.ref)}</strong> est bien reçue. Le chauffeur vous rappelle au ${esc(b.contact.phone)} pour confirmer l'horaire et les détails. La course n'est confirmée qu'après cet appel.`}</p>
       ${medicalNote}
       <table role="presentation" width="100%">${bookingSummary(b, b.lang).map(([k, v]) => row(k, v)).join('')}</table>`, b.lang),
   });

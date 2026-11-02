@@ -8,32 +8,23 @@ const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
 // ── En-tête et dock selon le défilement ─────────────────────────────
 const header = document.querySelector('[data-header]');
 const dock = document.querySelector('[data-dock]');
-let lastY = scrollY;
 let ticking = false;
 function onScroll() {
   const y = scrollY;
   header?.classList.toggle('is-scrolled', y > 24);
-  if (dock && !document.body.classList.contains('menu-open')) {
-    const goingDown = y > lastY + 6;
-    const goingUp = y < lastY - 6;
-    if (goingDown && y > 320) dock.classList.add('is-hidden');
-    else if (goingUp || y < 120) dock.classList.remove('is-hidden');
-  }
-  lastY = y;
   ticking = false;
 }
 addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
 onScroll();
 
-// Le dock s'efface quand le clavier virtuel est ouvert
-document.addEventListener('focusin', (e) => {
-  if (dock && e.target.matches('input, textarea, select')) dock.classList.add('is-hidden');
-});
-document.addEventListener('focusout', (e) => {
-  if (dock && e.target.matches('input, textarea, select')) setTimeout(() => {
-    if (!document.activeElement?.matches('input, textarea, select')) dock.classList.remove('is-hidden');
-  }, 120);
-});
+// La barre de raccourcis reste affichée en permanence ; elle s'efface seulement quand le clavier virtuel est ouvert
+dock?.querySelectorAll('a[href^="/"]').forEach((a) => { if (a.pathname === location.pathname) a.setAttribute('aria-current', 'page'); });
+// (clavier détecté par la réduction de la zone visible, pas par le simple focus d'un champ)
+if (dock && window.visualViewport) {
+  const vv = window.visualViewport;
+  const check = () => dock.classList.toggle('is-hidden', vv.height < innerHeight * 0.72);
+  vv.addEventListener('resize', check);
+}
 
 // ── Menu mobile ─────────────────────────────────────────────────────
 const toggle = document.querySelector('[data-menu-toggle]');
@@ -120,3 +111,31 @@ getMe().then((user) => {
 
 // Année courante, liens d'appel suivis, etc.
 root.classList.add('js');
+
+// ── Hors connexion : service worker (HTTPS ou poste local) ───────────
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  addEventListener('load', () => { navigator.serviceWorker.register('/sw.js').catch(() => {}); });
+}
+
+// ── Suggestion de langue : visiteur anglophone sur une page française ──
+{
+  const link = document.querySelector('.lang-switch[data-lang-switch]');
+  const pageLang = root.lang || 'fr';
+  const prefersEnglish = (navigator.languages || [navigator.language || '']).find((l) => /^(fr|en)\b/i.test(l))?.toLowerCase().startsWith('en');
+  let seen = false;
+  try { seen = localStorage.getItem('tsi-lang-hint') === '1'; } catch { /* stockage indisponible */ }
+  document.querySelectorAll('[data-lang-switch]').forEach((a) => a.addEventListener('click', () => { try { localStorage.setItem('tsi-lang-hint', '1'); } catch { /* */ } }));
+  if (link && pageLang === 'fr' && prefersEnglish && !seen) {
+    setTimeout(() => {
+      const box = document.createElement('div');
+      box.className = 'toast toast--lang';
+      box.lang = 'en';
+      box.setAttribute('role', 'status');
+      box.innerHTML = `<span>This site is also available in English.</span><a class="toast__action" href="${link.getAttribute('href')}" hreflang="en">English</a><button type="button" class="toast__close" aria-label="Close">×</button>`;
+      const close = () => { box.remove(); try { localStorage.setItem('tsi-lang-hint', '1'); } catch { /* */ } };
+      box.querySelector('button').addEventListener('click', close);
+      box.querySelector('a').addEventListener('click', close);
+      document.body.append(box);
+    }, 1200);
+  }
+}

@@ -102,7 +102,7 @@ forms.forgot.addEventListener('submit', (e) => {
     const res = await api('/auth/forgot', { method: 'POST', body: { email: d.email } });
     setAlert(forms.forgot, res.mail
       ? 'Si un compte existe avec cette adresse, un e-mail vient de partir. Pensez à vérifier les indésirables.'
-      : 'La réinitialisation par e-mail n’est pas encore disponible. Appelez le 06 61 88 27 07 : Salim vous aidera.', true);
+      : 'La réinitialisation par e-mail n’est pas encore disponible. Appelez le 06 61 88 27 07 : le chauffeur vous aidera.', true);
   });
 });
 forms.reset.addEventListener('submit', (e) => {
@@ -202,7 +202,7 @@ function renderNextRide() {
       <div><span class="route-line__dot"></span><p>${esc(next.pickup)}</p></div>
       <div><span class="route-line__dot route-line__dot--end"></span><p>${esc(next.dropoff)}</p></div>
     </div>
-    <p class="muted mt-2">${esc(next.serviceLabel)} · ${esc(next.ref)}${next.status === 'pending' ? ' · Salim vous rappelle pour confirmer.' : ''}</p>
+    <p class="muted mt-2">${esc(next.serviceLabel)} · ${esc(next.ref)}${next.status === 'pending' ? ' · Le chauffeur vous rappelle pour confirmer.' : ''}</p>
     ${next.driverNote ? `<p class="note mt-2">${icon('info')}<span>${esc(next.driverNote)}</span></p>` : ''}
     <div class="btn-row mt-3">
       <a class="btn btn--outline btn--sm" href="tel:+33661882707">${icon('phone', 'icon icon--sm')}Appeler</a>
@@ -317,7 +317,7 @@ document.addEventListener('click', async (e) => {
     cancel.setAttribute('aria-busy', 'true');
     try {
       await api(`/bookings/${cancel.dataset.cancel}/cancel`, { method: 'POST' });
-      toast('La course est annulée. Salim est prévenu.');
+      toast('La course est annulée. Le chauffeur est prévenu.');
       await loadData();
       renderAll();
     } catch (err) { toast(err.message); cancel.removeAttribute('aria-busy'); }

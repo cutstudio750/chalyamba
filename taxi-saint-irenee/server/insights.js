@@ -269,7 +269,7 @@ export function computeInsights(user, bookings, invoices, now = new Date()) {
       suggestions.push({
         id: `return-${departure.id}`,
         title: 'Et le retour ?',
-        text: `Vous partez ${formatDate(departure.date)} vers ${departure.toP.name}. Réservez le retour maintenant, Salim l'organisera avec votre aller.`,
+        text: `Vous partez ${formatDate(departure.date)} vers ${departure.toP.name}. Réservez le retour maintenant, le chauffeur l'organisera avec votre aller.`,
         action: { kind: 'book', label: 'Réserver le retour', from: departure.dropoff, to: departure.pickup, date: '', time: '', service: departure.service },
       });
     }

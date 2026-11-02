@@ -44,7 +44,9 @@ export const config = {
     name: 'Taxi Saint-Irénée',
     legalName: env('COMPANY_LEGAL_NAME', 'Taxi Saint-Irénée'),
     legalForm: env('COMPANY_LEGAL_FORM'),
-    owner: 'Salim Belgasmi',
+    // Nom du dirigeant : jamais affiché sur le site, sauf s'il est renseigné ici
+    owner: env('COMPANY_OWNER'),
+    director: env('COMPANY_DIRECTOR'),
     address: env('COMPANY_ADDRESS'),
     siret: env('COMPANY_SIRET'),
     vatNumber: env('COMPANY_VAT_NUMBER'),

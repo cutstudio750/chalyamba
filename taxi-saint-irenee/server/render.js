@@ -98,7 +98,7 @@ function reviewsBlock(lang) {
 // Photos du véhicule : affichées seulement si les vrais fichiers ont été déposés
 function vehiclePhotos(lang) {
   const dir = path.join(ROOT, 'public', 'assets', 'img', 'vehicule');
-  const slots = [['exterieur', lang === 'en' ? 'The 7-seat Mercedes SUV of Taxi Saint-Irénée' : 'Le SUV Mercedes 7 places de Taxi Saint-Irénée'],
+  const slots = [['exterieur', lang === 'en' ? 'The Taxi Saint-Irénée vehicle' : 'Le véhicule de Taxi Saint-Irénée'],
     ['interieur', lang === 'en' ? 'Inside the vehicle' : 'L’habitacle du véhicule'],
     ['coffre', lang === 'en' ? 'Luggage space' : 'L’espace bagages']];
   const found = slots.map(([name, alt]) => {
@@ -137,6 +137,7 @@ export async function renderPage(name, pathname) {
     COMPANY_VAT: esc(config.company.vatNumber || '[à compléter]'), COMPANY_MEDIATOR: esc(config.company.mediator || '[médiateur de la consommation à compléter]'),
     COMPANY_HOST: esc(config.company.host || '[hébergeur à compléter]'),
     COMPANY_LEGAL_FORM: esc(config.company.legalForm || '[forme juridique à compléter]'),
+    COMPANY_DIRECTOR: esc(config.company.director || '[à compléter]'),
     LANG: lang, ALT_URL: altPath,
     REVIEWS: '', VEHICLE_PHOTOS: '',
   };
@@ -179,15 +180,14 @@ function businessJsonLd(lang) {
     '@type': 'TaxiService',
     name: 'Taxi Saint-Irénée',
     description: lang === 'en'
-      ? 'Taxi in Lyon since 2014, approved for medical transport: city rides, Lyon-Saint Exupéry airport, train stations, long distance, in a 7-seat Mercedes SUV.'
-      : 'Taxi conventionné CPAM à Lyon et dans la métropole depuis 2014 : courses, aéroport Saint-Exupéry, gares, transport médical assis, en SUV Mercedes 7 places.',
+      ? 'Taxi in Lyon since 2014, approved for medical transport: city rides, Lyon-Saint Exupéry airport, train stations, long distance, up to 6 passengers.'
+      : 'Taxi conventionné CPAM à Lyon et dans la métropole depuis 2014 : courses, aéroport Saint-Exupéry, gares, transport médical assis, jusqu’à 6 passagers.',
     url: config.siteUrl,
     telephone: config.phoneTel,
     email: config.contactEmail,
     image: `${config.siteUrl}/assets/img/og-image.png`,
     logo: `${config.siteUrl}/assets/img/apple-touch-icon.png`,
     foundingDate: '2014',
-    founder: { '@type': 'Person', name: 'Salim Belgasmi' },
     areaServed: [{ '@type': 'City', name: 'Lyon' }, { '@type': 'AdministrativeArea', name: 'Métropole de Lyon' }],
     availableLanguage: ['fr', 'en'],
     provider: { '@type': 'LocalBusiness', name: 'Taxi Saint-Irénée', telephone: config.phoneTel, foundingDate: '2014', address: { '@type': 'PostalAddress', addressLocality: 'Lyon', addressCountry: 'FR' } },

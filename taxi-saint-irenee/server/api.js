@@ -83,7 +83,7 @@ const password = (v, field = 'password') => {
 };
 const isDate = (v) => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v) && !Number.isNaN(Date.parse(`${v}T12:00:00Z`));
 const isTime = (v) => typeof v === 'string' && /^([01]\d|2[0-3]):[0-5]\d$/.test(v);
-const OPTIONS = { 'siege-enfant': 'Siège enfant', rehausseur: 'Rehausseur', fauteuil: 'Fauteuil roulant pliable', animal: 'Animal de compagnie', aide: 'Aide à la montée' };
+const OPTIONS = { fauteuil: 'Fauteuil roulant pliable', animal: 'Animal de compagnie', aide: 'Aide à la montée' };
 
 // ── Vues publiques ─────────────────────────────────────────────────
 const publicUser = (u) => ({
@@ -151,7 +151,7 @@ function parseBooking(body, { byDriver = false } = {}) {
       returnTrip = { date: body.returnTrip.date, time: body.returnTrip.time };
     }
   }
-  const passengers = Math.min(7, Math.max(1, Number.parseInt(body.passengers, 10) || 1));
+  const passengers = Math.min(6, Math.max(1, Number.parseInt(body.passengers, 10) || 1));
   const luggage = Math.min(8, Math.max(0, Number.parseInt(body.luggage, 10) || 0));
   const options = Array.isArray(body.options) ? [...new Set(body.options.filter((o) => Object.hasOwn(OPTIONS, o)))].map((o) => OPTIONS[o]) : [];
   // Transport médical : aucune donnée de santé, seulement la situation administrative

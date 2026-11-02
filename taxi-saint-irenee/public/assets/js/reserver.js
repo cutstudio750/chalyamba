@@ -170,6 +170,16 @@ function syncConditional() {
 }
 
 // ── Raccourcis d'adresses ──────────────────────────────────────────
+// Un lieu d'aéroport ou de gare choisi pendant une « course en ville » adapte le service
+function suggestService(place) {
+  if (!place || service() !== 'ville') return;
+  const next = { plane: 'aeroport', train: 'gare' }[place.icon];
+  const radio = next && form.querySelector(`[name="service"][value="${next}"]`);
+  if (!radio) return;
+  radio.checked = true;
+  radio.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
 function renderChips() {
   const saved = (user?.addresses || []).map((a) => ({ label: a.label, address: a.address }));
   const fill = (target, list) => {
@@ -182,6 +192,7 @@ function renderChips() {
       $(target).value = p.address;
       coords[target] = p.lonlat || null;
       clearFieldErrors(form);
+      suggestService(p);
       update();
       updateEstimate();
     };
@@ -230,7 +241,7 @@ function estimateText() {
 }
 document.addEventListener('address:select', (e) => {
   const name = e.target?.name;
-  if (name === 'pickup' || name === 'dropoff') coords[name] = e.detail?.lonlat || null;
+  if (name === 'pickup' || name === 'dropoff') { coords[name] = e.detail?.lonlat || null; suggestService(e.detail); }
   update();
   updateEstimate();
 });
@@ -309,6 +320,11 @@ form.addEventListener('input', (e) => {
 form.addEventListener('change', (e) => {
   if (e.target.name === 'service') renderChips();
   if (e.target.matches('[aria-invalid]')) e.target.removeAttribute('aria-invalid');
+  if (e.target.type === 'radio' || e.target.type === 'checkbox') {
+    const field = e.target.closest('.field');
+    field?.querySelectorAll('[data-error]').forEach((el) => el.remove());
+    form.querySelectorAll(`[name="${e.target.name}"][aria-invalid]`).forEach((el) => el.removeAttribute('aria-invalid'));
+  }
   update();
 });
 

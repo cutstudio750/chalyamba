@@ -109,7 +109,7 @@
           <div class="row-2">
             <div class="field">
               <span class="field-label" id="pax-label">{{T:bk.passengers}}</span>
-              <div class="counter" data-counter="passengers" data-min="1" data-max="7" role="group" aria-labelledby="pax-label">
+              <div class="counter" data-counter="passengers" data-min="1" data-max="6" role="group" aria-labelledby="pax-label">
                 <button type="button" data-dec aria-label="{{T:bk.lessPax}}">−</button>
                 <output name="passengers" aria-live="polite">1</output>
                 <button type="button" data-inc aria-label="{{T:bk.morePax}}">+</button>
@@ -147,8 +147,6 @@
           <div class="field">
             <span class="field-label">{{T:bk.needs}}</span>
             <div class="option-chips">
-              <label><input type="checkbox" name="options" value="siege-enfant"><span>{{T:bk.o.siege}}</span></label>
-              <label><input type="checkbox" name="options" value="rehausseur"><span>{{T:bk.o.rehausseur}}</span></label>
               <label><input type="checkbox" name="options" value="fauteuil"><span>{{T:bk.o.fauteuil}}</span></label>
               <label><input type="checkbox" name="options" value="aide"><span>{{T:bk.o.aide}}</span></label>
               <label><input type="checkbox" name="options" value="animal"><span>{{T:bk.o.animal}}</span></label>
@@ -208,7 +206,7 @@
           </div>
 
           <input type="text" class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <label class="check"><input type="checkbox" name="consent" required><span><span data-consent-text data-label-default="{{T:bk.consent}}" data-label-medical="{{T:bk.consentMedical}}">{{T:bk.consent}}</span> <a class="text-link" href="{{T:legal.url}}#donnees" target="_blank">{{T:bk.privacy}}</a></span></label>
+          <label class="check"><input type="checkbox" name="consent" required><span><span data-consent-text data-label-default="{{T:bk.consent}}" data-label-medical="{{T:bk.consentMedical}}">{{T:bk.consent}}</span> <a class="text-link" href="{{T:privacy.url}}" target="_blank">{{T:bk.privacy}}</a></span></label>
           <p class="muted small">{{T:bk.requestNote}}</p>
 
           <div class="alert" data-form-alert hidden></div>

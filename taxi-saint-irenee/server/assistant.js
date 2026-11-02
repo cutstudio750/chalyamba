@@ -44,13 +44,13 @@ const OUTPUT_SCHEMA = {
   },
 };
 
-const SYSTEM_PROMPT = `Tu es l'assistant de l'espace client de Taxi Saint-Irénée, un taxi conventionné haut de gamme à Lyon et dans la métropole depuis 2014. Le chauffeur, Salim Belgasmi, conduit lui-même chaque client.
+const SYSTEM_PROMPT = `Tu es l'assistant de l'espace client de Taxi Saint-Irénée, un taxi conventionné haut de gamme à Lyon et dans la métropole depuis 2014. Le chauffeur conduit lui-même chaque client.
 
 Ton rôle : aider le client à comprendre et gérer ses déplacements à partir de ses propres données (fournies plus bas) : habitudes, trajets réguliers, prochaines courses, factures, programme de fidélité. Tu peux préparer une réservation en proposant un bouton d'action ; le client la vérifie puis l'envoie lui-même.
 
 Ce que tu sais du service :
-- Une réservation en ligne est une demande : Salim rappelle toujours le client pour confirmer l'horaire et les détails. Rien n'est confirmé tant qu'il n'a pas rappelé.
-- Le site ne donne aucune estimation de prix. Le tarif d'un taxi est réglementé (compteur, tarif préfectoral) et Salim le précise lors de son appel. Ne donne jamais de montant estimé pour une course future.
+- Une réservation en ligne est une demande : le chauffeur rappelle toujours le client pour confirmer l'horaire et les détails. Rien n'est confirmé tant qu'il n'a pas rappelé.
+- Le site ne donne aucune estimation de prix. Le tarif d'un taxi est réglementé (compteur, tarif préfectoral) et le chauffeur le précise lors de son appel. Ne donne jamais de montant estimé pour une course future.
 - Transport conventionné : il faut une prescription médicale de transport établie avant le trajet, la carte Vitale et, selon le cas, la convocation. La prise en charge dépend de la situation du patient ; l'Assurance Maladie décide, pas le taxi. Ces courses ne cumulent pas de points de fidélité.
 - Fidélité : ${config.loyalty.step} courses (hors conventionné) donnent droit à : ${config.loyalty.reward}.
 - Pour toute urgence, modification le jour même ou annulation tardive : appeler le ${config.phoneDisplay}.
@@ -60,7 +60,7 @@ Règles :
 - Appuie-toi uniquement sur les données fournies. Si une information manque, dis-le simplement.
 - Pas de conseil médical. Pas de sujet sans rapport avec les déplacements du client ou le service de taxi : recentre poliment.
 - Quand tu identifies un trajet à réserver, propose une action kind="book" avec les adresses complètes telles qu'elles figurent dans l'historique, la date (AAAA-MM-JJ) et l'heure (HH:MM) si elles sont connues.
-- Utilise kind="invoices" pour renvoyer vers les factures, kind="trips" vers la liste des trajets, kind="call" pour appeler Salim. Les champs inutiles restent des chaînes vides.`;
+- Utilise kind="invoices" pour renvoyer vers les factures, kind="trips" vers la liste des trajets, kind="call" pour appeler le chauffeur. Les champs inutiles restent des chaînes vides.`;
 
 function clientContext(user, bookings, invoices, insights) {
   const trips = bookings.slice(-60).map((b) => ({
@@ -155,13 +155,13 @@ export function localAnswer({ user, insights, message, bookings }) {
   if (has(q, 'reserv', 'commande', 'habituel', "d'habitude", 'comme d', 'meme trajet', 'prochain trajet regulier')) {
     const ready = suggestions.find((x) => x.action?.kind === 'book' && x.id.startsWith('route-'));
     if (ready) {
-      return { reply: `${ready.title} : ${ready.text} Je vous prépare la demande ; vérifiez-la puis envoyez-la, Salim vous rappellera pour confirmer.`, actions: [ready.action], engine: 'local' };
+      return { reply: `${ready.title} : ${ready.text} Je vous prépare la demande ; vérifiez-la puis envoyez-la, le chauffeur vous rappellera pour confirmer.`, actions: [ready.action], engine: 'local' };
     }
     const target = regular.find((r) => r.next && !r.next.booked) || regular[0];
     if (target) {
       const when = target.next ? `${target.next.label}${target.time ? ` à ${formatTime(toMin(target.time)).label}` : ''}` : 'la date de votre choix';
       actions.push({ kind: 'book', label: 'Préparer la réservation', from: target.fromAddress, to: target.toAddress, date: target.next?.date || '', time: target.time || '', service: target.service || '' });
-      return { reply: `Je vous prépare votre trajet habituel ${target.from} → ${target.to} pour ${when}. Vérifiez les informations puis envoyez la demande ; Salim vous rappellera pour confirmer.`, actions, engine: 'local' };
+      return { reply: `Je vous prépare votre trajet habituel ${target.from} → ${target.to} pour ${when}. Vérifiez les informations puis envoyez la demande ; le chauffeur vous rappellera pour confirmer.`, actions, engine: 'local' };
     }
     const top = routes[0];
     if (top) actions.push({ kind: 'book', label: 'Reprendre ce trajet', from: top.fromAddress, to: top.toAddress, date: '', time: '', service: top.service || '' });
@@ -186,7 +186,7 @@ export function localAnswer({ user, insights, message, bookings }) {
       return { reply: `Aucune course n'est prévue pour le moment.${s ? ` ${s.title} : ${s.text}` : ''}`, actions, engine: 'local' };
     }
     const n = upcoming[0];
-    const status = n.status === 'confirmed' ? 'confirmée' : 'en attente du rappel de Salim';
+    const status = n.status === 'confirmed' ? 'confirmée' : 'en attente du rappel du chauffeur';
     return { reply: `Prochaine course : ${formatDate(n.date)}${n.time ? ` à ${n.time.replace(':', ' h ')}` : ''}, ${n.pickup} → ${n.dropoff} (${status}).${upcoming.length > 1 ? ` ${upcoming.length - 1} autre${upcoming.length > 2 ? 's' : ''} course${upcoming.length > 2 ? 's sont prévues' : ' est prévue'} ensuite.` : ''}`, actions, engine: 'local' };
   }
 
@@ -199,18 +199,18 @@ export function localAnswer({ user, insights, message, bookings }) {
 
   if (has(q, 'conventionn', 'cpam', 'bon de transport', 'prescription', 'secu', 'hopital', 'medical', 'vitale')) {
     return {
-      reply: `Pour un transport conventionné, munissez-vous de la prescription médicale de transport (établie avant le trajet), de votre carte Vitale et de votre convocation. ${totals.medical ? `Vous avez déjà effectué ${totals.medical} transport${totals.medical > 1 ? 's' : ''} conventionné${totals.medical > 1 ? 's' : ''} avec nous.` : ''} Pour des soins en série, Salim peut planifier toutes les séances d'un coup.`.trim(),
+      reply: `Pour un transport conventionné, munissez-vous de la prescription médicale de transport (établie avant le trajet), de votre carte Vitale et de votre convocation. ${totals.medical ? `Vous avez déjà effectué ${totals.medical} transport${totals.medical > 1 ? 's' : ''} conventionné${totals.medical > 1 ? 's' : ''} avec nous.` : ''} Pour des soins en série, le chauffeur peut planifier toutes les séances d'un coup.`.trim(),
       actions: [{ kind: 'book', label: 'Réserver un transport', from: '', to: '', date: '', time: '', service: 'conventionne' }],
       engine: 'local',
     };
   }
 
   if (has(q, 'annul', 'modifi', 'changer', 'decal', 'retard')) {
-    return { reply: `Vous pouvez annuler une demande depuis l'onglet Trajets. Pour modifier un horaire ou annuler le jour même, le plus sûr est d'appeler Salim au ${config.phoneDisplay}.`, actions: [{ kind: 'trips', label: 'Mes trajets', from: '', to: '', date: '', time: '', service: '' }, { kind: 'call', label: 'Appeler Salim', from: '', to: '', date: '', time: '', service: '' }], engine: 'local' };
+    return { reply: `Vous pouvez annuler une demande depuis l'onglet Trajets. Pour modifier un horaire ou annuler le jour même, le plus sûr est d'appeler le chauffeur au ${config.phoneDisplay}.`, actions: [{ kind: 'trips', label: 'Mes trajets', from: '', to: '', date: '', time: '', service: '' }, { kind: 'call', label: 'Appeler le chauffeur', from: '', to: '', date: '', time: '', service: '' }], engine: 'local' };
   }
 
   if (has(q, 'aeroport', 'gare', 'vol', 'train', 'exupery', 'part dieu', 'perrache')) {
-    return { reply: totals.airportTrain ? `Vous avez fait ${totals.airportTrain} trajet${totals.airportTrain > 1 ? 's' : ''} vers ou depuis une gare ou l'aéroport. Indiquez votre numéro de vol ou de train lors de la réservation : Salim suit l'horaire réel et adapte la prise en charge en cas de retard.` : "Indiquez votre numéro de vol ou de train lors de la réservation : Salim suit l'horaire réel et adapte la prise en charge en cas de retard.", actions: [{ kind: 'book', label: 'Réserver', from: '', to: '', date: '', time: '', service: 'aeroport' }], engine: 'local' };
+    return { reply: totals.airportTrain ? `Vous avez fait ${totals.airportTrain} trajet${totals.airportTrain > 1 ? 's' : ''} vers ou depuis une gare ou l'aéroport. Indiquez votre numéro de vol ou de train lors de la réservation : le chauffeur suit l'horaire réel et adapte la prise en charge en cas de retard.` : "Indiquez votre numéro de vol ou de train lors de la réservation : le chauffeur suit l'horaire réel et adapte la prise en charge en cas de retard.", actions: [{ kind: 'book', label: 'Réserver', from: '', to: '', date: '', time: '', service: 'aeroport' }], engine: 'local' };
   }
 
   // Par défaut : synthèse des habitudes

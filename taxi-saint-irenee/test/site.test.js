@@ -2,7 +2,7 @@
 // Démarre le site sur une base de données temporaire et vérifie pages et parcours.
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { spawn } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import { rm } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -38,7 +38,7 @@ class Client {
 const tomorrow = () => { const d = new Date(Date.now() + 86400000); return d.toISOString().slice(0, 10); };
 const booking = (extra = {}) => ({
   service: 'aeroport', pickup: '8 Rue des Farges, 69005 Lyon', dropoff: 'Aéroport Lyon Saint-Exupéry, 69125 Colombier-Saugnieu',
-  date: tomorrow(), time: '06:15', passengers: 2, luggage: 2, options: ['siege-enfant'], travelRef: 'AF7641',
+  date: tomorrow(), time: '06:15', passengers: 2, luggage: 2, options: ['fauteuil'], travelRef: 'AF7641',
   contact: { name: 'Paul Durand', phone: '06 11 22 33 44', email: 'paul@exemple.fr' }, consent: true, ...extra,
 });
 
@@ -66,15 +66,22 @@ after(async () => {
 
 test('toutes les pages publiques répondent', async () => {
   const c = new Client();
-  for (const p of ['/', '/prestations', '/aeroport-gares', '/conventionne', '/a-propos', '/contact', '/reserver', '/compte', '/mentions-legales', '/facture', '/chauffeur']) {
+  const fr = ['/', '/prestations', '/aeroport-gares', '/conventionne', '/a-propos', '/contact', '/reserver', '/compte', '/mentions-legales', '/facture', '/chauffeur', '/hors-ligne'];
+  const en = ['/en', '/en/services', '/en/airport-stations', '/en/medical-transport', '/en/about', '/en/contact', '/en/book', '/en/legal'];
+  for (const p of [...fr, ...en]) {
     const res = await c.req(p);
     assert.equal(res.status, 200, p);
     const html = await res.text();
     assert.match(html, /<title>[^<]+<\/title>/, `${p} : titre`);
-    assert.doesNotMatch(html, /\{\{[A-Z_]+\}\}/, `${p} : variable de gabarit non remplie`);
+    assert.match(html, new RegExp(`<html lang="${en.includes(p) ? 'en' : 'fr'}"`), `${p} : langue`);
+    assert.doesNotMatch(html, /\{\{[^}]+\}\}/, `${p} : variable de gabarit non remplie`);
     assert.match(html, /\/assets\/css\/site\.css\?v=[0-9a-f]{10}/, `${p} : feuille de style versionnée`);
   }
   assert.equal((await c.req('/page-inexistante')).status, 404);
+  const en404 = await c.req('/en/page-inexistante');
+  assert.equal(en404.status, 404);
+  assert.match(await en404.text(), /<html lang="en"/);
+  assert.match(await (await c.req('/en')).text(), /hreflang="fr" href="[^"]+\/"/);
   assert.equal((await c.req('/index.html', { redirect: 'manual' })).status, 301);
   assert.match(await (await c.req('/sitemap.xml')).text(), /<urlset/);
   assert.match(await (await c.req('/robots.txt')).text(), /Sitemap:/);
@@ -125,7 +132,7 @@ test('transport conventionné : prescription, heure de rendez-vous et retour à 
   assert.deepEqual(b.medical, { prescription: 'remise', recurring: true });
   assert.equal(b.returnTrip.tbd, true);
   assert.equal(b.returnTrip.date, b.date);
-  assert.equal(b.passengers, 7, '7 places au maximum');
+  assert.equal(b.passengers, 6, '6 passagers au maximum (7 places, chauffeur compris)');
   assert.deepEqual(b.estimate, { km: 7.3, minutes: 18 });
   assert.equal(b.lang, 'en');
 });
@@ -212,6 +219,29 @@ test('page de facture et QR code permanent', async () => {
     assert.match(await svg.text(), /^<svg/);
   }
   assert.equal((await new Client().req('/api/driver/qr.svg')).status, 401);
+  // Lien complet vers un autre nom de domaine : le QR code imprimé ne change pas
+  const futur = 'https://www.nouveau-domaine.fr/reserver?service=aeroport';
+  assert.equal((await driver.json('/api/driver/qr', { method: 'POST', body: { target: futur } })).status, 200);
+  res = await new Client().req('/qr', { redirect: 'manual' });
+  assert.equal(res.headers.get('location'), futur);
   const qr = await driver.json('/api/driver/qr');
-  assert.equal(qr.data.scans, 2);
+  assert.equal(qr.data.scans, 3);
+  assert.equal(qr.data.target, futur);
+  assert.match(qr.data.url, /\/qr$/);
+  assert.equal(qr.data.provisional, true, 'adresse locale : pas encore figée');
+});
+
+test('adresse du QR code figée au premier lancement en ligne, même après un changement de domaine', async () => {
+  const file = `qr-${process.pid}.json`;
+  const run = (site) => spawnSync(process.execPath, ['--input-type=module', '-e',
+    "const { db } = await import('./server/db.js'); await db.load(); const { qrUrl, qrIsProvisional } = await import('./server/qr.js'); const u = qrUrl(); await new Promise((r) => setTimeout(r, 300)); console.log(JSON.stringify({ u, p: qrIsProvisional() }));"],
+    { cwd: ROOT, env: { ...process.env, SITE_URL: site, DATA_FILE: file, QR_BASE_URL: '' }, encoding: 'utf8' });
+  try {
+    const first = JSON.parse(run('https://taxi-saint-irenee.onrender.com').stdout.trim().split('\n').pop());
+    assert.deepEqual(first, { u: 'https://taxi-saint-irenee.onrender.com/qr', p: false });
+    const later = JSON.parse(run('https://www.taxi-saint-irenee.fr').stdout.trim().split('\n').pop());
+    assert.equal(later.u, 'https://taxi-saint-irenee.onrender.com/qr', 'le QR code déjà imprimé reste valable');
+  } finally {
+    await rm(path.join(ROOT, 'data', file), { force: true });
+  }
 });
