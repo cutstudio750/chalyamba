@@ -224,7 +224,7 @@ function renderLoyalty() {
     <div class="loyalty-card glass glass--dark">
       <div class="loyalty-card__top">
         <div><p class="loyalty-card__level">Carte fidélité · ${esc(l.level)}</p><p class="mt-1">${esc(state.user.firstName)} ${esc(state.user.lastName.charAt(0))}.</p></div>
-        <img width="120" height="105" class="loyalty-card__mono" src="/assets/img/monogramme-creme.svg" alt="">
+        <img width="120" height="120" class="loyalty-card__mono" src="/assets/img/logo-tsi-blanc.svg" alt="">
       </div>
       <div class="stamps" data-n="${l.step}" role="img" aria-label="${l.progress} courses sur ${l.step}">${stamps}</div>
       <div class="loyalty-card__foot"><span>${l.progress} sur ${l.step}</span><span>${l.available > 0 ? 'Avantage disponible' : `Encore ${l.toNext} course${l.toNext > 1 ? 's' : ''}`}</span></div>

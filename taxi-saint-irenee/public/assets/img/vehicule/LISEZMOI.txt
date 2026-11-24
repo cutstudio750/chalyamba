@@ -1,0 +1,5 @@
+Photos du véhicule (section « À bord » de l'accueil)
+
+Déposez jusqu'à 3 fichiers : exterieur.jpg, interieur.jpg, coffre.jpg
+(jpg, jpeg, webp ou png ; format paysage ; moins de 400 Ko chacun)
+Elles s'affichent automatiquement. Sans fichier, rien ne s'affiche.

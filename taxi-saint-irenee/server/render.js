@@ -123,6 +123,14 @@ function vehiclePhotos(lang) {
   return found.length ? `<div class="vehicle-photos vehicle-photos--${found.length}" data-reveal="scale">${found.join('')}</div>` : '';
 }
 
+// Photo d'accueil : affichée seulement si public/assets/img/accueil/accueil.(jpg|jpeg|webp|png) existe.
+// Pour changer de saison, il suffit de remplacer le fichier.
+function heroPhoto() {
+  const dir = path.join(ROOT, 'public', 'assets', 'img', 'accueil');
+  const file = ['webp', 'jpg', 'jpeg', 'png'].map((e) => `accueil.${e}`).find((f) => existsSync(path.join(dir, f)));
+  return file ? `<div class="hero__photo" aria-hidden="true"><img src="/assets/img/accueil/${file}" alt="" width="2400" height="1600" fetchpriority="high" decoding="async"></div>` : '';
+}
+
 // Données structurées FAQPage, construites à partir des questions de la page
 function faqJsonLd(body) {
   const items = [...body.matchAll(/<summary>([\s\S]*?)<svg[\s\S]*?<\/summary>\s*<div class="faq__body">([\s\S]*?)<\/div>/g)]
@@ -155,12 +163,13 @@ export async function renderPage(name, pathname) {
     COMPANY_SIREN: esc(config.company.siren), COMPANY_NAF: esc(config.company.naf),
     COMPANY_DIRECTOR: esc(config.company.director || '[à compléter]'),
     LANG: lang, ALT_URL: altPath,
-    REVIEWS: '', VEHICLE_PHOTOS: '',
+    REVIEWS: '', VEHICLE_PHOTOS: '', HERO_PHOTO: '',
     BOOKING_NOTICE: config.bookingPause?.on ? `<p class="note note--warn booking-pause" role="status"><svg class="icon" aria-hidden="true"><use href="/assets/img/icons.svg#info"/></svg><span>${esc(config.bookingPause.message || `Les réservations en ligne sont en pause pour le moment. Appelez le ${config.phoneDisplay}.`)}</span></p>` : '',
   };
   const rawBody = modeBlocks(include(view.body, cache.partials));
   if (rawBody.includes('{{REVIEWS}}')) shared.REVIEWS = reviewsBlock(lang);
   if (rawBody.includes('{{VEHICLE_PHOTOS}}')) shared.VEHICLE_PHOTOS = vehiclePhotos(lang);
+  if (rawBody.includes('{{HERO_PHOTO}}')) shared.HERO_PHOTO = heroPhoto();
   const body = fill(rawBody, shared, lang);
   const header = fill(modeBlocks(cache.partials.header), { ...shared, NAV: nav, HEADER_CLASS: '' }, lang);
   const footer = meta.footer === 'none' ? '' : fill(modeBlocks(cache.partials.footer), shared, lang);

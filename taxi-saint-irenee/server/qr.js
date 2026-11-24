@@ -6,11 +6,12 @@ import path from 'node:path';
 import { ROOT, config } from './config.js';
 import { db } from './db.js';
 
-const NOIR = '#161514';
-const CREME = '#F3EDE4';
-const mono = readFileSync(path.join(ROOT, 'public/assets/img/monogramme-noir.svg'), 'utf8');
+const NOIR = '#000000';
+const CREME = '#FFFFFF';
+// Logo TSI au centre du QR code (formes séparées, réunies en un seul tracé)
+const mono = readFileSync(path.join(ROOT, 'public/assets/img/logo-tsi-noir.svg'), 'utf8');
 const MONO_VB = mono.match(/viewBox="([^"]+)"/)[1].split(/\s+/).map(Number);
-const MONO_D = mono.match(/ d="([^"]+)"/)[1];
+const MONO_D = [...mono.matchAll(/ d="([^"]+)"/g)].map((m) => m[1]).join(' ');
 
 const isLocal = (u) => /^https?:\/\/(localhost|127\.|0\.0\.0\.0|\[::1\])/i.test(u);
 
@@ -55,7 +56,7 @@ export function recordScan() {
   db.save();
 }
 
-// QR code aux couleurs de la charte, monogramme TS. au centre.
+// QR code noir et blanc, logo TSI au centre.
 // Correction d'erreur maximale (H) : le médaillon central ne gêne pas la lecture.
 // Thèmes : « creme » (noir sur crème), « noir » (crème sur noir, pour la voiture),
 // « cadre » (fond noir avec le QR code sur une plaque crème : lisible par tous les téléphones).
@@ -87,7 +88,7 @@ function qrBody(text, { fg, bg, offset = 0 }) {
       + `<rect x="${x + 2}" y="${y + 2}" width="3" height="3" rx=".9" fill="${fg}"/>`;
   }).join('');
 
-  const bx = b0 + o; const pad = badge * 0.07; const inner = badge - pad * 2;
+  const bx = b0 + o; const pad = badge * 0.16; const inner = badge - pad * 2;
   const [vx, vy, vw, vh] = MONO_VB;
   const scale = inner / Math.max(vw, vh);
   const mx = bx + pad + (inner - vw * scale) / 2; const my = bx + pad + (inner - vh * scale) / 2;

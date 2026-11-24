@@ -114,7 +114,7 @@ await write('qr/index.html', `<!DOCTYPE html>
      Le QR code imprimé ne change pas.
      ───────────────────────────────────────────────────────────────────── -->
 <meta http-equiv="refresh" content="0; url=${esc(QR_TARGET)}">
-<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#161514;color:#F3EDE4;font:18px/1.5 system-ui,sans-serif}a{color:#CDBDA4}</style>
+<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#000000;color:#FFFFFF;font:18px/1.5 system-ui,sans-serif}a{color:#CDBDA4}</style>
 </head>
 <body>
 <p><a id="go" href="${esc(QR_TARGET)}">Taxi Saint-Irénée</a></p>

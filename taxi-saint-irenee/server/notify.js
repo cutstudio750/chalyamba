@@ -66,10 +66,10 @@ async function sendMailNow({ to, subject, html, text, replyTo }) {
 }
 
 function mailLayout(title, inner, lang = 'fr') {
-  return `<!doctype html><html lang="${lang}"><body style="margin:0;background:#F3EDE4;font-family:Jost,Helvetica,Arial,sans-serif;color:#161514">
+  return `<!doctype html><html lang="${lang}"><body style="margin:0;background:#FFFFFF;font-family:Jost,Helvetica,Arial,sans-serif;color:#000000">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="padding:32px 12px"><tr><td align="center">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border-radius:16px;overflow:hidden">
-    <tr><td style="background:#161514;padding:28px 32px;text-align:center"><img src="${config.siteUrl}/assets/img/logo-creme.png" width="180" alt="Taxi Saint-Irénée" style="display:inline-block"></td></tr>
+    <tr><td style="background:#000000;padding:28px 32px;text-align:center"><img src="${config.siteUrl}/assets/img/logo-tsi-email.png" width="200" alt="Taxi Saint-Irénée" style="display:inline-block"></td></tr>
     <tr><td style="padding:32px">
       <p style="margin:0 0 6px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#8A7A66">${esc(title)}</p>
       ${inner}
@@ -126,9 +126,9 @@ export function notifyNewBooking(b) {
       subject: `[NOUVELLE RÉSERVATION] Taxi Saint-Irénée — ${dateFr}${b.asap ? '' : ` ${b.time}`} · ${b.ref}`,
       text: [`Numéro de réservation : ${b.ref}`, ...lines, b.contact.email ? `E-mail : ${b.contact.email}` : '', `Demande reçue le ${new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' })}`].filter(Boolean).join('\n'),
       html: mailLayout(`Nouvelle demande ${b.ref}`, `<h1 style="font-size:22px;margin:0 0 6px">${esc(b.contact.name)}</h1>
-        <p style="margin:0 0 18px;font-size:16px"><a href="tel:${esc(b.contact.phone)}" style="color:#161514">${esc(b.contact.phone)}</a>${b.contact.email ? ` · <a href="mailto:${esc(b.contact.email)}" style="color:#161514">${esc(b.contact.email)}</a>` : ''}${b.lang === 'en' ? ' · <strong>client anglophone</strong>' : ''}</p>
+        <p style="margin:0 0 18px;font-size:16px"><a href="tel:${esc(b.contact.phone)}" style="color:#000000">${esc(b.contact.phone)}</a>${b.contact.email ? ` · <a href="mailto:${esc(b.contact.email)}" style="color:#000000">${esc(b.contact.email)}</a>` : ''}${b.lang === 'en' ? ' · <strong>client anglophone</strong>' : ''}</p>
         <table role="presentation" width="100%">${bookingSummary(b).map(([k, v]) => row(k, v)).join('')}</table>
-        <p style="margin:24px 0 0"><a href="${config.siteUrl}/chauffeur" style="display:inline-block;background:#161514;color:#F3EDE4;padding:12px 20px;border-radius:999px;text-decoration:none">Ouvrir l'espace chauffeur</a></p>
+        <p style="margin:24px 0 0"><a href="${config.siteUrl}/chauffeur" style="display:inline-block;background:#000000;color:#FFFFFF;padding:12px 20px;border-radius:999px;text-decoration:none">Ouvrir l'espace chauffeur</a></p>
         <p style="margin:14px 0 0;font-size:13px;color:#8A7A66">Répondre à cet e-mail écrit directement au client.</p>`),
     });
   }
@@ -178,7 +178,7 @@ export function notifyInvoice(invoice, link, email, name) {
     text: `Bonjour ${name},\n\nVotre facture ${invoice.number} est disponible : ${link}\n\nMerci et à bientôt.`,
     html: mailLayout(`Facture ${invoice.number}`, `<h1 style="font-size:22px;margin:0 0 12px">Merci pour ce trajet.</h1>
       <p style="margin:0 0 18px;font-size:15px;line-height:1.6">${esc(invoice.pickup)} → ${esc(invoice.dropoff)}<br>Montant : ${invoice.amountTTC.toFixed(2).replace('.', ',')} € TTC</p>
-      <p style="margin:0"><a href="${esc(link)}" style="display:inline-block;background:#161514;color:#F3EDE4;padding:12px 20px;border-radius:999px;text-decoration:none">Voir la facture</a></p>`),
+      <p style="margin:0"><a href="${esc(link)}" style="display:inline-block;background:#000000;color:#FFFFFF;padding:12px 20px;border-radius:999px;text-decoration:none">Voir la facture</a></p>`),
   });
 }
 
@@ -198,7 +198,7 @@ export function sendResetMail(email, name, link) {
     subject: 'Réinitialisation de votre mot de passe',
     text: `Bonjour ${name},\n\nPour choisir un nouveau mot de passe : ${link}\nCe lien est valable une heure.`,
     html: mailLayout('Mot de passe', `<p style="font-size:15px;line-height:1.6">Bonjour ${esc(name)},<br>pour choisir un nouveau mot de passe, utilisez ce lien valable une heure.</p>
-      <p><a href="${esc(link)}" style="display:inline-block;background:#161514;color:#F3EDE4;padding:12px 20px;border-radius:999px;text-decoration:none">Choisir un mot de passe</a></p>
+      <p><a href="${esc(link)}" style="display:inline-block;background:#000000;color:#FFFFFF;padding:12px 20px;border-radius:999px;text-decoration:none">Choisir un mot de passe</a></p>
       <p style="font-size:13px;color:#8A7A66">Si vous n'êtes pas à l'origine de cette demande, ignorez ce message.</p>`),
   });
 }

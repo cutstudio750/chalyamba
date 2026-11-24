@@ -22,7 +22,7 @@ const issued = (iso) => new Date(iso).toLocaleDateString('fr-FR', { day: 'numeri
     const covered = i.medical ? Math.max(0, i.amountTTC - (i.patientShare || 0)) : 0;
     el.innerHTML = `
       <header class="invoice__head">
-        <img src="/assets/img/logo-horizontal-noir.svg" alt="Taxi Saint-Irénée" width="240" height="60">
+        <img src="/assets/img/logo-tsi-horizontal-noir.svg" alt="Taxi Saint-Irénée" width="200" height="90">
         <div class="invoice__title">
           <p class="caps">Facture</p>
           <h1 class="invoice__number">${esc(i.number)}</h1>
@@ -30,7 +30,7 @@ const issued = (iso) => new Date(iso).toLocaleDateString('fr-FR', { day: 'numeri
         </div>
       </header>
       <div class="invoice__parties">
-        <div><p class="caps muted">Émetteur</p><p>${esc(c.legalName || 'Taxi Saint-Irénée')}<br>${esc(c.owner || '')}${c.address ? `<br>${esc(c.address)}` : ''}<br>06 61 88 27 07${c.email ? `<br>${esc(c.email)}` : ''}</p></div>
+        <div><p class="caps muted">Émetteur</p><p>${esc(c.legalName || 'Taxi Saint-Irénée')}${c.owner ? `<br>${esc(c.owner)}` : ''}${c.address ? `<br>${esc(c.address)}` : ''}<br>06 61 88 27 07${c.email ? `<br>${esc(c.email)}` : ''}</p></div>
         <div><p class="caps muted">Client</p><p>${esc(i.client?.name || '')}${i.client?.email ? `<br>${esc(i.client.email)}` : ''}${i.client?.phone ? `<br>${esc(fmtPhone(i.client.phone))}` : ''}</p></div>
       </div>
       <table class="invoice__table">

@@ -1,0 +1,8 @@
+Photo d'accueil (en haut de la page d'accueil, derrière le titre et la réservation)
+
+Déposez ici UN fichier nommé : accueil.jpg (ou accueil.webp / accueil.png)
+- format paysage, idéalement 2400 x 1600 pixels, moins de 600 Ko
+- le sujet (voiture, sapin) plutôt à DROITE : le titre s'affiche à gauche
+- pour changer de saison, remplacez simplement le fichier
+
+Sans fichier, l'accueil garde son fond noir.
